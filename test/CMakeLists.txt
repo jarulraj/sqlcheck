@@ -6,6 +6,7 @@
 add_executable(basic_test basic_test.cpp)
 target_link_libraries(basic_test sqlcheck_library 
 ${GTEST_BOTH_LIBRARIES} 
+googletest
 ${GLOG_LIBRARIES} 
 ${CMAKE_THREAD_LIBS_INIT}
 )

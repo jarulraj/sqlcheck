@@ -1,35 +1,26 @@
-sudo: required
+sudo: false
 
 language: cpp
-compiler:
-    - g++
 
-install:
-    # get c++11 support
-    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 addons:
-    apt:
-        sources:
-            - ubuntu-toolchain-r-test
-        packages:
-            - gcc-4.8
-            - g++-4.8
-            - libgtest-dev
+  apt:
+    sources:
+	- ubuntu-toolchain-r-test
 
-install: 
-    # Install gtest without sudo 
-    - mkdir ~/gtest && cd ~/gtest
-    - export LIBRARY_PATH=$(pwd)
-    - cp -r /usr/src/gtest/* ./
-    - cmake -D CMAKE_INSTALL_PREFIX:PATH=./ ./
-    - make
-    - cd -
+before_install:
+	- pip install --user cpp-coveralls
 
 script:
-    # bootstrap
     - ./bootstrap
     - cd build
     - cmake --version
     - cmake -DCMAKE_BUILD_TYPE=RELEASE ..
     - make
-    - make check
+    - ./unit_tests
+
+after_success:
+  - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
+
+notifications:
+email: false
+
