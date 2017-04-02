@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <cstdlib>
 #include <getopt.h>
 #include <sys/time.h>
 #include <iostream>
