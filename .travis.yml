@@ -15,7 +15,6 @@ addons:
             - gcc-4.8
             - g++-4.8
             - libgtest-dev
-            - libgflags-dev
 
 install: 
     # Install gtest without sudo 
