@@ -16,7 +16,7 @@ script:
     - cmake --version
     - cmake -DCMAKE_BUILD_TYPE=RELEASE ..
     - make
-    - ./unit_tests
+    - make check
 
 after_success:
   - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
