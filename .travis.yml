@@ -8,7 +8,7 @@ addons:
         - ubuntu-toolchain-r-test
 
 before_install:
-	- pip install --user cpp-coveralls
+    - pip install --user cpp-coveralls
 
 script:
     - ./bootstrap
@@ -19,7 +19,7 @@ script:
     - make check
 
 after_success:
-  - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
+    - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
 
 notifications:
     email: false
