@@ -1,5 +1,4 @@
-sudo: required
-dist: trusty
+sudo: false
 
 language: cpp
 compiler:
@@ -12,13 +11,20 @@ addons:
     apt:
         sources:
             - ubuntu-toolchain-r-test
-    packages:
-        - gcc-4.8
-        - g++-4.8
+        packages:
+            - gcc-4.8
+            - g++-4.8
+            - libgtest-dev
+            - libgflags-dev
 
-before_script:
-    # setup environment
-    - sudo -H sh ./script/packages.sh
+install: 
+    # Install gtest without sudo 
+    - mkdir ~/gtest && cd ~/gtest
+    - export LIBRARY_PATH=$(pwd)
+    - cp -r /usr/src/gtest/* ./
+    - cmake -D CMAKE_INSTALL_PREFIX:PATH=./ ./
+    - make
+    - cd -
 
 script:
     # bootstrap
