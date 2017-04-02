@@ -1,37 +1,15 @@
-// MACHINE SOURCE
+// BASIC TEST
 
-#include <iostream>
-#include <fstream>
+#include <gtest/gtest.h>
 
-#include "configuration.h"
-#include "workload.h"
-#include "device.h"
+#include "checker.h"
 
 namespace machine {
 
-configuration state;
+TEST(BasicTest, RunChecker) {
 
-// Main Entry Point
-void RunBenchmark() {
-
-  // Run a single machine test
-  RunMachineTest();
+  EXPECT_EQ(1, 1);
 
 }
 
-}  // namespace machine
-
-int main(int argc, char **argv) {
-
-  // Initialize Google's logging library.
-  google::InitGoogleLogging(argv[0]);
-
-  machine::BootstrapDeviceMetrics();
-
-  machine::ParseArguments(
-      argc, argv, machine::state);
-
-  machine::RunBenchmark();
-
-  return 0;
-}
+}  // End machine namespace
