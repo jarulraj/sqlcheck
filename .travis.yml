@@ -5,7 +5,7 @@ language: cpp
 addons:
   apt:
     sources:
-	- ubuntu-toolchain-r-test
+        - ubuntu-toolchain-r-test
 
 before_install:
 	- pip install --user cpp-coveralls
@@ -22,5 +22,5 @@ after_success:
   - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
 
 notifications:
-email: false
+    email: false
 
