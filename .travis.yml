@@ -8,6 +8,7 @@ addons:
         - ubuntu-toolchain-r-test
 
 before_install:
+    - pip install --user urllib3[secure]
     - pip install --user cpp-coveralls
 
 script:
