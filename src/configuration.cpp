@@ -40,7 +40,7 @@ static void ValidateVerbosityLevel(const configuration &state) {
     exit(EXIT_FAILURE);
   }
   else {
-    printf("%30s : %s\n", "caching_type",
+    printf("--> %10s : %s\n", "VERBOSITY LEVEL",
            VerbosityLevelToString(state.verbosity_level).c_str());
   }
 }
@@ -53,8 +53,7 @@ void ParseArguments(int argc, char *argv[], configuration &state) {
   // Parse args
   while (1) {
     int idx = 0;
-    int c = getopt_long(argc, argv,
-                        "l:h",
+    int c = getopt_long(argc, argv, "l:h",
                         opts, &idx);
 
     if (c == -1) break;
@@ -75,13 +74,9 @@ void ParseArguments(int argc, char *argv[], configuration &state) {
   }
 
   // Run validators
-  printf("//===----------------------------------------------------------------------===//\n");
-  printf("//                               SQLCHECK                                      //\n");
-  printf("//===----------------------------------------------------------------------===//\n");
+  printf("--> %10s \n", "SQLCHECK 0.1");
 
   ValidateVerbosityLevel(state);
-
-  printf("//===----------------------------------------------------------------------===//\n");
 
 }
 
