@@ -4,5 +4,6 @@ sudo apt-get --ignore-missing -y install \
     git \
     g++ \
     cmake \
-    libgflags-dev
+    libgflags-dev \
+    libgtest-dev
 
