@@ -1,0 +1,11 @@
+#! /bin/sh -e
+# bootstrap -- Use this script to create generated files from the CVS dist
+
+rm -f aclocal.m4
+mkdir -p config
+
+if [ ! -d "build" ] ; then
+    mkdir build
+fi
+
+exec autoreconf -fvi
