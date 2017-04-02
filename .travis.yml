@@ -15,6 +15,7 @@ addons:
 
 before_script:
     # setup environment
+    - ./script/packages.sh
 
 script:
     # bootstrap
