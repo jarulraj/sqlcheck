@@ -12,12 +12,9 @@ addons:
     apt:
         sources:
             - ubuntu-toolchain-r-test
-            - george-edison55-precise-backports # cmake 3.2.3 / doxygen 1.8.3
     packages:
         - gcc-4.8
         - g++-4.8
-        - cmake
-        - cmake-data
 
 before_script:
     # setup environment
