@@ -8,11 +8,13 @@ void Usage() {
   std::cout <<
       "\n"
       "Command line options : sqlcheck <options>\n"
-      "   -l --verbosity_level                :  verbosity level\n";
+      "   -f --file_name                :  file name\n";
+      "   -l --verbosity_level          :  verbosity level\n";
   exit(EXIT_FAILURE);
 }
 
 static struct option opts[] = {
+    {"file_name", optional_argument, NULL, 'f'},
     {"verbosity_level", optional_argument, NULL, 'l'},
     {NULL, 0, NULL, 0}
 };
@@ -45,15 +47,23 @@ static void ValidateVerbosityLevel(const configuration &state) {
   }
 }
 
+static void ValidateFileName(const configuration &state) {
+  if (state.file_name.empty() == false) {
+    printf("--> %10s : %s\n", "INPUT FILE NAME",
+           state.file_name.c_str());
+  }
+}
+
 void ParseArguments(int argc, char *argv[], configuration &state) {
 
   // Default Values
   state.verbosity_level = VERBOSITY_LEVEL_ALL;
+  state.file_name = ""; // standard input
 
   // Parse args
   while (1) {
     int idx = 0;
-    int c = getopt_long(argc, argv, "l:h",
+    int c = getopt_long(argc, argv, "l:f:h",
                         opts, &idx);
 
     if (c == -1) break;
@@ -61,6 +71,9 @@ void ParseArguments(int argc, char *argv[], configuration &state) {
     switch (c) {
       case 'a':
         state.verbosity_level = (VerbosityLevel)atoi(optarg);
+        break;
+      case 'f':
+        state.file_name = optarg;
         break;
 
       case 'h':
@@ -77,6 +90,7 @@ void ParseArguments(int argc, char *argv[], configuration &state) {
   printf("--> %10s \n", "SQLCHECK 0.1");
 
   ValidateVerbosityLevel(state);
+  ValidateFileName(state);
 
 }
 

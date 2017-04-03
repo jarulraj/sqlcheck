@@ -2,8 +2,14 @@
 
 #pragma once
 
+#include "configuration.h"
+
 namespace sqlcheck {
 
-void Check();
+// Check a set of SQL statements
+void Check(const configuration& state);
+
+// Check a SQL statement
+void CheckStatement(const std::string& sql_statement);
 
 }  // namespace machine

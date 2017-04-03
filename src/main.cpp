@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
   sqlcheck::ParseArguments(
       argc, argv, sqlcheck::state);
 
-  sqlcheck::Check();
+  sqlcheck::Check(sqlcheck::state);
 
   return 0;
 }

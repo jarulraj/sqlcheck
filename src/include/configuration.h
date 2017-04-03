@@ -26,6 +26,9 @@ class configuration {
   // verbosity level
   VerbosityLevel verbosity_level;
 
+  // filename
+  std::string file_name;
+
 };
 
 void Usage(FILE *out);
