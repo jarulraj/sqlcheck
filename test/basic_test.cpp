@@ -11,18 +11,17 @@ namespace sqlcheck {
 TEST(BasicTest, RunChecker) {
 
   configuration default_conf;
+  default_conf.testing_mode = true;
 
-  std::string queries =
+  std::unique_ptr<std::istringstream> stream(new std::istringstream());
+  stream->str(
       "SELECT *\n"
       "FROM FOO;\n"
       "\n"
       "SELECT *\n"
-      "FROM BAR;\n";
+      "FROM BAR;\n"
+      );
 
-  std::unique_ptr<std::istringstream> stream =
-      std::make_unique<std::istringstream>(queries);
-
-  default_conf.testing_mode = true;
   default_conf.test_stream.reset(stream.release());
 
   Check(default_conf);
