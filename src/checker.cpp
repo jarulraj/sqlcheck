@@ -12,17 +12,16 @@
 
 namespace sqlcheck {
 
-struct NoOp {
-    void operator()(...) const {}
-};
+void Check(configuration& state) {
 
-void Check(const configuration& state) {
-
-  std::shared_ptr<std::istream> input;
+  std::unique_ptr<std::istream> input;
 
   // Set up stream
-  if (state.file_name.empty()) {
-    input.reset(&std::cin, NoOp());
+  if(state.testing_mode == true){
+    input.reset(state.test_stream.release());
+  }
+  else if (state.file_name.empty()) {
+    input.reset(&std::cin);
   }
   else {
     input.reset(new std::ifstream(state.file_name.c_str()));

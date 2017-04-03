@@ -1,15 +1,32 @@
 // BASIC TEST
 
-#include <gtest/gtest.h>
+#include <sstream>
 
 #include "checker.h"
 
-namespace machine {
+#include <gtest/gtest.h>
+
+namespace sqlcheck {
 
 TEST(BasicTest, RunChecker) {
 
-  EXPECT_EQ(1, 1);
+  configuration default_conf;
+
+  std::string queries =
+      "SELECT *\n"
+      "FROM FOO;\n"
+      "\n"
+      "SELECT *\n"
+      "FROM BAR;\n";
+
+  std::unique_ptr<std::istringstream> stream =
+      std::make_unique<std::istringstream>(queries);
+
+  default_conf.testing_mode = true;
+  default_conf.test_stream.reset(stream.release());
+
+  Check(default_conf);
 
 }
 
-}  // End machine namespace
+}  // End machine sqlcheck

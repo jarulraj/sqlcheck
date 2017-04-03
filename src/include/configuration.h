@@ -8,6 +8,8 @@
 #include <sys/time.h>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <memory>
 
 namespace sqlcheck {
 
@@ -28,6 +30,12 @@ class configuration {
 
   // filename
   std::string file_name;
+
+  // test stream
+  std::unique_ptr<std::istringstream> test_stream;
+
+  // testing mode
+  bool testing_mode;
 
 };
 

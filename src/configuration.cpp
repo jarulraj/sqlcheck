@@ -59,6 +59,7 @@ void ParseArguments(int argc, char *argv[], configuration &state) {
   // Default Values
   state.verbosity_level = VERBOSITY_LEVEL_ALL;
   state.file_name = ""; // standard input
+  state.testing_mode = false;
 
   // Parse args
   while (1) {
