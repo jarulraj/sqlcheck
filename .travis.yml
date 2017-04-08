@@ -12,12 +12,6 @@ matrix:
       compiler: gcc
       env: COMPILER=g++-5 CXX=g++-5 GCOV=gcov-5
 
-    - os: linux
-      env: COMPILER=clang++-3.6 CXX=clang++-3.6
-
-    - os: linux
-      env: COMPILER=clang++-3.8 CXX=clang++-3.8
-
 addons:
   apt:
     sources:
