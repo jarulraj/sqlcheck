@@ -15,8 +15,7 @@ TEST(BasicTest, RunChecker) {
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
-      "SELECT *\n"
-      "FROM FOO;\n"
+      "SELECT * FROM FOO;\n"
       "\n"
       "SELECT *\n"
       "FROM BAR;\n"

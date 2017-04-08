@@ -85,6 +85,9 @@ void CheckPattern(const configuration& state,
                   const std::string title,
                   const std::string message){
 
+  //std::cout << "PATTERN LEVEL: " << pattern_level << "\n";
+  //std::cout << "CHECKER LEVEL: " << state.log_level << "\n";
+
   // Check log level
   if(pattern_level < state.log_level){
     return;
@@ -92,6 +95,8 @@ void CheckPattern(const configuration& state,
 
   std::size_t offset = sql_statement.find(anti_pattern);
   if (offset != std::string::npos) {
+    std::cout << "FOUND \n";
+
     PrintMessage(state.file_name,
                  offset,
                  sql_statement,

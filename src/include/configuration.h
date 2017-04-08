@@ -29,16 +29,16 @@ class configuration {
  public:
 
   // log level
-  LogLevel log_level;
+  LogLevel log_level = LOG_LEVEL_ALL;
 
   // filename
-  std::string file_name;
+  std::string file_name = "";
 
   // test stream
   std::unique_ptr<std::istringstream> test_stream;
 
   // testing mode
-  bool testing_mode;
+  bool testing_mode = false;
 
 };
 
