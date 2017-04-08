@@ -10,7 +10,7 @@ namespace sqlcheck {
 
 TEST(BasicTest, RunChecker) {
 
-  configuration default_conf;
+  Configuration default_conf;
   default_conf.testing_mode = true;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());

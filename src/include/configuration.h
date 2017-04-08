@@ -25,20 +25,29 @@ enum LogLevel {
 
 };
 
-class configuration {
+class Configuration {
  public:
 
+  // Constructor
+  Configuration()
+   : log_level(LogLevel::LOG_LEVEL_ALL),
+     file_name(""),
+     testing_mode(false){
+
+  }
+
+
   // log level
-  LogLevel log_level = LOG_LEVEL_ALL;
+  LogLevel log_level;
 
   // filename
-  std::string file_name = "";
+  std::string file_name;
 
   // test stream
   std::unique_ptr<std::istringstream> test_stream;
 
   // testing mode
-  bool testing_mode = false;
+  bool testing_mode;
 
 };
 
@@ -46,6 +55,6 @@ std::string LogLevelToString(const LogLevel& log_level);
 
 void Usage(FILE *out);
 
-void ParseArguments(int argc, char *argv[], configuration &state);
+void ParseArguments(int argc, char *argv[], Configuration &state);
 
 }  // namespace sqlcheck

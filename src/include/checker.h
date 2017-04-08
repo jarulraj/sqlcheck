@@ -7,10 +7,10 @@
 namespace sqlcheck {
 
 // Check a set of SQL statements
-void Check(configuration& state);
+void Check(Configuration& state);
 
 // Check a SQL statement
-void CheckStatement(const configuration& state,
+void CheckStatement(const Configuration& state,
                     const std::string& sql_statement);
 
 }  // namespace machine

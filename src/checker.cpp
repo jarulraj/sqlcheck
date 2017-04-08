@@ -11,11 +11,12 @@
 #include <functional>
 
 #include "checker.h"
-#include "configuration.h"
+
+#include "include/configuration.h"
 
 namespace sqlcheck {
 
-void Check(configuration& state) {
+void Check(Configuration& state) {
 
   std::unique_ptr<std::istream> input;
 
@@ -78,7 +79,7 @@ void PrintMessage(const std::string file_name,
 
 }
 
-void CheckPattern(const configuration& state,
+void CheckPattern(const Configuration& state,
                   const std::string& sql_statement,
                   const std::string& anti_pattern,
                   const LogLevel pattern_level,
@@ -107,7 +108,7 @@ void CheckPattern(const configuration& state,
 
 }
 
-void CheckSelectStar(const configuration& state,
+void CheckSelectStar(const Configuration& state,
                      const std::string& sql_statement){
 
   std::string pattern = "SELECT *";
@@ -155,7 +156,7 @@ void CheckSelectStar(const configuration& state,
 
 }
 
-void CheckStatement(const configuration& state,
+void CheckStatement(const Configuration& state,
                     const std::string& sql_statement){
 
   CheckSelectStar(state, sql_statement);

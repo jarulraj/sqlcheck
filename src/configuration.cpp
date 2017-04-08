@@ -1,6 +1,6 @@
 // CONFIGURATION SOURCE
 
-#include "configuration.h"
+#include "include/configuration.h"
 
 namespace sqlcheck {
 
@@ -42,7 +42,7 @@ std::string LogLevelToString(const LogLevel& log_level){
 
 }
 
-static void ValidateLogLevel(const configuration &state) {
+static void ValidateLogLevel(const Configuration &state) {
   if (state.log_level < LOG_LEVEL_ALL || state.log_level > LOG_LEVEL_INVALID) {
     printf("Invalid log_level :: %d\n", state.log_level);
     exit(EXIT_FAILURE);
@@ -53,14 +53,14 @@ static void ValidateLogLevel(const configuration &state) {
   }
 }
 
-static void ValidateFileName(const configuration &state) {
+static void ValidateFileName(const Configuration &state) {
   if (state.file_name.empty() == false) {
     printf("--> %10s : %s\n", "INPUT FILE NAME",
            state.file_name.c_str());
   }
 }
 
-void ParseArguments(int argc, char *argv[], configuration &state) {
+void ParseArguments(int argc, char *argv[], Configuration &state) {
 
   // Default Values
   state.log_level = LOG_LEVEL_ALL;

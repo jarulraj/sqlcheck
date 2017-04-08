@@ -3,12 +3,12 @@
 #include <iostream>
 #include <fstream>
 
-#include "configuration.h"
 #include "checker.h"
+#include "include/configuration.h"
 
 namespace sqlcheck {
 
-configuration state;
+Configuration state;
 
 }  // namespace sqlcheck
 
