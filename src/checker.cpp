@@ -47,20 +47,35 @@ void Check(configuration& state) {
     // Check for delimiter in line
     std::size_t location = statement_fragment.find(delimiter);
     if (location != std::string::npos) {
+
       // Check the statement
-      CheckStatement(sql_statement.str());
+      CheckStatement(state, sql_statement.str());
 
       // Reset statement
       sql_statement.str(std::string());
+
     }
 
   }
 
 }
 
-void CheckStatement(const std::string& sql_statement){
+void CheckSelectStar(const configuration& state,
+                    const std::string& sql_statement){
+
+  std::size_t found = sql_statement.find("SELECT *");
+  if (found != std::string::npos) {
+    std::cout << "SELECT * : Found at location " << found << " " << sql_statement << '\n';
+  }
+
+}
+
+void CheckStatement(const configuration& state,
+                    const std::string& sql_statement){
 
   std::cout << "SQL statement: " << sql_statement << "\n";
+
+  CheckSelectStar(state, sql_statement);
 
 }
 
