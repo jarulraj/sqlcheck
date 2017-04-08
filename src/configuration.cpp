@@ -8,42 +8,48 @@ void Usage() {
   std::cout <<
       "\n"
       "Command line options : sqlcheck <options>\n"
-      "   -f --file_name                :  file name\n";
-      "   -l --verbosity_level          :  verbosity level\n";
+      "   -f --file_name          :  file name\n";
+      "   -l --log_level          :  log level\n";
   exit(EXIT_FAILURE);
 }
 
 static struct option opts[] = {
     {"file_name", optional_argument, NULL, 'f'},
-    {"verbosity_level", optional_argument, NULL, 'l'},
+    {"log_level", optional_argument, NULL, 'l'},
     {NULL, 0, NULL, 0}
 };
 
-std::string VerbosityLevelToString(const VerbosityLevel& verbosity_level){
+std::string LogLevelToString(const LogLevel& log_level){
 
-  switch (verbosity_level) {
-    case VERBOSITY_LEVEL_CRITICAL:
-      return "CRITICAL";
-    case VERBOSITY_LEVEL_WARNING:
-      return "WARNING";
-    case VERBOSITY_LEVEL_ALL:
+  switch (log_level) {
+    case LOG_LEVEL_ERROR:
+      return "ERROR";
+    case LOG_LEVEL_WARN:
+      return "WARN";
+    case LOG_LEVEL_INFO:
+      return "INFO";
+    case LOG_LEVEL_DEBUG:
+      return "DEBUG";
+    case LOG_LEVEL_TRACE:
+      return "TRACE";
+    case LOG_LEVEL_ALL:
       return "ALL";
 
-    case VERBOSITY_LEVEL_INVALID:
+    case LOG_LEVEL_INVALID:
     default:
       return "INVALID";
   }
 
 }
 
-static void ValidateVerbosityLevel(const configuration &state) {
-  if (state.verbosity_level < 1 || state.verbosity_level > 3) {
-    printf("Invalid verbosity_level :: %d\n", state.verbosity_level);
+static void ValidateLogLevel(const configuration &state) {
+  if (state.log_level < LOG_LEVEL_ALL || state.log_level > LOG_LEVEL_INVALID) {
+    printf("Invalid log_level :: %d\n", state.log_level);
     exit(EXIT_FAILURE);
   }
   else {
-    printf("--> %10s : %s\n", "VERBOSITY LEVEL",
-           VerbosityLevelToString(state.verbosity_level).c_str());
+    printf("--> %10s : %s\n", "LOG LEVEL",
+           LogLevelToString(state.log_level).c_str());
   }
 }
 
@@ -57,7 +63,7 @@ static void ValidateFileName(const configuration &state) {
 void ParseArguments(int argc, char *argv[], configuration &state) {
 
   // Default Values
-  state.verbosity_level = VERBOSITY_LEVEL_ALL;
+  state.log_level = LOG_LEVEL_ALL;
   state.file_name = ""; // standard input
   state.testing_mode = false;
 
@@ -71,7 +77,7 @@ void ParseArguments(int argc, char *argv[], configuration &state) {
 
     switch (c) {
       case 'a':
-        state.verbosity_level = (VerbosityLevel)atoi(optarg);
+        state.log_level = (LogLevel)atoi(optarg);
         break;
       case 'f':
         state.file_name = optarg;
@@ -90,7 +96,7 @@ void ParseArguments(int argc, char *argv[], configuration &state) {
   // Run validators
   printf("--> %10s \n", "SQLCHECK 0.1");
 
-  ValidateVerbosityLevel(state);
+  ValidateLogLevel(state);
   ValidateFileName(state);
 
 }

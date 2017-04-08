@@ -13,20 +13,23 @@
 
 namespace sqlcheck {
 
-enum VerbosityLevel {
-  VERBOSITY_LEVEL_INVALID = 0,
+enum LogLevel {
+  LOG_LEVEL_INVALID = 10,
 
-  VERBOSITY_LEVEL_CRITICAL = 1,
-  VERBOSITY_LEVEL_WARNING = 2,
-  VERBOSITY_LEVEL_ALL = 3
+  LOG_LEVEL_ERROR = 5,
+  LOG_LEVEL_WARN = 4,
+  LOG_LEVEL_INFO = 3,
+  LOG_LEVEL_DEBUG = 2,
+  LOG_LEVEL_TRACE = 1,
+  LOG_LEVEL_ALL = 0
 
 };
 
 class configuration {
  public:
 
-  // verbosity level
-  VerbosityLevel verbosity_level;
+  // log level
+  LogLevel log_level;
 
   // filename
   std::string file_name;
@@ -38,6 +41,8 @@ class configuration {
   bool testing_mode;
 
 };
+
+std::string LogLevelToString(const LogLevel& log_level);
 
 void Usage(FILE *out);
 
