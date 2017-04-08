@@ -6,17 +6,17 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      env: COMPILER=g++-4.8 GCOV=gcov-4.8
+      env: COMPILER=g++-4.8 CXX=g++-4.8 GCOV=gcov-4.8
 
     - os: linux
       compiler: gcc
-      env: COMPILER=g++-5 GCOV=gcov-5
+      env: COMPILER=g++-5 CXX=g++-5 GCOV=gcov-5
 
     - os: linux
-      env: COMPILER=clang++-3.6
+      env: COMPILER=clang++-3.6 CXX=clang++-3.6
 
     - os: linux
-      env: COMPILER=clang++-3.8
+      env: COMPILER=clang++-3.8 CXX=clang++-3.8
 
 addons:
   apt:
