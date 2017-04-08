@@ -1,18 +1,35 @@
 sudo: false
-language: cpp
-compiler:
-      - gcc
 
-install:
-    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+language: generic
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+      env: COMPILER=g++-4.8 GCOV=gcov-4.8
+
+    - os: linux
+      compiler: gcc
+      env: COMPILER=g++-5 GCOV=gcov-5
+
+    - os: linux
+      env: COMPILER=clang++-3.6
+
+    - os: linux
+      env: COMPILER=clang++-3.8
 
 addons:
   apt:
     sources:
-        - ubuntu-toolchain-r-test
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.6
+      - llvm-toolchain-precise-3.8
     packages:
-        - gcc-4.8
-        - g++-4.8
+      - g++-4.8
+      - g++-5
+      - clang-3.6
+      - clang-3.8
+      - python-pip
 
 before_install:
     - pip install --user urllib3[secure]
