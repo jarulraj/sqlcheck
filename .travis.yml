@@ -8,21 +8,12 @@ matrix:
       compiler: gcc
       env: COMPILER=g++-4.8 CXX=g++-4.8 GCOV=gcov-4.8
 
-    - os: linux
-      compiler: gcc
-      env: COMPILER=g++-5 CXX=g++-5 GCOV=gcov-5
-
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.6
-      - llvm-toolchain-precise-3.8
     packages:
       - g++-4.8
-      - g++-5
-      - clang-3.6
-      - clang-3.8
       - python-pip
 
 before_install:
@@ -36,6 +27,9 @@ script:
     - cmake -DCMAKE_BUILD_TYPE=RELEASE ..
     - make
     - make check
+    - g++-4.8 --version
+    - gcov-4.8 --version
+    - `which gcov` --version
 
 after_success:
     - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
