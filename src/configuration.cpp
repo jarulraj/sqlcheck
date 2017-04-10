@@ -8,7 +8,7 @@ void Usage() {
   std::cout <<
       "\n"
       "Command line options : sqlcheck <options>\n"
-      "   -f --file_name          :  file name\n";
+      "   -f --file_name          :  file name\n"
       "   -l --log_level          :  log level\n";
   exit(EXIT_FAILURE);
 }
@@ -76,7 +76,7 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
     if (c == -1) break;
 
     switch (c) {
-      case 'a':
+      case 'l':
         state.log_level = (LogLevel)atoi(optarg);
         break;
       case 'f':
