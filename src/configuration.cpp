@@ -10,7 +10,7 @@ void Usage() {
       "Command line options : sqlcheck <options>\n"
       "   -f --file_name          :  file name\n"
       "   -l --log_level          :  log level\n";
-  exit(EXIT_FAILURE);
+  exit(EXIT_SUCCESS);
 }
 
 static struct option opts[] = {
