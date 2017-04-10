@@ -29,10 +29,11 @@ script:
     - make check
     - g++-4.8 --version
     - gcov-4.8 --version
+    - which gcov-4.8
     - which gcov
 
 after_success:
-    - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
+    - coveralls --gcov /usr/bin/gcov-4.8 --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
 
 notifications:
     email: false
