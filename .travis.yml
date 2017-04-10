@@ -29,7 +29,7 @@ script:
     - make check
     - g++-4.8 --version
     - gcov-4.8 --version
-    - `which gcov` --version
+    - which gcov
 
 after_success:
     - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
