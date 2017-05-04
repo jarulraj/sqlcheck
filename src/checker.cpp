@@ -139,7 +139,7 @@ void CheckStatement(const Configuration& state,
   // REMOVE SPACE
   statement = std::regex_replace(statement, std::regex("^ +| +$|( ) +"), "$1");
 
-  CheckSelectStar(state, statement);
+  // LOGICAL DATABASE DESIGN
 
   CheckMultiValuedAttribute(state, statement);
 
@@ -156,6 +156,15 @@ void CheckStatement(const Configuration& state,
   CheckMultiColumnAttribute(state, statement);
 
   CheckMetadataTribbles(state, statement);
+
+  // PHYSICAL DATABASE DESIGN
+
+  CheckFloat(state, statement);
+
+
+  // QUERY
+
+  CheckSelectStar(state, statement);
 
 }
 

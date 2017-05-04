@@ -236,4 +236,26 @@ TEST(BasicTest, MetadataTribblesTest) {
 
 }
 
+TEST(BasicTest, FloatTest) {
+
+  Configuration default_conf;
+  default_conf.testing_mode = true;
+
+  std::unique_ptr<std::istringstream> stream(new std::istringstream());
+  stream->str(
+
+      "ALTER TABLE Bugs ADD COLUMN hours FLOAT;\n"
+
+      "SELECT * FROM Accounts WHERE ABS(hourly_rate - 59.95) < 0.0000001;\n"
+
+      "ALTER TABLE Bugs ADD COLUMN hours NUMERIC(9,2);\n"
+
+      );
+
+  default_conf.test_stream.reset(stream.release());
+
+  Check(default_conf);
+
+}
+
 }  // End machine sqlcheck

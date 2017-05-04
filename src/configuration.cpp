@@ -45,10 +45,10 @@ std::string LogLevelToString(const LogLevel& log_level){
 std::string PatternTypeToString(const PatternType& pattern_type){
 
   switch (pattern_type) {
-    case PATTERN_TYPE_DESIGN:
-      return "DESIGN";
-    case PATTERN_TYPE_CREATION:
-      return "CREATION";
+    case PATTERN_TYPE_PHYSICAL_DATABASE_DESIGN:
+      return "PHYSICAL_DATABASE_DESIGN";
+    case PATTERN_TYPE_LOGICAL_DATABASE_DESIGN:
+      return "LOGICAL_DATABASE_DESIGN";
     case PATTERN_TYPE_QUERY:
       return "QUERY";
     case PATTERN_TYPE_APPLICATION:

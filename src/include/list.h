@@ -6,12 +6,7 @@
 
 namespace sqlcheck {
 
-// QUERY
-
-void CheckSelectStar(const Configuration& state,
-                     const std::string& sql_statement);
-
-// CREATION
+// LOGICAL DATABASE DESIGN
 
 void CheckMultiValuedAttribute(const Configuration& state,
                                const std::string& sql_statement);
@@ -36,6 +31,17 @@ void CheckMultiColumnAttribute(const Configuration& state,
 
 void CheckMetadataTribbles(const Configuration& state,
                            const std::string& sql_statement);
+
+// PHYSICAL DATABASE DESIGN
+
+void CheckFloat(const Configuration& state,
+                const std::string& sql_statement);
+
+
+// QUERY
+
+void CheckSelectStar(const Configuration& state,
+                     const std::string& sql_statement);
 
 
 }  // namespace machine

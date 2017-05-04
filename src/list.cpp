@@ -7,6 +7,8 @@
 
 namespace sqlcheck {
 
+// UTILITY
+
 std::string GetTableName(const std::string& sql_statement){
   std::string table_template = "create table";
   std::size_t found = sql_statement.find(table_template);
@@ -33,65 +35,15 @@ bool IsCreateStatement(const std::string& sql_statement){
   return true;
 }
 
-void CheckSelectStar(const Configuration& state,
-                     const std::string& sql_statement){
+// LOGICAL DATABASE DESIGN
 
-  std::regex pattern("(select\\s+\\*)");
-  std::string title = "SELECT *";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
-
-  std::string message1 =
-      "● Inefficiency in moving data to the consumer:\n"
-      "When you SELECT *, you're often retrieving more columns from the database than\n"
-      "your application really needs to function. This causes more data to move from\n"
-      "the database server to the client, slowing access and increasing load on your\n"
-      "machines, as well as taking more time to travel across the network. This is\n"
-      "especially true when someone adds new columns to underlying tables that didn't\n"
-      "exist and weren't needed when the original consumers coded their data access.\n";
-
-  std::string message2 =
-      "● Indexing issues:\n"
-      "Consider a scenario where you want to tune a query to a high level of performance.\n"
-      "If you were to use *, and it returned more columns than you actually needed,\n"
-      "the server would often have to perform more expensive methods to retrieve your\n"
-      "data than it otherwise might. For example, you wouldn't be able to create an index\n"
-      "which simply covered the columns in your SELECT list, and even if you did\n"
-      "(including all columns [shudder]), the next guy who came around and added a column\n"
-      "to the underlying table would cause the optimizer to ignore your optimized covering\n"
-      "index, and you'd likely find that the performance of your query would drop\n"
-      "substantially for no readily apparent reason.\n";
-
-  std::string message3 =
-      "● Binding Problems:\n"
-      "When you SELECT *, it's possible to retrieve two columns of the same name from two\n"
-      "different tables. This can often crash your data consumer. Imagine a query that joins\n"
-      "two tables, both of which contain a column called \"ID\". How would a consumer know\n"
-      "which was which? SELECT * can also confuse views (at least in some versions SQL Server)\n"
-      "when underlying table structures change -- the view is not rebuilt, and the data which\n"
-      "comes back can be nonsense. And the worst part of it is that you can take care to name\n"
-      "your columns whatever you want, but the next guy who comes along might have no way of\n"
-      "knowing that he has to worry about adding a column which will collide with your\n"
-      "already-developed names.\n";
-
-  auto message = message1 + "\n" + message2 + "\n" + message3;
-
-  CheckPattern(state,
-               sql_statement,
-               pattern,
-               LOG_LEVEL_ERROR,
-               pattern_type,
-               title,
-               message,
-               true);
-
-}
 
 void CheckMultiValuedAttribute(const Configuration& state,
                                const std::string& sql_statement){
 
   std::regex pattern("(id\\s+varchar)|(id\\s+text)|(id\\s+regexp)");
   std::string title = "Multi-Valued Attribute";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =
       "● Store each value in its own column and row:\n"
@@ -126,7 +78,7 @@ void CheckRecursiveDependency(const Configuration& state,
 
   std::regex pattern("(references\\s+" + table_name+ ")");
   std::string title = "Recursive Dependency";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =
       "● Avoid recursive relationships:\n"
@@ -161,7 +113,7 @@ void CheckPrimaryKeyExists(const Configuration& state,
 
   std::regex pattern("(primary key)");
   std::string title = "Primary Key Exists";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =
       "● Consider adding a primary key:\n"
@@ -194,7 +146,7 @@ void CheckGenericPrimaryKey(const Configuration& state,
 
   std::regex pattern("(\\s+[\\(]?id\\s+)|(,id\\s+)|(\\s+id\\s+serial)");
   std::string title = "Generic Primary Key";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =
       "● Skip using a generic primary key (id):\n"
@@ -226,7 +178,7 @@ void CheckForeignKeyExists(const Configuration& state,
 
   std::regex pattern("(foreign key)");
   std::string title = "Foreign Key Exists";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =
       "● Consider adding a foreign key:\n"
@@ -269,7 +221,7 @@ void CheckVariableAttribute(const Configuration& state,
 
   std::regex pattern("(attribute)");
   std::string title = "Entity-Attribute-Value Pattern";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =
       "● Dynamic schema with variable attributes:\n"
@@ -311,9 +263,9 @@ void CheckVariableAttribute(const Configuration& state,
 void CheckMultiColumnAttribute(const Configuration& state,
                                const std::string& sql_statement){
 
-  std::regex pattern("([A-za-z]*[0-9])");
+  std::regex pattern("([A-za-z][\\-_@]?[0-9])");
   std::string title = "Multi-Column Attribute";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =
       "● Store each value with the same meaning in a single column:\n"
@@ -339,9 +291,9 @@ void CheckMultiColumnAttribute(const Configuration& state,
 void CheckMetadataTribbles(const Configuration& state,
                            const std::string& sql_statement){
 
-  std::regex pattern("([A-za-z_]*[0-9]{4})");
+  std::regex pattern("([A-za-z][\\-_@]?[0-9]{4})");
   std::string title = "Metadata Tribbles";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =
       "● Breaking down a table or column by year:\n"
@@ -358,6 +310,92 @@ void CheckMetadataTribbles(const Configuration& state,
       "Another remedy for metadata tribbles is to create a dependent table.\n"
       "Instead of one row per entity with multiple columns for each year,\n"
       "use multiple rows. Don't let data spawn metadata.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               pattern,
+               LOG_LEVEL_ERROR,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+// PHYSICAL DATABASE DESIGN
+
+void CheckFloat(const Configuration& state,
+                const std::string& sql_statement){
+
+  std::regex pattern("(float)|(real)|(double precision)|(0\\.000[0-9]*)");
+  std::string title = "Imprecise Data Type";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
+
+  auto message =
+      "● Use precise data types:\n"
+      "Virtually any use of FLOAT, REAL, or DOUBLE PRECISION data types is suspect.\n"
+      "Most applications that use floating-point numbers don't require the range of\n"
+      "values supported by IEEE 754 formats. The cumulative impact of inexact \n"
+      "floating-point numbers is severe when calculating aggregates.\n"
+      "Instead of FLOAT or its siblings, use the NUMERIC or DECIMAL SQL data types\n"
+      "for fixed-precision fractional numbers. These data types store numeric values\n"
+      "exactly, up to the precision you specify in the column definition.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               pattern,
+               LOG_LEVEL_ERROR,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+
+// QUERY
+
+void CheckSelectStar(const Configuration& state,
+                     const std::string& sql_statement){
+
+  std::regex pattern("(select\\s+\\*)");
+  std::string title = "SELECT *";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  std::string message1 =
+      "● Inefficiency in moving data to the consumer:\n"
+      "When you SELECT *, you're often retrieving more columns from the database than\n"
+      "your application really needs to function. This causes more data to move from\n"
+      "the database server to the client, slowing access and increasing load on your\n"
+      "machines, as well as taking more time to travel across the network. This is\n"
+      "especially true when someone adds new columns to underlying tables that didn't\n"
+      "exist and weren't needed when the original consumers coded their data access.\n";
+
+  std::string message2 =
+      "● Indexing issues:\n"
+      "Consider a scenario where you want to tune a query to a high level of performance.\n"
+      "If you were to use *, and it returned more columns than you actually needed,\n"
+      "the server would often have to perform more expensive methods to retrieve your\n"
+      "data than it otherwise might. For example, you wouldn't be able to create an index\n"
+      "which simply covered the columns in your SELECT list, and even if you did\n"
+      "(including all columns [shudder]), the next guy who came around and added a column\n"
+      "to the underlying table would cause the optimizer to ignore your optimized covering\n"
+      "index, and you'd likely find that the performance of your query would drop\n"
+      "substantially for no readily apparent reason.\n";
+
+  std::string message3 =
+      "● Binding Problems:\n"
+      "When you SELECT *, it's possible to retrieve two columns of the same name from two\n"
+      "different tables. This can often crash your data consumer. Imagine a query that joins\n"
+      "two tables, both of which contain a column called \"ID\". How would a consumer know\n"
+      "which was which? SELECT * can also confuse views (at least in some versions SQL Server)\n"
+      "when underlying table structures change -- the view is not rebuilt, and the data which\n"
+      "comes back can be nonsense. And the worst part of it is that you can take care to name\n"
+      "your columns whatever you want, but the next guy who comes along might have no way of\n"
+      "knowing that he has to worry about adding a column which will collide with your\n"
+      "already-developed names.\n";
+
+  auto message = message1 + "\n" + message2 + "\n" + message3;
 
   CheckPattern(state,
                sql_statement,
