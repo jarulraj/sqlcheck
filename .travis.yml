@@ -6,14 +6,14 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      env: COMPILER=g++-4.8 CXX=g++-4.8 GCOV=gcov-4.8
+      env: COMPILER=g++-4.9 CXX=g++-4.9 GCOV=gcov-4.9
 
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
+      - g++-4.9
       - python-pip
 
 before_install:
@@ -27,13 +27,13 @@ script:
     - cmake -DCMAKE_BUILD_TYPE=RELEASE ..
     - make
     - make check
-    - g++-4.8 --version
-    - gcov-4.8 --version
-    - which gcov-4.8
+    - g++-4.9 --version
+    - gcov-4.9 --version
+    - which gcov-4.9
     - which gcov
 
 after_success:
-    - coveralls --gcov /usr/bin/gcov-4.8 --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
+    - coveralls --gcov /usr/bin/gcov-4.9 --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
 
 notifications:
     email: false
