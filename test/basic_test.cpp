@@ -41,6 +41,7 @@ TEST(BasicTest, MultiValuedAttributeTest) {
       "product_id   SERIAL PRIMARY KEY,"
       "product_name VARCHAR(1000),"
       "account_id   VARCHAR(100));\n"
+
       );
 
   default_conf.test_stream.reset(stream.release());
@@ -175,6 +176,59 @@ TEST(BasicTest, VariableAttributeTest) {
       ");"
 
   );
+
+  default_conf.test_stream.reset(stream.release());
+
+  Check(default_conf);
+
+}
+
+TEST(BasicTest, MultiColumnAttributeTest) {
+
+  Configuration default_conf;
+  default_conf.testing_mode = true;
+
+  std::unique_ptr<std::istringstream> stream(new std::istringstream());
+  stream->str(
+
+      "CREATE TABLE Bugs ("
+      "bug_id      SERIAL PRIMARY KEY,"
+      "description VARCHAR(1000),"
+      "tag1        VARCHAR(20),"
+      "tag2        VARCHAR(20),"
+      "tag3        VARCHAR(20)"
+      ");"
+
+      );
+
+  default_conf.test_stream.reset(stream.release());
+
+  Check(default_conf);
+
+}
+
+TEST(BasicTest, MetadataTribblesTest) {
+
+  Configuration default_conf;
+  default_conf.testing_mode = true;
+
+  std::unique_ptr<std::istringstream> stream(new std::istringstream());
+  stream->str(
+
+      "CREATE TABLE ProjectHistory ("
+      "bugs_fixed_2008  INT,"
+      "bugs_fixed_2009  INT,"
+      "bugs_fixed_2010  INT"
+      ");\n"
+
+      "CREATE TABLE Bugs_2008 ( . . . );\n"
+
+      "ALTER TABLE Customers ADD (revenue2002 NUMBER(9,2));\n"
+
+      "CREATE TABLE Bugs_2009 (-- other columns"
+      "date_reported DATE CHECK (EXTRACT(YEAR FROM date_reported) = 2009));\n"
+
+      );
 
   default_conf.test_stream.reset(stream.release());
 

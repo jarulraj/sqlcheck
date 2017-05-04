@@ -308,6 +308,68 @@ void CheckVariableAttribute(const Configuration& state,
 
 }
 
+void CheckMultiColumnAttribute(const Configuration& state,
+                               const std::string& sql_statement){
+
+  std::regex pattern("([A-za-z]*[0-9])");
+  std::string title = "Multi-Column Attribute";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+
+  auto message =
+      "● Store each value with the same meaning in a single column:\n"
+      "Creating multiple columns in a table indicates that you are trying to store\n"
+      "a multivalued attribute. This design makes it hard to add or remove values,\n"
+      "to ensure the uniqueness of values, and handling growing sets of values.\n"
+      "The best solution is to create a dependent table with one column for the\n"
+      "multivalue attribute. Store the multiple values in multiple rows instead of\n"
+      "multiple columns. Also, define a foreign key in the dependent table to associate\n"
+      "the values to its parent row.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               pattern,
+               LOG_LEVEL_ERROR,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+void CheckMetadataTribbles(const Configuration& state,
+                           const std::string& sql_statement){
+
+  std::regex pattern("([A-za-z_]*[0-9]{4})");
+  std::string title = "Metadata Tribbles";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+
+  auto message =
+      "● Breaking down a table or column by year:\n"
+      "You might be trying to split a single column into multiple columns,\n"
+      "using column names based on distinct values in another attribute.\n"
+      "Each year, you will need to add one more column or table.\n"
+      "You are mixing metadata with data. You will now need to make sure that\n"
+      "the primary key values are unique across all the split columns or tables.\n"
+      "The solution is to use a feature called sharding or horizontal partitioning.\n"
+      "(PARTITION BY HASH ( YEAR(...) ). With this feature, you can gain the\n"
+      "benefits of splitting a large table without the drawbacks.\n"
+      "Partitioning is not defined in the SQL standard, so each brand of database\n"
+      "implements it in their own nonstandard way.\n"
+      "Another remedy for metadata tribbles is to create a dependent table.\n"
+      "Instead of one row per entity with multiple columns for each year,\n"
+      "use multiple rows. Don't let data spawn metadata.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               pattern,
+               LOG_LEVEL_ERROR,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
 
 }  // namespace machine
 

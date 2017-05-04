@@ -153,6 +153,10 @@ void CheckStatement(const Configuration& state,
 
   CheckVariableAttribute(state, statement);
 
+  CheckMultiColumnAttribute(state, statement);
+
+  CheckMetadataTribbles(state, statement);
+
 }
 
 }  // namespace machine

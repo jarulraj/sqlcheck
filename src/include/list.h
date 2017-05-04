@@ -31,5 +31,11 @@ void CheckForeignKeyExists(const Configuration& state,
 void CheckVariableAttribute(const Configuration& state,
                             const std::string& sql_statement);
 
+void CheckMultiColumnAttribute(const Configuration& state,
+                               const std::string& sql_statement);
+
+void CheckMetadataTribbles(const Configuration& state,
+                           const std::string& sql_statement);
+
 
 }  // namespace machine
