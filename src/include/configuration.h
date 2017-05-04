@@ -13,6 +13,8 @@
 
 namespace sqlcheck {
 
+#define UNUSED_ATTRIBUTE __attribute__((unused))
+
 enum LogLevel {
   LOG_LEVEL_INVALID = 10,
 
@@ -22,6 +24,16 @@ enum LogLevel {
   LOG_LEVEL_DEBUG = 2,
   LOG_LEVEL_TRACE = 1,
   LOG_LEVEL_ALL = 0
+
+};
+
+enum PatternType {
+  PATTERN_TYPE_INVALID = 0,
+
+  PATTERN_TYPE_DESIGN = 1,
+  PATTERN_TYPE_CREATION = 2,
+  PATTERN_TYPE_QUERY = 3,
+  PATTERN_TYPE_APPLICATION = 4,
 
 };
 

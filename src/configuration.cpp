@@ -42,6 +42,25 @@ std::string LogLevelToString(const LogLevel& log_level){
 
 }
 
+std::string PatternTypeToString(const PatternType& pattern_type){
+
+  switch (pattern_type) {
+    case PATTERN_TYPE_DESIGN:
+      return "DESIGN";
+    case PATTERN_TYPE_CREATION:
+      return "CREATION";
+    case PATTERN_TYPE_QUERY:
+      return "QUERY";
+    case PATTERN_TYPE_APPLICATION:
+      return "APPLICATION";
+
+    case PATTERN_TYPE_INVALID:
+    default:
+      return "INVALID";
+  }
+
+}
+
 static void ValidateLogLevel(const Configuration &state) {
   if (state.log_level < LOG_LEVEL_ALL || state.log_level > LOG_LEVEL_INVALID) {
     printf("Invalid log_level :: %d\n", state.log_level);

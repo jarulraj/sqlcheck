@@ -84,6 +84,7 @@ void CheckPattern(const Configuration& state,
                   const std::string& sql_statement,
                   const std::string& anti_pattern,
                   const LogLevel pattern_level,
+                  UNUSED_ATTRIBUTE const PatternType pattern_type,
                   const std::string title,
                   const std::string message){
 
