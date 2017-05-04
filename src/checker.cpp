@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <cctype>
 #include <functional>
+#include <regex>
 
 #include "checker.h"
 
@@ -67,14 +68,13 @@ void Check(Configuration& state) {
 }
 
 void PrintMessage(const std::string file_name,
-                  size_t offset,
                   const std::string sql_statement,
                   const LogLevel pattern_level,
                   const std::string title,
                   const std::string message){
 
   std::cout << "\nSQL Statement: " << sql_statement << "\n";
-  std::cout << "[" << file_name << ":" << offset << "]: ";
+  std::cout << "[" << file_name << ":" << "]: ";
   std::cout << "(" << LogLevelToString(pattern_level) << ") ";
   std::cout << title << " :: \n" << message << "\n";
 
@@ -82,7 +82,7 @@ void PrintMessage(const std::string file_name,
 
 void CheckPattern(const Configuration& state,
                   const std::string& sql_statement,
-                  const std::string& anti_pattern,
+                  const std::regex& anti_pattern,
                   const LogLevel pattern_level,
                   UNUSED_ATTRIBUTE const PatternType pattern_type,
                   const std::string title,
@@ -96,12 +96,25 @@ void CheckPattern(const Configuration& state,
     return;
   }
 
-  std::size_t offset = sql_statement.find(anti_pattern);
-  if (offset != std::string::npos) {
-    std::cout << "FOUND \n";
+  bool found = false;
 
+  try {
+    std::sregex_iterator next(sql_statement.begin(),
+                              sql_statement.end(),
+                              anti_pattern);
+    std::sregex_iterator end;
+    while (next != end) {
+      std::smatch match = *next;
+      found = true;
+      std::cout << "FOUND : " << match.str() << "\n";
+      next++;
+    }
+  } catch (std::regex_error& e) {
+    // Syntax error in the regular expression
+  }
+
+  if(found == true){
     PrintMessage(state.file_name,
-                 offset,
                  sql_statement,
                  pattern_level,
                  title,
@@ -113,7 +126,11 @@ void CheckPattern(const Configuration& state,
 void CheckStatement(const Configuration& state,
                     const std::string& sql_statement){
 
+  std::cout << "\nSQL Statement: " << sql_statement << "\n";
+
   CheckSelectStar(state, sql_statement);
+
+  CheckMultiValuedAttribute(state, sql_statement);
 
 }
 
