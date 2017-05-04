@@ -19,4 +19,10 @@ void CheckMultiValuedAttribute(const Configuration& state,
 void CheckRecursiveDependency(const Configuration& state,
                               const std::string& sql_statement);
 
+void CheckPrimaryKeyExists(const Configuration& state,
+                           const std::string& sql_statement);
+
+void CheckGenericPrimaryKey(const Configuration& state,
+                            const std::string& sql_statement);
+
 }  // namespace machine

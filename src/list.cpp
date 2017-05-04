@@ -20,9 +20,17 @@ std::string GetTableName(const std::string& sql_statement){
   rest = std::regex_replace(rest, std::regex("^ +| +$|( ) +"), "$1");
   auto table_name = rest.substr(0, rest.find(' '));
 
-  std::cout << "table_name: " << table_name;
-
   return table_name;
+}
+
+bool IsCreateStatement(const std::string& sql_statement){
+  std::string table_template = "create table";
+  std::size_t found = sql_statement.find(table_template);
+  if (found == std::string::npos) {
+    return false;
+  }
+
+  return true;
 }
 
 void CheckSelectStar(const Configuration& state,
@@ -73,7 +81,8 @@ void CheckSelectStar(const Configuration& state,
                LOG_LEVEL_ERROR,
                pattern_type,
                title,
-               message);
+               message,
+               true);
 
 }
 
@@ -102,7 +111,8 @@ void CheckMultiValuedAttribute(const Configuration& state,
                LOG_LEVEL_ERROR,
                pattern_type,
                title,
-               message);
+               message,
+               true);
 
 }
 
@@ -136,10 +146,75 @@ void CheckRecursiveDependency(const Configuration& state,
                LOG_LEVEL_ERROR,
                pattern_type,
                title,
-               message);
+               message,
+               true);
 
 }
 
+void CheckPrimaryKeyExists(const Configuration& state,
+                           const std::string& sql_statement){
+
+  auto create_statement = IsCreateStatement(sql_statement);
+  if(create_statement == false){
+    return;
+  }
+
+  std::regex pattern("(primary key)");
+  std::string title = "Primary Key Exists";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+
+  auto message =
+      "● Consider adding a primary key:\n"
+      "A primary key constraint is important when you need to do the following:\n"
+      "prevent a table from containing duplicate rows,\n"
+      "reference individual rows in queries, and\n"
+      "support foreign key references\n"
+      "If you don’t use primary key constraints, you create a chore for yourself:\n"
+      "checking for duplicate rows. More often than not, you will need to define\n"
+      "a primary key for every table. Use compound keys when they are appropriate.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               pattern,
+               LOG_LEVEL_ERROR,
+               pattern_type,
+               title,
+               message,
+               false);
+
+}
+
+void CheckGenericPrimaryKey(const Configuration& state,
+                            const std::string& sql_statement){
+
+  auto create_statement = IsCreateStatement(sql_statement);
+  if(create_statement == false){
+    return;
+  }
+
+  std::regex pattern("(\\s+[\\(]?id\\s+)|(,id\\s+)|(\\s+id\\s+serial)");
+  std::string title = "Generic Primary Key";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+
+  auto message =
+      "● Skip using a generic primary key (id):\n"
+      "Adding an id column to every table causes several effects that make its\n"
+      "use seem arbitrary. You might end up creating a redundant key or allow\n"
+      "duplicate rows if you add this column in a compound key.\n"
+      "The name id is so generic that it holds no meaning. This is especially\n"
+      "important when you join two tables and they have the same primary\n"
+      "key column name.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               pattern,
+               LOG_LEVEL_ERROR,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
 
 }  // namespace machine
 

@@ -88,7 +88,8 @@ void CheckPattern(const Configuration& state,
                   const LogLevel pattern_level,
                   UNUSED_ATTRIBUTE const PatternType pattern_type,
                   const std::string title,
-                  const std::string message){
+                  const std::string message,
+                  const bool exists){
 
   //std::cout << "PATTERN LEVEL: " << pattern_level << "\n";
   //std::cout << "CHECKER LEVEL: " << state.log_level << "\n";
@@ -108,14 +109,13 @@ void CheckPattern(const Configuration& state,
     while (next != end) {
       std::smatch match = *next;
       found = true;
-      std::cout << "FOUND : " << match.str() << "\n";
       next++;
     }
   } catch (std::regex_error& e) {
     // Syntax error in the regular expression
   }
 
-  if(found == true){
+  if(found == exists){
     PrintMessage(state.file_name,
                  sql_statement,
                  pattern_level,
@@ -144,6 +144,10 @@ void CheckStatement(const Configuration& state,
   CheckMultiValuedAttribute(state, statement);
 
   CheckRecursiveDependency(state, statement);
+
+  CheckPrimaryKeyExists(state, statement);
+
+  CheckGenericPrimaryKey(state, statement);
 
 }
 

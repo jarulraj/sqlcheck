@@ -22,6 +22,7 @@ void CheckPattern(const Configuration& state,
                   const LogLevel pattern_level,
                   const PatternType pattern_type,
                   const std::string title,
-                  const std::string message);
+                  const std::string message,
+                  const bool exists);
 
 }  // namespace machine
