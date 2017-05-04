@@ -22,14 +22,16 @@ include(CTest)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 # Compiler version
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    # require at least gcc 4.9
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9)
-        message(FATAL_ERROR "GCC version must be at least 4.9!")
-    endif()
-else()
+# Compiler-specific C++11 activation.
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+    execute_process(
+        COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
+    if (NOT (GCC_VERSION VERSION_GREATER 4.9 OR GCC_VERSION VERSION_EQUAL 4.9))
+        message(FATAL_ERROR "${PROJECT_NAME} requires g++ 4.9 or greater.")
+    endif ()
+else ()
     message(WARNING "You are using an unsupported compiler! Compilation has only been tested with GCC.")
-endif()
+endif ()
 
 # ---[ C++11 Flags
 include(CheckCXXCompilerFlag)
