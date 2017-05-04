@@ -16,4 +16,7 @@ void CheckSelectStar(const Configuration& state,
 void CheckMultiValuedAttribute(const Configuration& state,
                                const std::string& sql_statement);
 
+void CheckRecursiveDependency(const Configuration& state,
+                              const std::string& sql_statement);
+
 }  // namespace machine

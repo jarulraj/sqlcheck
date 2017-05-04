@@ -74,7 +74,9 @@ void PrintMessage(const std::string file_name,
                   const std::string message){
 
   std::cout << "\nSQL Statement: " << sql_statement << "\n";
-  std::cout << "[" << file_name << ":" << "]: ";
+  if(file_name.empty() == false){
+    std::cout << "[" << file_name << "]: ";
+  }
   std::cout << "(" << LogLevelToString(pattern_level) << ") ";
   std::cout << title << " :: \n" << message << "\n";
 
@@ -126,11 +128,22 @@ void CheckPattern(const Configuration& state,
 void CheckStatement(const Configuration& state,
                     const std::string& sql_statement){
 
-  std::cout << "\nSQL Statement: " << sql_statement << "\n";
+  // TRANSFORM TO LOWER CASE
+  auto statement = sql_statement;
 
-  CheckSelectStar(state, sql_statement);
+  std::transform(statement.begin(),
+                 statement.end(),
+                 statement.begin(),
+                 ::tolower);
 
-  CheckMultiValuedAttribute(state, sql_statement);
+  // REMOVE SPACE
+  statement = std::regex_replace(statement, std::regex("^ +| +$|( ) +"), "$1");
+
+  CheckSelectStar(state, statement);
+
+  CheckMultiValuedAttribute(state, statement);
+
+  CheckRecursiveDependency(state, statement);
 
 }
 

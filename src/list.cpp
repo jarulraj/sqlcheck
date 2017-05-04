@@ -7,10 +7,28 @@
 
 namespace sqlcheck {
 
+std::string GetTableName(const std::string& sql_statement){
+  std::string table_template = "create table";
+  std::size_t found = sql_statement.find(table_template);
+  if (found == std::string::npos) {
+    return "";
+  }
+
+  // Locate table name
+  auto rest = sql_statement.substr(found + table_template.size());
+  // Strip space at beginning
+  rest = std::regex_replace(rest, std::regex("^ +| +$|( ) +"), "$1");
+  auto table_name = rest.substr(0, rest.find(' '));
+
+  std::cout << "table_name: " << table_name;
+
+  return table_name;
+}
+
 void CheckSelectStar(const Configuration& state,
                      const std::string& sql_statement){
 
-  std::regex pattern("(SELECT\\s+\\*)");
+  std::regex pattern("(select\\s+\\*)");
   std::string title = "SELECT *";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
 
@@ -62,7 +80,7 @@ void CheckSelectStar(const Configuration& state,
 void CheckMultiValuedAttribute(const Configuration& state,
                                const std::string& sql_statement){
 
-  std::regex pattern("(id\\s+VARCHAR)|(id\\s+TEXT)|(id\\s+REGEXP)");
+  std::regex pattern("(id\\s+varchar)|(id\\s+text)|(id\\s+regexp)");
   std::string title = "Multi-Valued Attribute";
   PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
 
@@ -88,6 +106,39 @@ void CheckMultiValuedAttribute(const Configuration& state,
 
 }
 
+void CheckRecursiveDependency(const Configuration& state,
+                              const std::string& sql_statement){
+
+  std::string table_name = GetTableName(sql_statement);
+  if(table_name.empty()){
+    return;
+  }
+
+  std::regex pattern("(references\\s+" + table_name+ ")");
+  std::string title = "Recursive Dependency";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+
+  auto message =
+      "● Avoid recursive relationships:\n"
+      "It’s common for data to have recursive relationships. Data may be organized in a\n"
+      "treelike or hierarchical way. However, creating a foreign key constraint to enforce\n"
+      "the relationship between two columns in the same table lends to awkward querying.\n"
+      "Each level of the tree corresponds to another join. You will need to issue recursive\n"
+      "queries to get all descendants or all ancestors of a node.\n"
+      "A solution is to construct an additional closure table. It involves storing all paths\n"
+      "through the tree, not just those with a direct parent-child relationship.\n"
+      "You might want to compare different hierarchical data designs -- closure table,\n"
+      "path enumeration, nested sets -- and pick one based on your application's needs.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               pattern,
+               LOG_LEVEL_ERROR,
+               pattern_type,
+               title,
+               message);
+
+}
 
 
 }  // namespace machine

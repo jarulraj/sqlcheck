@@ -41,7 +41,12 @@ TEST(BasicTest, MultiValuedAttributeTest) {
       "product_id   SERIAL PRIMARY KEY,"
       "product_name VARCHAR(1000),"
       "account_id   VARCHAR(100));\n"
-      );
+
+      "CREATE TABLE Comments ("
+      "comment_id   SERIAL PRIMARY KEY,"
+      "parent_id    BIGINT UNSIGNED,"
+      "FOREIGN KEY (parent_id) REFERENCES Comments(comment_id));"
+  );
 
   default_conf.test_stream.reset(stream.release());
 
