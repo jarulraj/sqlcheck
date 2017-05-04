@@ -136,4 +136,26 @@ TEST(BasicTest, GenericPrimaryKeyTest) {
 
 }
 
+TEST(BasicTest, ForeignKeyExistsTest) {
+
+  Configuration default_conf;
+  default_conf.testing_mode = true;
+
+  std::unique_ptr<std::istringstream> stream(new std::istringstream());
+  stream->str(
+
+      "CREATE TABLE BugsProducts ("
+      "id SERIAL PRIMARY KEY,"
+      "bug_id      BIGINT UNSIGNED NOT NULL,"
+      "product_id  BIGINT UNSIGNED NOT NULL,"
+      "UNIQUE KEY (bug_id, product_id));\n"
+
+  );
+
+  default_conf.test_stream.reset(stream.release());
+
+  Check(default_conf);
+
+}
+
 }  // End machine sqlcheck

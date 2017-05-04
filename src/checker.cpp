@@ -149,6 +149,8 @@ void CheckStatement(const Configuration& state,
 
   CheckGenericPrimaryKey(state, statement);
 
+  CheckForeignKeyExists(state, statement);
+
 }
 
 }  // namespace machine

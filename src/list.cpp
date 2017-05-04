@@ -176,7 +176,7 @@ void CheckPrimaryKeyExists(const Configuration& state,
   CheckPattern(state,
                sql_statement,
                pattern,
-               LOG_LEVEL_ERROR,
+               LOG_LEVEL_WARN,
                pattern_type,
                title,
                message,
@@ -213,6 +213,43 @@ void CheckGenericPrimaryKey(const Configuration& state,
                title,
                message,
                true);
+
+}
+
+void CheckForeignKeyExists(const Configuration& state,
+                           const std::string& sql_statement){
+
+  auto create_statement = IsCreateStatement(sql_statement);
+  if(create_statement == false){
+    return;
+  }
+
+  std::regex pattern("(foreign key)");
+  std::string title = "Foreign Key Exists";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+
+  auto message =
+      "● Consider adding a foreign key:\n"
+      "Are you leaving out the application constraints? Even though it seems at\n"
+      "first that skipping foreign key constraints makes your database design\n"
+      "simpler, more flexible, or speedier, you pay for this in other ways.\n"
+      "It becomes your responsibility to write code to ensure referential integrity\n"
+      "manually. Use foreign key constraints to enforce referential integrity.\n"
+      "Foreign keys have another feature you can’t mimic using application code:\n"
+      "cascading updates to multiple tables. This feature allows you to\n"
+      "update or delete the parent row and lets the database takes care of any child\n"
+      "rows that reference it. The way you declare the ON UPDATE or ON DELETE clauses\n"
+      "in the foreign key constraint allow you to control the result of a cascading\n"
+      "operation. Make your database mistake-proof with constraints.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               pattern,
+               LOG_LEVEL_WARN,
+               pattern_type,
+               title,
+               message,
+               false);
 
 }
 

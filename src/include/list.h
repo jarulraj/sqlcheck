@@ -25,4 +25,7 @@ void CheckPrimaryKeyExists(const Configuration& state,
 void CheckGenericPrimaryKey(const Configuration& state,
                             const std::string& sql_statement);
 
+void CheckForeignKeyExists(const Configuration& state,
+                           const std::string& sql_statement);
+
 }  // namespace machine
