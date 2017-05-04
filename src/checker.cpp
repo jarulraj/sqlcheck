@@ -151,6 +151,8 @@ void CheckStatement(const Configuration& state,
 
   CheckForeignKeyExists(state, statement);
 
+  CheckVariableAttribute(state, statement);
+
 }
 
 }  // namespace machine

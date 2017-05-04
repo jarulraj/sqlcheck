@@ -253,5 +253,61 @@ void CheckForeignKeyExists(const Configuration& state,
 
 }
 
+void CheckVariableAttribute(const Configuration& state,
+                            const std::string& sql_statement){
+
+  std::string table_name = GetTableName(sql_statement);
+  if(table_name.empty()){
+    return;
+  }
+
+  std::cout << table_name;
+  auto found = table_name.find("attribute");
+  if (found == std::string::npos) {
+    return;
+  }
+
+  std::regex pattern("(attribute)");
+  std::string title = "Entity-Attribute-Value Pattern";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_CREATION;
+
+  auto message =
+      "● Dynamic schema with variable attributes:\n"
+      "Are you trying to create a schema where you can define new attributes\n"
+      "at runtime.? This involves storing attributes as rows in an attribute table.\n"
+      "This is referred to as the Entity-Attribute-Value or schemaless pattern.\n"
+      "When you use this pattern,  you sacrifice many advantages that a conventional\n"
+      "database design would have given you. You can't make mandatory attributes.\n"
+      "You can't enforce referential integrity. You might find that attributes are\n"
+      "not being named consistently. A solution is to store all related types in one table,\n"
+      "with distinct columns for every attribute that exists in any type\n"
+      "(Single Table Inheritance). Use one attribute to define the subtype of a given row.\n"
+      "Many attributes are subtype-specific, and these columns must\n"
+      "be given a null value on any row storing an object for which the attribute\n"
+      "does not apply; the columns with non-null values become sparse.\n"
+      "Another solution is to create a separate table for each subtype\n"
+      "(Concrete Table Inheritance). A third solution mimics inheritance,\n"
+      "as though tables were object-oriented classes (Class Table Inheritance).\n"
+      "Create a single table for the base type, containing attributes common to\n"
+      "all subtypes. Then for each subtype, create another table, with a primary key\n"
+      "that also serves as a foreign key to the base table.\n"
+      "If you have many subtypes or if you must support new attributes frequently,\n"
+      "you can add a BLOB column to store data in a format such as XML or JSON,\n"
+      "which encodes both the attribute names and their values.\n"
+      "This design is best when you can’t limit yourself to a finite set of subtypes\n"
+      "and when you need complete flexibility to define new attributes at any time.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               pattern,
+               LOG_LEVEL_WARN,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+
 }  // namespace machine
 
