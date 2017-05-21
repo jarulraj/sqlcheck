@@ -69,16 +69,21 @@ void Check(Configuration& state) {
 
 void PrintMessage(const Configuration& state,
                   const std::string sql_statement,
+                  const bool print_statement,
                   const LogLevel pattern_level,
                   const std::string title,
                   const std::string message){
 
-  std::cout << "\nSQL Statement: " << sql_statement << "\n";
+  if(print_statement == true){
+    std::cout << "\n-------------------------------------------------\n";
+    std::cout << "SQL Statement:" << sql_statement << "\n";
+  }
+
   if(state.file_name.empty() == false){
     std::cout << "[" << state.file_name << "]: ";
   }
   std::cout << "(" << LogLevelToString(pattern_level) << ") ";
-  std::cout << title << " :: \n";
+  std::cout << title << "\n";
 
   // Print detailed message only in verbose mode
   if(state.verbose_mode == true){
@@ -89,6 +94,7 @@ void PrintMessage(const Configuration& state,
 
 void CheckPattern(const Configuration& state,
                   const std::string& sql_statement,
+                  bool& print_statement,
                   const std::regex& anti_pattern,
                   const LogLevel pattern_level,
                   UNUSED_ATTRIBUTE const PatternType pattern_type,
@@ -123,9 +129,13 @@ void CheckPattern(const Configuration& state,
   if(found == exists){
     PrintMessage(state,
                  sql_statement,
+                 print_statement,
                  pattern_level,
                  title,
                  message);
+
+    // TOGGLE PRINT STATEMENT
+    print_statement = false;
   }
 
 }
@@ -144,32 +154,34 @@ void CheckStatement(const Configuration& state,
   // REMOVE SPACE
   statement = std::regex_replace(statement, std::regex("^ +| +$|( ) +"), "$1");
 
+  // RESET
+  bool print_statement = true;
+
   // LOGICAL DATABASE DESIGN
 
-  CheckMultiValuedAttribute(state, statement);
+  CheckMultiValuedAttribute(state, statement, print_statement);
 
-  CheckRecursiveDependency(state, statement);
+  CheckRecursiveDependency(state, statement, print_statement);
 
-  CheckPrimaryKeyExists(state, statement);
+  CheckPrimaryKeyExists(state, statement, print_statement);
 
-  CheckGenericPrimaryKey(state, statement);
+  CheckGenericPrimaryKey(state, statement, print_statement);
 
-  CheckForeignKeyExists(state, statement);
+  CheckForeignKeyExists(state, statement, print_statement);
 
-  CheckVariableAttribute(state, statement);
+  CheckVariableAttribute(state, statement, print_statement);
 
-  CheckMultiColumnAttribute(state, statement);
+  CheckMultiColumnAttribute(state, statement, print_statement);
 
-  CheckMetadataTribbles(state, statement);
+  CheckMetadataTribbles(state, statement, print_statement);
 
   // PHYSICAL DATABASE DESIGN
 
-  CheckFloat(state, statement);
-
+  CheckFloat(state, statement, print_statement);
 
   // QUERY
 
-  CheckSelectStar(state, statement);
+  CheckSelectStar(state, statement, print_statement);
 
 }
 

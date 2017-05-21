@@ -18,6 +18,7 @@ void CheckStatement(const Configuration& state,
 // Check a pattern
 void CheckPattern(const Configuration& state,
                   const std::string& sql_statement,
+                  bool& print_statement,
                   const std::regex& anti_pattern,
                   const LogLevel pattern_level,
                   const PatternType pattern_type,

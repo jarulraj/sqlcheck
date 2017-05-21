@@ -39,7 +39,8 @@ bool IsCreateStatement(const std::string& sql_statement){
 
 
 void CheckMultiValuedAttribute(const Configuration& state,
-                               const std::string& sql_statement){
+                               const std::string& sql_statement,
+                               bool& print_statement){
 
   std::regex pattern("(id\\s+varchar)|(id\\s+text)|(id\\s+regexp)");
   std::string title = "Multi-Valued Attribute";
@@ -59,6 +60,7 @@ void CheckMultiValuedAttribute(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_ERROR,
                pattern_type,
@@ -69,7 +71,8 @@ void CheckMultiValuedAttribute(const Configuration& state,
 }
 
 void CheckRecursiveDependency(const Configuration& state,
-                              const std::string& sql_statement){
+                              const std::string& sql_statement,
+                              bool& print_statement){
 
   std::string table_name = GetTableName(sql_statement);
   if(table_name.empty()){
@@ -94,6 +97,7 @@ void CheckRecursiveDependency(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_ERROR,
                pattern_type,
@@ -104,7 +108,8 @@ void CheckRecursiveDependency(const Configuration& state,
 }
 
 void CheckPrimaryKeyExists(const Configuration& state,
-                           const std::string& sql_statement){
+                           const std::string& sql_statement,
+                           bool& print_statement){
 
   auto create_statement = IsCreateStatement(sql_statement);
   if(create_statement == false){
@@ -127,6 +132,7 @@ void CheckPrimaryKeyExists(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_WARN,
                pattern_type,
@@ -137,7 +143,8 @@ void CheckPrimaryKeyExists(const Configuration& state,
 }
 
 void CheckGenericPrimaryKey(const Configuration& state,
-                            const std::string& sql_statement){
+                            const std::string& sql_statement,
+                            bool& print_statement){
 
   auto create_statement = IsCreateStatement(sql_statement);
   if(create_statement == false){
@@ -159,6 +166,7 @@ void CheckGenericPrimaryKey(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_ERROR,
                pattern_type,
@@ -169,7 +177,8 @@ void CheckGenericPrimaryKey(const Configuration& state,
 }
 
 void CheckForeignKeyExists(const Configuration& state,
-                           const std::string& sql_statement){
+                           const std::string& sql_statement,
+                           bool& print_statement){
 
   auto create_statement = IsCreateStatement(sql_statement);
   if(create_statement == false){
@@ -196,6 +205,7 @@ void CheckForeignKeyExists(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_WARN,
                pattern_type,
@@ -206,7 +216,8 @@ void CheckForeignKeyExists(const Configuration& state,
 }
 
 void CheckVariableAttribute(const Configuration& state,
-                            const std::string& sql_statement){
+                            const std::string& sql_statement,
+                            bool& print_statement){
 
   std::string table_name = GetTableName(sql_statement);
   if(table_name.empty()){
@@ -251,6 +262,7 @@ void CheckVariableAttribute(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_WARN,
                pattern_type,
@@ -261,7 +273,8 @@ void CheckVariableAttribute(const Configuration& state,
 }
 
 void CheckMultiColumnAttribute(const Configuration& state,
-                               const std::string& sql_statement){
+                               const std::string& sql_statement,
+                               bool& print_statement){
 
   std::regex pattern("([A-za-z][\\-_@]?[0-9])");
   std::string title = "Multi-Column Attribute";
@@ -279,6 +292,7 @@ void CheckMultiColumnAttribute(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_ERROR,
                pattern_type,
@@ -289,7 +303,8 @@ void CheckMultiColumnAttribute(const Configuration& state,
 }
 
 void CheckMetadataTribbles(const Configuration& state,
-                           const std::string& sql_statement){
+                           const std::string& sql_statement,
+                           bool& print_statement){
 
   std::regex pattern("([A-za-z][\\-_@]?[0-9]{4})");
   std::string title = "Metadata Tribbles";
@@ -313,6 +328,7 @@ void CheckMetadataTribbles(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_ERROR,
                pattern_type,
@@ -325,7 +341,8 @@ void CheckMetadataTribbles(const Configuration& state,
 // PHYSICAL DATABASE DESIGN
 
 void CheckFloat(const Configuration& state,
-                const std::string& sql_statement){
+                const std::string& sql_statement,
+                bool& print_statement){
 
   std::regex pattern("(float)|(real)|(double precision)|(0\\.000[0-9]*)");
   std::string title = "Imprecise Data Type";
@@ -344,6 +361,7 @@ void CheckFloat(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_ERROR,
                pattern_type,
@@ -357,7 +375,8 @@ void CheckFloat(const Configuration& state,
 // QUERY
 
 void CheckSelectStar(const Configuration& state,
-                     const std::string& sql_statement){
+                     const std::string& sql_statement,
+                     bool& print_statement){
 
   std::regex pattern("(select\\s+\\*)");
   std::string title = "SELECT *";
@@ -400,6 +419,7 @@ void CheckSelectStar(const Configuration& state,
 
   CheckPattern(state,
                sql_statement,
+               print_statement,
                pattern,
                LOG_LEVEL_ERROR,
                pattern_type,
