@@ -117,7 +117,7 @@ void CheckPrimaryKeyExists(const Configuration& state,
   }
 
   std::regex pattern("(primary key)");
-  std::string title = "Primary Key Exists";
+  std::string title = "Primary Key Does Not Exist";
   PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =
@@ -186,7 +186,7 @@ void CheckForeignKeyExists(const Configuration& state,
   }
 
   std::regex pattern("(foreign key)");
-  std::string title = "Foreign Key Exists";
+  std::string title = "Foreign Key Does Not Exist";
   PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
   auto message =

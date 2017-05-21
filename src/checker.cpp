@@ -115,6 +115,7 @@ void CheckPattern(const Configuration& state,
   }
 
   bool found = false;
+  std::smatch match;
 
   try {
     std::sregex_iterator next(sql_statement.begin(),
@@ -122,8 +123,7 @@ void CheckPattern(const Configuration& state,
                               anti_pattern);
     std::sregex_iterator end;
     while (next != end) {
-      std::smatch match = *next;
-      //std::cout << "MATCH: [" << match.str(0) << "]\n";
+      match = *next;
       found = true;
       next++;
     }
@@ -138,6 +138,10 @@ void CheckPattern(const Configuration& state,
                  pattern_level,
                  title,
                  message);
+
+    if(exists == true){
+      std::cout << "MATCH: [" << match.str(0) << "]\n";
+    }
 
     // TOGGLE PRINT STATEMENT
     print_statement = false;
