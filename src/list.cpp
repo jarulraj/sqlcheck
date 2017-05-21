@@ -224,7 +224,6 @@ void CheckVariableAttribute(const Configuration& state,
     return;
   }
 
-  std::cout << table_name;
   auto found = table_name.find("attribute");
   if (found == std::string::npos) {
     return;
@@ -276,7 +275,12 @@ void CheckMultiColumnAttribute(const Configuration& state,
                                const std::string& sql_statement,
                                bool& print_statement){
 
-  std::regex pattern("([A-za-z][\\-_@]?[0-9])");
+  auto create_statement = IsCreateStatement(sql_statement);
+  if(create_statement == false){
+    return;
+  }
+
+  std::regex pattern("([A-za-z][\\-_@]?[0-9]+\%)");
   std::string title = "Multi-Column Attribute";
   PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
@@ -306,7 +310,12 @@ void CheckMetadataTribbles(const Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement){
 
-  std::regex pattern("([A-za-z][\\-_@]?[0-9]{4})");
+  auto create_statement = IsCreateStatement(sql_statement);
+  if(create_statement == false){
+    return;
+  }
+
+  std::regex pattern("^[A-za-z][\\-_@]?[0-9]{4}$");
   std::string title = "Metadata Tribbles";
   PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
