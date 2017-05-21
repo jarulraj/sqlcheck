@@ -15,6 +15,7 @@
 
 #include "include/configuration.h"
 #include "include/list.h"
+#include "include/color.h"
 
 namespace sqlcheck {
 
@@ -76,7 +77,10 @@ void PrintMessage(const Configuration& state,
 
   if(print_statement == true){
     std::cout << "\n-------------------------------------------------\n";
-    std::cout << "SQL Statement:" << sql_statement << "\n";
+    Modifier red(Code::FG_RED);
+    Modifier regular(Code::FG_DEFAULT);
+
+    std::cout << "SQL Statement:" << red << sql_statement << regular << "\n";
   }
 
   if(state.file_name.empty() == false){

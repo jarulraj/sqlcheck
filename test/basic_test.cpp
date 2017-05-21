@@ -218,7 +218,8 @@ TEST(BasicTest, MetadataTribblesTest) {
       "CREATE TABLE ProjectHistory ("
       "bugs_fixed_2008  INT,"
       "bugs_fixed_2009  INT,"
-      "bugs_fixed_2010  INT"
+      "bugs_fixed_2010  INT,"
+      "2010  INT"
       ");\n"
 
       "CREATE TABLE Bugs_2008 ( . . . );\n"
