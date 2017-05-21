@@ -339,7 +339,8 @@ void CheckFloat(const Configuration& state,
       "floating-point numbers is severe when calculating aggregates.\n"
       "Instead of FLOAT or its siblings, use the NUMERIC or DECIMAL SQL data types\n"
       "for fixed-precision fractional numbers. These data types store numeric values\n"
-      "exactly, up to the precision you specify in the column definition.\n";
+      "exactly, up to the precision you specify in the column definition.\n"
+      "Do not use FLOAT if you can avoid it.\n";
 
   CheckPattern(state,
                sql_statement,

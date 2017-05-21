@@ -67,14 +67,14 @@ static void ValidateLogLevel(const Configuration &state) {
     exit(EXIT_FAILURE);
   }
   else {
-    printf("--> %10s : %s\n", "LOG LEVEL",
+    printf("--> %s : %s\n", "LOG LEVEL",
            LogLevelToString(state.log_level).c_str());
   }
 }
 
 static void ValidateFileName(const Configuration &state) {
   if (state.file_name.empty() == false) {
-    printf("--> %10s : %s\n", "INPUT FILE NAME",
+    printf("--> %s : %s\n", "INPUT FILE NAME",
            state.file_name.c_str());
   }
 }
@@ -85,11 +85,12 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
   state.log_level = LOG_LEVEL_ALL;
   state.file_name = ""; // standard input
   state.testing_mode = false;
+  state.verbose_mode = false;
 
   // Parse args
   while (1) {
     int idx = 0;
-    int c = getopt_long(argc, argv, "l:f:h",
+    int c = getopt_long(argc, argv, "l:f:vh",
                         opts, &idx);
 
     if (c == -1) break;
@@ -100,6 +101,9 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
         break;
       case 'f':
         state.file_name = optarg;
+        break;
+      case 'v':
+        state.verbose_mode = true;
         break;
 
       case 'h':
@@ -113,7 +117,7 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
   }
 
   // Run validators
-  printf("--> %10s \n", "SQLCHECK 0.1");
+  printf("--> %s \n", "SQLCHECK 0.1");
 
   ValidateLogLevel(state);
   ValidateFileName(state);

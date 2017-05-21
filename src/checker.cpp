@@ -67,18 +67,23 @@ void Check(Configuration& state) {
 
 }
 
-void PrintMessage(const std::string file_name,
+void PrintMessage(const Configuration& state,
                   const std::string sql_statement,
                   const LogLevel pattern_level,
                   const std::string title,
                   const std::string message){
 
   std::cout << "\nSQL Statement: " << sql_statement << "\n";
-  if(file_name.empty() == false){
-    std::cout << "[" << file_name << "]: ";
+  if(state.file_name.empty() == false){
+    std::cout << "[" << state.file_name << "]: ";
   }
   std::cout << "(" << LogLevelToString(pattern_level) << ") ";
-  std::cout << title << " :: \n" << message << "\n";
+  std::cout << title << " :: \n";
+
+  // Print detailed message only in verbose mode
+  if(state.verbose_mode == true){
+    std::cout << message << "\n";
+  }
 
 }
 
@@ -116,7 +121,7 @@ void CheckPattern(const Configuration& state,
   }
 
   if(found == exists){
-    PrintMessage(state.file_name,
+    PrintMessage(state,
                  sql_statement,
                  pattern_level,
                  title,

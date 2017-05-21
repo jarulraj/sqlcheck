@@ -44,10 +44,10 @@ class Configuration {
   Configuration()
    : log_level(LogLevel::LOG_LEVEL_ALL),
      file_name(""),
-     testing_mode(false){
+     testing_mode(false),
+     verbose_mode(false){
 
   }
-
 
   // log level
   LogLevel log_level;
@@ -60,6 +60,9 @@ class Configuration {
 
   // testing mode
   bool testing_mode;
+
+  // verbose mode
+  bool verbose_mode;
 
 };
 
