@@ -123,6 +123,7 @@ void CheckPattern(const Configuration& state,
     std::sregex_iterator end;
     while (next != end) {
       std::smatch match = *next;
+      std::cout << "entire match: " << match.str(0) << "\n";
       found = true;
       next++;
     }

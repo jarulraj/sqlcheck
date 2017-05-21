@@ -280,7 +280,7 @@ void CheckMultiColumnAttribute(const Configuration& state,
     return;
   }
 
-  std::regex pattern("([A-za-z][\\-_@]?[0-9]+\%)");
+  std::regex pattern("[A-za-z][\\-_@]+[0-9]+\\s+");
   std::string title = "Multi-Column Attribute";
   PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
@@ -315,7 +315,7 @@ void CheckMetadataTribbles(const Configuration& state,
     return;
   }
 
-  std::regex pattern("^[A-za-z][\\-_@]?[0-9]{4}$");
+  std::regex pattern("[A-za-z][\\-_@]+[0-9]{4}\\s+");
   std::string title = "Metadata Tribbles";
   PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
