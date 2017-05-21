@@ -6,7 +6,7 @@
 
 namespace sqlcheck {
 
-enum Code {
+enum ColorCode {
 
   FG_DEFAULT = 39,
   FG_BLACK = 30,
@@ -34,15 +34,31 @@ enum Code {
 
 };
 
-class Modifier {
-  Code code;
+class ColorModifier {
 
  public:
-  Modifier(Code pCode) : code(pCode) {}
-  friend std::ostream&
-  operator<<(std::ostream& os, const Modifier& mod) {
-    return os << "\033[" << mod.code << "m";
+  ColorModifier(ColorCode color_code, bool enable_color)
+ : color_code_(color_code),
+   enable_color_(enable_color) {
   }
+
+  friend std::ostream& operator<<(std::ostream& os, const ColorModifier& color_modifier) {
+    if(color_modifier.enable_color_ == true) {
+      return os << "\033[" << color_modifier.color_code_ << "m";
+    }
+    else {
+      return os;
+    }
+  }
+
+ private:
+
+  // color code
+  ColorCode color_code_;
+
+  // enable color
+  bool enable_color_;
+
 };
 
 }  // namespace sqlcheck

@@ -77,8 +77,8 @@ void PrintMessage(const Configuration& state,
 
   if(print_statement == true){
     std::cout << "\n-------------------------------------------------\n";
-    Modifier red(Code::FG_RED);
-    Modifier regular(Code::FG_DEFAULT);
+    ColorModifier red(ColorCode::FG_RED, state.color_mode);
+    ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode);
 
     std::cout << "SQL Statement:" << red << sql_statement << regular << "\n";
   }

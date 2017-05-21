@@ -8,14 +8,18 @@ void Usage() {
   std::cout <<
       "\n"
       "Command line options : sqlcheck <options>\n"
+      "   -c --color_mode         :  color mode \n"
       "   -f --file_name          :  file name\n"
-      "   -l --log_level          :  log level\n";
+      "   -l --log_level          :  log level\n"
+      "   -v --verbose_mode       :  verbose mode \n";
   exit(EXIT_SUCCESS);
 }
 
 static struct option opts[] = {
+    {"color_mode", optional_argument, NULL, 'c'},
     {"file_name", optional_argument, NULL, 'f'},
     {"log_level", optional_argument, NULL, 'l'},
+    {"verbose_mode", optional_argument, NULL, 'v'},
     {NULL, 0, NULL, 0}
 };
 
@@ -86,21 +90,25 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
   state.file_name = ""; // standard input
   state.testing_mode = false;
   state.verbose_mode = false;
+  state.color_mode = true;
 
   // Parse args
   while (1) {
     int idx = 0;
-    int c = getopt_long(argc, argv, "l:f:vh",
+    int c = getopt_long(argc, argv, "l:f:cvh",
                         opts, &idx);
 
     if (c == -1) break;
 
     switch (c) {
-      case 'l':
-        state.log_level = (LogLevel)atoi(optarg);
+      case 'c':
+        state.color_mode = false;
         break;
       case 'f':
         state.file_name = optarg;
+        break;
+      case 'l':
+        state.log_level = (LogLevel)atoi(optarg);
         break;
       case 'v':
         state.verbose_mode = true;

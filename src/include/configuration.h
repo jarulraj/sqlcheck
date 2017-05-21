@@ -42,27 +42,31 @@ class Configuration {
 
   // Constructor
   Configuration()
-   : log_level(LogLevel::LOG_LEVEL_ALL),
+   :
+     color_mode(true),
      file_name(""),
-     testing_mode(false),
-     verbose_mode(false){
-
+     log_level(LogLevel::LOG_LEVEL_ALL),
+     verbose_mode(false),
+     testing_mode(false) {
   }
+
+  // color mode
+  bool color_mode;
+
+  // filename
+  std::string file_name;
 
   // log level
   LogLevel log_level;
 
-  // filename
-  std::string file_name;
+  // verbose mode
+  bool verbose_mode;
 
   // test stream
   std::unique_ptr<std::istringstream> test_stream;
 
   // testing mode
   bool testing_mode;
-
-  // verbose mode
-  bool verbose_mode;
 
 };
 
