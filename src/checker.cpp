@@ -123,7 +123,7 @@ void CheckPattern(const Configuration& state,
     std::sregex_iterator end;
     while (next != end) {
       std::smatch match = *next;
-      std::cout << "entire match: " << match.str(0) << "\n";
+      //std::cout << "MATCH: [" << match.str(0) << "]\n";
       found = true;
       next++;
     }
@@ -175,8 +175,6 @@ void CheckStatement(const Configuration& state,
   CheckForeignKeyExists(state, statement, print_statement);
 
   CheckVariableAttribute(state, statement, print_statement);
-
-  CheckMultiColumnAttribute(state, statement, print_statement);
 
   CheckMetadataTribbles(state, statement, print_statement);
 

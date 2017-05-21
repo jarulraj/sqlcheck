@@ -20,7 +20,7 @@ TEST(BasicTest, SelectStarTest) {
 
       "SELECT *\n"
       "FROM BAR;\n"
-      );
+  );
 
   default_conf.test_stream.reset(stream.release());
 
@@ -42,7 +42,7 @@ TEST(BasicTest, MultiValuedAttributeTest) {
       "product_name VARCHAR(1000),"
       "account_id   VARCHAR(100));\n"
 
-      );
+  );
 
   default_conf.test_stream.reset(stream.release());
 
@@ -199,7 +199,7 @@ TEST(BasicTest, MultiColumnAttributeTest) {
       "tag3        VARCHAR(20)"
       ");"
 
-      );
+  );
 
   default_conf.test_stream.reset(stream.release());
 
@@ -229,7 +229,7 @@ TEST(BasicTest, MetadataTribblesTest) {
       "CREATE TABLE Bugs_2009 (-- other columns"
       "date_reported DATE CHECK (EXTRACT(YEAR FROM date_reported) = 2009));\n"
 
-      );
+  );
 
   default_conf.test_stream.reset(stream.release());
 
@@ -251,11 +251,70 @@ TEST(BasicTest, FloatTest) {
 
       "ALTER TABLE Bugs ADD COLUMN hours NUMERIC(9,2);\n"
 
-      );
+  );
 
   default_conf.test_stream.reset(stream.release());
 
   Check(default_conf);
+
+}
+
+void PrintMatches(const std::string& in, const std::string& re){
+
+  std::smatch m;
+  std::regex_search(in, m, std::regex(re));
+
+  if(m.empty()) {
+    std::cout << "input=[" << in << "], regex=[" << re << "]: NO MATCH\n";
+  } else {
+    std::cout << "input=[" << in << "], regex=[" << re << "]: ";
+    std::cout << "prefix=[" << m.prefix() << "] ";
+    for(std::size_t n = 0; n < m.size(); ++n)
+      std::cout << " m[" << n << "]=[" << m[n] << "] ";
+    std::cout << "suffix=[" << m.suffix() << "]\n";
+  }
+
+}
+
+TEST(BasicTest, RegexTests) {
+
+  // greedy match, repeats [a-z] 4 times
+  PrintMatches("abcdefghi", "a[a-z]{2,4}");
+
+  // non-greedy match, repeats [a-z] 2 times
+  PrintMatches("abcdefghi", "a[a-z]{2,4}?");
+
+  // Choice point ordering for quantifiers results in a match
+  // with two repetitions, first matching the substring "aa",
+  // second matching the substring "ba", leaving "ac" not matched
+  // ("ba" appears in the capture clause m[1])
+  PrintMatches("aabaac", "(aa|aabaac|ba|b|c)*");
+
+  // Choice point ordering for quantifiers makes this regex
+  // calculate the greatest common divisor between 10 and 15
+  // (the answer is 5, and it populates m[1] with "aaaaa")
+  PrintMatches("aaaaaaaaaa,aaaaaaaaaaaaaaa", "^(a+)\\1*,\\1+$");
+
+  // the substring "bbb" does not appear in the capture clause m[4]
+  // because it is cleared when the second repetition of the atom
+  // (a+)?(b+)?(c) is matching the substring "ac"
+  PrintMatches("zaacbbbcac", "(z)((a+)?(b+)?(c))*");
+
+}
+
+TEST(BasicTest, MetadataRegexTests) {
+
+  std::string regex = "[A-za-z\\-_@]+[0-9]+ ";
+
+  // metadata tribbles
+  PrintMatches("bugs_2004", regex);
+  PrintMatches("bugs8_foo", regex);
+
+  // metadata tribbles
+  PrintMatches("bugs_2004", regex);
+  PrintMatches("CREATE TABLE Bugs_2008 ( . . . )", regex);
+  PrintMatches("CREATE TABLE Bugs_200843214 ( . . . )", regex);
+  PrintMatches("CREATE TABLE tag8 ( . . . )", regex);
 
 }
 

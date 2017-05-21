@@ -32,10 +32,6 @@ void CheckVariableAttribute(const Configuration& state,
                             const std::string& sql_statement,
                             bool& print_statement);
 
-void CheckMultiColumnAttribute(const Configuration& state,
-                               const std::string& sql_statement,
-                               bool& print_statement);
-
 void CheckMetadataTribbles(const Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement);

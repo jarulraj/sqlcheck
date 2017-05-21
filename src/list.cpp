@@ -271,41 +271,6 @@ void CheckVariableAttribute(const Configuration& state,
 
 }
 
-void CheckMultiColumnAttribute(const Configuration& state,
-                               const std::string& sql_statement,
-                               bool& print_statement){
-
-  auto create_statement = IsCreateStatement(sql_statement);
-  if(create_statement == false){
-    return;
-  }
-
-  std::regex pattern("[A-za-z][\\-_@]+[0-9]+\\s+");
-  std::string title = "Multi-Column Attribute";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
-
-  auto message =
-      "● Store each value with the same meaning in a single column:\n"
-      "Creating multiple columns in a table indicates that you are trying to store\n"
-      "a multivalued attribute. This design makes it hard to add or remove values,\n"
-      "to ensure the uniqueness of values, and handling growing sets of values.\n"
-      "The best solution is to create a dependent table with one column for the\n"
-      "multivalue attribute. Store the multiple values in multiple rows instead of\n"
-      "multiple columns. Also, define a foreign key in the dependent table to associate\n"
-      "the values to its parent row.\n";
-
-  CheckPattern(state,
-               sql_statement,
-               print_statement,
-               pattern,
-               LOG_LEVEL_ERROR,
-               pattern_type,
-               title,
-               message,
-               true);
-
-}
-
 void CheckMetadataTribbles(const Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement){
@@ -315,11 +280,21 @@ void CheckMetadataTribbles(const Configuration& state,
     return;
   }
 
-  std::regex pattern("[A-za-z][\\-_@]+[0-9]{4}\\s+");
+  std::regex pattern("[A-za-z\\-_@]+[0-9]+ ");
   std::string title = "Metadata Tribbles";
   PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
 
-  auto message =
+  std::string message1 =
+      "● Store each value with the same meaning in a single column:\n"
+      "Creating multiple columns in a table indicates that you are trying to store\n"
+      "a multivalued attribute. This design makes it hard to add or remove values,\n"
+      "to ensure the uniqueness of values, and handling growing sets of values.\n"
+      "The best solution is to create a dependent table with one column for the\n"
+      "multivalue attribute. Store the multiple values in multiple rows instead of\n"
+      "multiple columns. Also, define a foreign key in the dependent table to associate\n"
+      "the values to its parent row.\n";
+
+  std::string message2 =
       "● Breaking down a table or column by year:\n"
       "You might be trying to split a single column into multiple columns,\n"
       "using column names based on distinct values in another attribute.\n"
@@ -334,6 +309,8 @@ void CheckMetadataTribbles(const Configuration& state,
       "Another remedy for metadata tribbles is to create a dependent table.\n"
       "Instead of one row per entity with multiple columns for each year,\n"
       "use multiple rows. Don't let data spawn metadata.\n";
+
+  auto message = message1 + "\n" + message2;
 
   CheckPattern(state,
                sql_statement,
