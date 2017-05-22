@@ -124,7 +124,8 @@ void CheckPattern(const Configuration& state,
                   UNUSED_ATTRIBUTE const PatternType pattern_type,
                   const std::string title,
                   const std::string message,
-                  const bool exists){
+                  const bool exists,
+                  const size_t min_count){
 
   //std::cout << "PATTERN LEVEL: " << pattern_level << "\n";
   //std::cout << "CHECKER LEVEL: " << state.log_level << "\n";
@@ -136,6 +137,7 @@ void CheckPattern(const Configuration& state,
 
   bool found = false;
   std::smatch match;
+  std::size_t count = 0;
 
   try {
     std::sregex_iterator next(sql_statement.begin(),
@@ -145,13 +147,14 @@ void CheckPattern(const Configuration& state,
     while (next != end) {
       match = *next;
       found = true;
+      count++;
       next++;
     }
   } catch (std::regex_error& e) {
     // Syntax error in the regular expression
   }
 
-  if(found == exists){
+  if(found == exists && count > min_count){
     PrintMessage(state,
                  sql_statement,
                  print_statement,
@@ -217,6 +220,10 @@ void CheckStatement(const Configuration& state,
   CheckValuesInDefinition(state, statement, print_statement);
 
   CheckExternalFiles(state, statement, print_statement);
+
+  CheckIndexCount(state, statement, print_statement);
+
+  CheckIndexAttributeOrder(state, statement, print_statement);
 
   // QUERY
 

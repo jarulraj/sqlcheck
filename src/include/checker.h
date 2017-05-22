@@ -24,6 +24,7 @@ void CheckPattern(const Configuration& state,
                   const PatternType pattern_type,
                   const std::string title,
                   const std::string message,
-                  const bool exists);
+                  const bool exists,
+                  const size_t min_count = 0);
 
 }  // namespace machine

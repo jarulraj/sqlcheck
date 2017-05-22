@@ -448,6 +448,76 @@ void CheckExternalFiles(const Configuration& state,
 
 }
 
+void CheckIndexCount(const Configuration& state,
+                     const std::string& sql_statement,
+                     bool& print_statement){
+
+  auto create_statement = IsCreateStatement(sql_statement);
+  if(create_statement == false){
+    return;
+  }
+
+  std::size_t min_count = 3;
+  std::regex pattern("(index)");
+  std::string title = "Too Many Indexes";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_PHYSICAL_DATABASE_DESIGN;
+
+  auto message =
+      "● Don't create too many indexes:\n"
+      "You benefit from an index only if you run queries that use that index.\n"
+      "There's no benefit to creating indexes that you don't use.\n"
+      "If you cover a database table with indexes, you incur a lot of overhead\n"
+      "with no assurance of payoff.\n"
+      "Consider dropping unnecessary indexes.\n"
+      "If an index provides all the columns we need, then we don't need to read\n"
+      "rows of data from the table at all. Consider using such covering indexes.\n"
+      "Know your data, know your queries, and maintain the right set of indexes.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_WARN,
+               pattern_type,
+               title,
+               message,
+               true,
+               min_count);
+
+}
+
+void CheckIndexAttributeOrder(const Configuration& state,
+                              const std::string& sql_statement,
+                              bool& print_statement){
+
+
+  std::regex pattern("(create index)");
+  std::string title = "Index Attribute Order";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_PHYSICAL_DATABASE_DESIGN;
+
+  auto message =
+      "● Don't create too many indexes:\n"
+      "If you create a compound index for the columns, make sure that the query\n"
+      "attributes are in the same order as the index attributes, so that the DBMS\n"
+      "can use the index while processing the query.\n"
+      "If the query and index attribute orders are not aligned, then the DBMS might\n"
+      "be unable to use the index during query processing.\n"
+      "EX: CREATE INDEX TelephoneBook ON Accounts(last_name, first_name);\n"
+      "SELECT * FROM Accounts ORDER BY first_name, last_name;\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+
 // QUERY
 
 void CheckSelectStar(const Configuration& state,

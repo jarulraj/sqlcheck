@@ -347,6 +347,17 @@ TEST(BasicTest, PhysicalDesignTests) {
 
       "unlink('images/screenshot1234-1.jpg' );\n"
 
+      "CREATE TABLE Bugs ("
+      "bug_id SERIAL PRIMARY KEY,"
+      "date_reported DATE NOT NULL,"
+      "INDEX (bug_id),"
+      "INDEX (summary),"
+      "INDEX (hours),"
+      "INDEX (bug_id, date_reported, status)"
+      ");\n"
+
+      "CREATE INDEX TelephoneBook ON Accounts(last_name, first_name);\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());

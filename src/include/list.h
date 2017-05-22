@@ -50,6 +50,14 @@ void CheckExternalFiles(const Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement);
 
+void CheckIndexCount(const Configuration& state,
+                     const std::string& sql_statement,
+                     bool& print_statement);
+
+void CheckIndexAttributeOrder(const Configuration& state,
+                              const std::string& sql_statement,
+                              bool& print_statement);
+
 // QUERY
 
 void CheckSelectStar(const Configuration& state,
