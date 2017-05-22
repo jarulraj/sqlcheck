@@ -898,6 +898,43 @@ void CheckImplicitColumns(const Configuration& state,
 
 }
 
+// APPLICATION
+
+void CheckReadablePasswords(const Configuration& state,
+                            const std::string& sql_statement,
+                            bool& print_statement){
+
+  std::regex pattern("(password varchar)|(password text)|(password =)|"
+      "(pwd varchar)|(pwd text)|(pwd =)");
+  std::string title = "Readable Passwords";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_APPLICATION;
+
+  auto message =
+      "● Do not store readable passwords:\n"
+      "It’s not secure to store a password in clear text or even to pass it over the\n"
+      "network in the clear. If an attacker can read the SQL statement you use to\n"
+      "insert a password, they can see the password plainly.\n"
+      "Additionally, interpolating the user's input string into the SQL query in plain text\n"
+      "exposes it to discovery by an attacker.\n"
+      "If you can read passwords, so can a hacker.\n"
+      "The solution is to encode the password using a one-way cryptographic hash \n"
+      "function. This function transforms its input string into a new string,\n"
+      "called the hash, that is unrecognizable.\n"
+      "Use a salt to thwart dictionary attacks. Don't put the plain-text password\n"
+      "into the SQL query. Instead, compute the hash in your application code,\n"
+      "and use only the hash in the SQL query.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
 
 }  // namespace machine
 

@@ -424,6 +424,16 @@ TEST(BasicTest, QueryTests) {
       "password_hash, portrait_image, hourly_rate)"
       "VALUES ('bkarwin', 'Bill', 'Karwin', 'bill@example.com', SHA2('xyzzy'), NULL, 49.95);\n"
 
+      "CREATE TABLE Accounts ("
+      "account_id    SERIAL PRIMARY KEY,"
+      "account_name  VARCHAR(20) NOT NULL,"
+      "email         VARCHAR(100) NOT NULL,"
+      "password      VARCHAR(30) NOT NULL"
+      ");\n"
+
+      "SELECT * FROM Accounts"
+      "WHERE account_name = 'bill' AND password = 'opensesame';\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());

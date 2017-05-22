@@ -104,5 +104,11 @@ void CheckImplicitColumns(const Configuration& state,
                           const std::string& sql_statement,
                           bool& print_statement);
 
+// APPLICATION
+
+void CheckReadablePasswords(const Configuration& state,
+                            const std::string& sql_statement,
+                            bool& print_statement);
+
 
 }  // namespace machine

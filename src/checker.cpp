@@ -249,6 +249,11 @@ void CheckStatement(const Configuration& state,
 
   CheckImplicitColumns(state, statement, print_statement);
 
+  // APPLICATION
+
+  CheckReadablePasswords(state, statement, print_statement);
+
+
 }
 
 }  // namespace machine
