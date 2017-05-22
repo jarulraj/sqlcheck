@@ -417,6 +417,13 @@ TEST(BasicTest, QueryTests) {
       "ON (b.assigned_to = dev.account_id)"
       "WHERE b.status = 'FIXED' GROUP BY dev.account_id) t;\n"
 
+      "INSERT INTO Bugs VALUES (DEFAULT, CURDATE(), 'New bug', 'Test T987 fails...',"
+      "NULL, 123, NULL, NULL, DEFAULT, 'Medium', NULL);\n"
+
+      "INSERT INTO Accounts (account_name, first_name, last_name, email,"
+      "password_hash, portrait_image, hourly_rate)"
+      "VALUES ('bkarwin', 'Bill', 'Karwin', 'bill@example.com', SHA2('xyzzy'), NULL, 49.95);\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());

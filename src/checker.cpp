@@ -247,6 +247,8 @@ void CheckStatement(const Configuration& state,
 
   CheckDistinctCount(state, statement, print_statement);
 
+  CheckImplicitColumns(state, statement, print_statement);
+
 }
 
 }  // namespace machine

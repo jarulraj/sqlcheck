@@ -787,7 +787,7 @@ std::string spaghetti_message =
           "perhaps varying slightly depending on data values. Writing these queries is a chore,\n"
           "so it's a good application of SQL code generation."
           "Although SQL makes it seem possible to solve a complex problem in a single line of code,\n"
-          "don’t be tempted to build a house of cards.\n";
+          "don't be tempted to build a house of cards.\n";
 
 void CheckSpaghettiQuery(const Configuration& state,
                          const std::string& sql_statement,
@@ -867,6 +867,34 @@ void CheckDistinctCount(const Configuration& state,
                message,
                true,
                min_count);
+
+}
+
+void CheckImplicitColumns(const Configuration& state,
+                          const std::string& sql_statement,
+                          bool& print_statement){
+
+  std::regex pattern("(insert into \\S+ values)");
+  std::string title = "Implicit Column Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Explicitly name columns:\n"
+      "Although using wildcards and unnamed columns satisfies the goal\n"
+      "of less typing, this habit creates several hazards.\n"
+      "This can break application refactoring and can harm performance.\n"
+      "Always spell out all the columns you need, instead of relying on\n"
+      "wild-cards or implicit column lists.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
 
 }
 

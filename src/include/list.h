@@ -100,5 +100,9 @@ void CheckDistinctCount(const Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement);
 
+void CheckImplicitColumns(const Configuration& state,
+                          const std::string& sql_statement,
+                          bool& print_statement);
+
 
 }  // namespace machine
