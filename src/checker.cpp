@@ -237,6 +237,10 @@ void CheckStatement(const Configuration& state,
 
   CheckGroupByUsage(state, statement, print_statement);
 
+  CheckOrderByRand(state, statement, print_statement);
+
+  CheckPatternMatching(state, statement, print_statement);
+
 }
 
 }  // namespace machine

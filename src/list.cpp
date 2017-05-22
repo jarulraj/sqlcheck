@@ -701,6 +701,70 @@ void CheckGroupByUsage(const Configuration& state,
 
 }
 
+void CheckOrderByRand(const Configuration& state,
+                      const std::string& sql_statement,
+                      bool& print_statement){
+
+  std::regex pattern("(order by rand\\()");
+  std::string title = "ORDER BY RAND Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Sorting by a nondeterministic expression (RAND()) means the sorting cannot benefit from an index:\n"
+      "There is no index containing the values returned by the random function.\n"
+      "That’s the point of them being ran- dom: they are different and\n"
+      "unpredictable each time they're selected. This is a problem for the performance\n"
+      "of the query, because using an index is one of the best ways of speeding up\n"
+      "sorting. The consequence of not using an index is that the query result set\n"
+      "has to be sorted by the database using a slow table scan.\n"
+      "One technique that avoids sorting the table is to choose a random value\n"
+      "between 1 and the greatest primary key value.\n"
+      "Still another technique that avoids problems found in the preceding alternatives\n"
+      "is to count the rows in the data set and return a random number between 0 and\n"
+      "the count. Then use this number as an offset when querying the data set.\n"
+      "Some queries just cannot be optimized; consider taking a different approach.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_WARN,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+void CheckPatternMatching(const Configuration& state,
+                          const std::string& sql_statement,
+                          bool& print_statement){
+
+  std::regex pattern("(like)|(regexp)|(similar to)");
+  std::string title = "Pattern Matching Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Avoid using vanilla pattern matching:\n"
+      "The most important disadvantage of pattern-matching operators is that\n"
+      "they have poor performance. A second problem of simple pattern-matching using LIKE\n"
+      "or regular expressions is that it can find unintended matches.\n"
+      "It's best to use a specialized search engine technology like Apache Lucene, instead of SQL.\n"
+      "Another alternative is to reduce the recurring cost of search by saving the result.\n"
+      "Consider using vendor extensions like FULLTEXT INDEX in MySQL.\n"
+      "More broadly, you don't have to use SQL to solve every problem.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_WARN,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
 
 }  // namespace machine
 

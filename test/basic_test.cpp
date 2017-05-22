@@ -358,6 +358,22 @@ TEST(BasicTest, PhysicalDesignTests) {
 
       "CREATE INDEX TelephoneBook ON Accounts(last_name, first_name);\n"
 
+  );
+
+  default_conf.test_stream.reset(stream.release());
+
+  Check(default_conf);
+
+}
+
+TEST(BasicTest, QueryTests) {
+
+  Configuration default_conf;
+  default_conf.testing_mode = true;
+
+  std::unique_ptr<std::istringstream> stream(new std::istringstream());
+  stream->str(
+
       "SELECT * FROM Bugs WHERE assigned_to IS NULL OR assigned_to <> 1;\n"
 
       "SELECT first_name || ' ' || last_name AS full_name FROM Accounts;\n"
@@ -371,6 +387,17 @@ TEST(BasicTest, PhysicalDesignTests) {
       "FROM Bugs JOIN BugsProducts USING (bug_id)"
       "GROUP BY product_id;\n"
 
+      "SELECT * FROM Bugs ORDER BY RAND() LIMIT 1;\n"
+
+      "SELECT b1.*"
+      "FROM Bugs AS b1"
+      "JOIN (SELECT CEIL(RAND() * (SELECT MAX(bug_id) FROM Bugs)) AS rand_id) AS b2"
+      "ON (b1.bug_id = b2.rand_id);\n"
+
+      "SELECT * FROM Bugs WHERE description LIKE '%crash%';\n"
+
+      "SELECT * FROM Bugs WHERE description REGEXP 'crash';\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());
@@ -378,5 +405,6 @@ TEST(BasicTest, PhysicalDesignTests) {
   Check(default_conf);
 
 }
+
 
 }  // End machine sqlcheck

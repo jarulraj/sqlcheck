@@ -80,5 +80,13 @@ void CheckGroupByUsage(const Configuration& state,
                        const std::string& sql_statement,
                        bool& print_statement);
 
+void CheckOrderByRand(const Configuration& state,
+                      const std::string& sql_statement,
+                      bool& print_statement);
+
+void CheckPatternMatching(const Configuration& state,
+                          const std::string& sql_statement,
+                          bool& print_statement);
+
 
 }  // namespace machine
