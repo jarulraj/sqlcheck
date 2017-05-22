@@ -216,6 +216,8 @@ void CheckStatement(const Configuration& state,
 
   CheckValuesInDefinition(state, statement, print_statement);
 
+  CheckExternalFiles(state, statement, print_statement);
+
   // QUERY
 
   CheckSelectStar(state, statement, print_statement);

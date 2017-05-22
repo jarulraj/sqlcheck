@@ -345,6 +345,8 @@ TEST(BasicTest, PhysicalDesignTests) {
       "FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id)"
       ");\n"
 
+      "unlink('images/screenshot1234-1.jpg' );\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());

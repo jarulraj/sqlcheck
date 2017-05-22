@@ -417,6 +417,36 @@ void CheckValuesInDefinition(const Configuration& state,
 
 }
 
+void CheckExternalFiles(const Configuration& state,
+                        const std::string& sql_statement,
+                        bool& print_statement){
+
+  std::regex pattern("(path varchar)|(unlink\\s?\\()");
+  std::string title = "Files Are Not SQL Data Types";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_PHYSICAL_DATABASE_DESIGN;
+
+  auto message =
+      "● Resources outside the database are not managed by the database:\n"
+      "It's common for programmers to be unequivocal that we should always\n"
+      "store files external to the database.\n"
+      "Files don't obey DELETE, transaction isolation, rollback, or work well with\n"
+      "database backup tools. They do not obey SQL access privileges and are not SQL\n"
+      "data types.\n"
+      "Resources outside the database are not managed by the database.\n"
+      "You should consider storing blobs inside the database instead of in\n"
+      "external files. You can save the contents of a BLOB column to a file.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_WARN,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
 
 // QUERY
 
