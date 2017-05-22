@@ -76,5 +76,9 @@ void CheckConcatenation(const Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement);
 
+void CheckGroupByUsage(const Configuration& state,
+                       const std::string& sql_statement,
+                       bool& print_statement);
+
 
 }  // namespace machine

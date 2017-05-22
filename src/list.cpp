@@ -579,7 +579,6 @@ void CheckNullUsage(const Configuration& state,
                     const std::string& sql_statement,
                     bool& print_statement) {
 
-
   std::regex pattern("(null)");
   std::string title = "NULL Usage";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
@@ -591,9 +590,9 @@ void CheckNullUsage(const Configuration& state,
       "Combining any string with NULL in standard SQL returns NULL.\n"
       "NULL is not the same as false. Boolean expressions with AND, OR, and NOT also produce\n"
       "results that some people find confusing.\n"
-      "Representing a missing value is the exact purpose of NULL.\n"
       "When you declare a column as NOT NULL, it should be because it would make no sense\n"
-      "for the row to exist without a value in that column.\n";
+      "for the row to exist without a value in that column.\n"
+      "Use null to signify a missing value for any data type.\n";
 
   CheckPattern(state,
                sql_statement,
@@ -624,7 +623,7 @@ void CheckNotNullUsage(const Configuration& state,
       "● Use NOT NULL only if the column cannot have a missing value:\n"
       "When you declare a column as NOT NULL, it should be because it would make no sense\n"
       "for the row to exist without a value in that column.\n"
-      "Representing a missing value is the exact purpose of NULL.\n";
+      "Use null to signify a missing value for any data type.\n";
 
   CheckPattern(state,
                sql_statement,
@@ -668,6 +667,39 @@ void CheckConcatenation(const Configuration& state,
 
 }
 
+void CheckGroupByUsage(const Configuration& state,
+                       const std::string& sql_statement,
+                       bool& print_statement){
+
+  std::regex pattern("(group by)");
+  std::string title = "GROUP BY Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Do not reference non-grouped columns:\n"
+      "Every column in the select-list of a query must have a single value row\n"
+      "per row group. This is called the Single-Value Rule.\n"
+      "Columns named in the GROUP BY clause are guaranteed to be exactly one value\n"
+      "per group, no matter how many rows the group matches.\n"
+      "Most DBMSs report an error if you try to run any query that tries to return\n"
+      "a column other than those columns named in the GROUP BY clause or as\n"
+      "arguments to aggregate functions.\n"
+      "Every expression in the select list must be contained in either an\n"
+      "aggregate function or the GROUP BY clause.\n"
+      "Follow the single-value rule to avoid ambiguous query results.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+
+}
 
 
 }  // namespace machine

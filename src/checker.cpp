@@ -235,6 +235,8 @@ void CheckStatement(const Configuration& state,
 
   CheckConcatenation(state, statement, print_statement);
 
+  CheckGroupByUsage(state, statement, print_statement);
+
 }
 
 }  // namespace machine

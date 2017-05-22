@@ -362,6 +362,15 @@ TEST(BasicTest, PhysicalDesignTests) {
 
       "SELECT first_name || ' ' || last_name AS full_name FROM Accounts;\n"
 
+      "SELECT product_id, MAX(date_reported) AS latest,"
+      "MIN(date_reported) AS earliest, bug_id"
+      "FROM Bugs JOIN BugsProducts USING (bug_id)"
+      "GROUP BY product_id;\n"
+
+      "SELECT product_id, MAX(date_reported) AS latest"
+      "FROM Bugs JOIN BugsProducts USING (bug_id)"
+      "GROUP BY product_id;\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());
