@@ -241,6 +241,12 @@ void CheckStatement(const Configuration& state,
 
   CheckPatternMatching(state, statement, print_statement);
 
+  CheckSpaghettiQuery(state, statement, print_statement);
+
+  CheckJoinCount(state, statement, print_statement);
+
+  CheckDistinctCount(state, statement, print_statement);
+
 }
 
 }  // namespace machine

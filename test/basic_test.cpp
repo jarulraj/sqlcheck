@@ -398,6 +398,25 @@ TEST(BasicTest, QueryTests) {
 
       "SELECT * FROM Bugs WHERE description REGEXP 'crash';\n"
 
+      "SELECT COUNT(bp.product_id) AS how_many_products,"
+      "COUNT(dev.account_id) AS how_many_developers,"
+      "COUNT(b.bug_id)/COUNT(dev.account_id) AS avg_bugs_per_developer,"
+      "COUNT(cust.account_id) AS how_many_customers"
+      "FROM Bugs b JOIN BugsProducts bp ON (b.bug_id = bp.bug_id)"
+      "JOIN Accounts dev ON (b.assigned_to = dev.account_id)"
+      "JOIN Accounts cust ON (b.reported_by = cust.account_id) WHERE cust.email NOT LIKE '%@example.com'"
+      "JOIN Accounts cust ON (b.reported_by = cust.account_id) WHERE cust.email NOT LIKE '%@example.com'"
+      "JOIN Accounts cust ON (b.reported_by = cust.account_id) WHERE cust.email NOT LIKE '%@example.com'"
+      "JOIN Accounts cust ON (b.reported_by = cust.account_id) WHERE cust.email NOT LIKE '%@example.com'"
+      "JOIN Accounts cust ON (b.reported_by = cust.account_id) WHERE cust.email NOT LIKE '%@example.com'"
+      "GROUP BY bp.product_id;"
+
+      "SELECT AVG(bugs_per_developer) AS average_bugs_per_developer"
+      "FROM (SELECT dev.account_id, COUNT(*) AS bugs_per_developer"
+      "FROM Bugs b JOIN Accounts dev"
+      "ON (b.assigned_to = dev.account_id)"
+      "WHERE b.status = 'FIXED' GROUP BY dev.account_id) t;\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());

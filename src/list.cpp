@@ -766,5 +766,110 @@ void CheckPatternMatching(const Configuration& state,
 
 }
 
+std::string spaghetti_message =
+    "● Split up a complex spaghetti query into several simpler queries:\n"
+          "SQL is a very expressive language—you can accomplish a lot in a single query or statement.\n"
+          "But that doesn't mean it's mandatory or even a good idea to approach every task with the\n"
+          "assumption it has to be done in one line of code.\n"
+          "One common unintended consequence of producing all your results in one query is\n"
+          "a Cartesian product. This happens when two of the tables in the query have no condition\n"
+          "restricting their relationship. Without such a restriction, the join of two tables pairs\n"
+          "each row in the first table to every row in the other table. Each such pairing becomes a\n"
+          "row of the result set, and you end up with many more rows than you expect.\n"
+          "It's important to consider that these queries are simply hard to write, hard to modify,\n"
+          "and hard to debug. You should expect to get regular requests for incremental enhancements\n"
+          "to your database applications. Managers want more complex reports and more fields in a\n"
+          "user interface. If you design intricate, monolithic SQL queries, it's more costly and\n"
+          "time-consuming to make enhancements to them. Your time is worth something, both to you\n"
+          "and to your project.\n"
+          "Split up a complex spaghetti query into several simpler queries.\n"
+          "When you split up a complex SQL query, the result may be many similar queries,\n"
+          "perhaps varying slightly depending on data values. Writing these queries is a chore,\n"
+          "so it's a good application of SQL code generation."
+          "Although SQL makes it seem possible to solve a complex problem in a single line of code,\n"
+          "don’t be tempted to build a house of cards.\n";
+
+void CheckSpaghettiQuery(const Configuration& state,
+                         const std::string& sql_statement,
+                         bool& print_statement){
+
+  std::regex true_pattern(".*");
+  std::regex false_pattern("pattern must not exist");
+  std::regex pattern;
+
+  std::string title = "Spaghetti Query Alert";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+  std::size_t spaghetti_query_char_count = 500;
+
+  if(sql_statement.size() >= spaghetti_query_char_count){
+    pattern = true_pattern;
+  }
+  else {
+    pattern = false_pattern;
+  }
+
+  auto message = spaghetti_message;
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+void CheckJoinCount(const Configuration& state,
+                    const std::string& sql_statement,
+                    bool& print_statement){
+
+  std::regex pattern("(join)");
+  std::string title = "Spaghetti Query Alert";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+  std::size_t min_count = 5;
+
+  auto message = spaghetti_message;
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true,
+               min_count);
+
+}
+
+void CheckDistinctCount(const Configuration& state,
+                        const std::string& sql_statement,
+                        bool& print_statement){
+
+  std::regex pattern("(distinct)");
+  std::string title = "Spaghetti Query Alert";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+  std::size_t min_count = 5;
+
+  auto message = spaghetti_message;
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true,
+               min_count);
+
+}
+
+
 }  // namespace machine
 
