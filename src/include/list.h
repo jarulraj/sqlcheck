@@ -42,6 +42,13 @@ void CheckFloat(const Configuration& state,
                 const std::string& sql_statement,
                 bool& print_statement);
 
+void CheckValuesInDefinition(const Configuration& state,
+                             const std::string& sql_statement,
+                             bool& print_statement);
+
+void CheckPhantomFiles(const Configuration& state,
+                       const std::string& sql_statement,
+                       bool& print_statement);
 
 // QUERY
 

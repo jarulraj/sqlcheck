@@ -37,17 +37,28 @@ enum ColorCode {
 class ColorModifier {
 
  public:
-  ColorModifier(ColorCode color_code, bool enable_color)
+  ColorModifier(ColorCode color_code, bool enable_color, bool enable_bold)
  : color_code_(color_code),
-   enable_color_(enable_color) {
+   enable_color_(enable_color),
+   enable_bold_(enable_bold){
   }
 
   friend std::ostream& operator<<(std::ostream& os, const ColorModifier& color_modifier) {
-    if(color_modifier.enable_color_ == true) {
-      return os << "\033[" << color_modifier.color_code_ << "m";
+    if(color_modifier.enable_bold_ == true){
+      if(color_modifier.enable_color_ == true) {
+        return os << "\e[1" << "m" << "\033[" << color_modifier.color_code_ << "m";
+      }
+      else {
+        return os;
+      }
     }
     else {
-      return os;
+      if(color_modifier.enable_color_ == true) {
+        return os << "\e[0" << "m" << "\033[" << color_modifier.color_code_ << "m";
+      }
+      else {
+        return os;
+      }
     }
   }
 
@@ -58,6 +69,9 @@ class ColorModifier {
 
   // enable color
   bool enable_color_;
+
+  // enable bold
+  bool enable_bold_;
 
 };
 

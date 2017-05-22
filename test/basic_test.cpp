@@ -318,4 +318,39 @@ TEST(BasicTest, MetadataRegexTests) {
 
 }
 
+TEST(BasicTest, PhysicalDesignTests) {
+
+  Configuration default_conf;
+  default_conf.testing_mode = true;
+
+  std::unique_ptr<std::istringstream> stream(new std::istringstream());
+  stream->str(
+
+      "CREATE TABLE Bugs ("
+      "-- other columns"
+      "status ENUM('NEW', 'IN PROGRESS', 'FIXED'), );\n"
+
+      "CREATE TABLE Bugs ("
+      "-- other columns"
+      "status VARCHAR(20) CHECK (status IN ('NEW', 'IN PROGRESS', 'FIXED')) );\n"
+
+      "ALTER TABLE Bugs MODIFY COLUMN status ENUM('NEW', 'IN PROGRESS', 'CODE COMPLETE', 'VERIFIED');\n"
+
+      "CREATE TABLE Screenshots ("
+      "bug_id            BIGINT UNSIGNED NOT NULL,"
+      "image_id          BIGINT UNSIGNED NOT NULL,"
+      "screenshot_path   VARCHAR(100),"
+      "caption           VARCHAR(100),"
+      "PRIMARY KEY       (bug_id, image_id),"
+      "FOREIGN KEY (bug_id) REFERENCES Bugs(bug_id)"
+      ");\n"
+
+  );
+
+  default_conf.test_stream.reset(stream.release());
+
+  Check(default_conf);
+
+}
+
 }  // End machine sqlcheck

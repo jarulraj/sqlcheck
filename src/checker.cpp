@@ -75,19 +75,39 @@ void PrintMessage(const Configuration& state,
                   const std::string title,
                   const std::string message){
 
+  ColorModifier red(ColorCode::FG_RED, state.color_mode, true);
+  ColorModifier green(ColorCode::FG_GREEN, state.color_mode, true);
+  ColorModifier blue(ColorCode::FG_BLUE, state.color_mode, true);
+  ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode, false);
+
   if(print_statement == true){
     std::cout << "\n-------------------------------------------------\n";
-    ColorModifier red(ColorCode::FG_RED, state.color_mode);
-    ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode);
+    ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode, false);
 
-    std::cout << "SQL Statement:" << red << sql_statement << regular << "\n";
+    if(state.color_mode == true){
+      std::cout << "SQL Statement: " << red << sql_statement << regular << "\n";
+    }
+    else {
+      std::cout << "SQL Statement: " << sql_statement << "\n";
+    }
   }
 
-  if(state.file_name.empty() == false){
-    std::cout << "[" << state.file_name << "]: ";
+  if(state.color_mode == true){
+    if(state.file_name.empty() == false){
+      std::cout << "[" << state.file_name << "]: ";
+    }
+
+    std::cout << "(" << green << LogLevelToString(pattern_level) << regular << ") ";
+    std::cout << blue << title << regular << "\n";
   }
-  std::cout << "(" << LogLevelToString(pattern_level) << ") ";
-  std::cout << title << "\n";
+  else {
+    if(state.file_name.empty() == false){
+      std::cout << "[" << state.file_name << "]: ";
+    }
+
+    std::cout << "(" << LogLevelToString(pattern_level) << ") ";
+    std::cout << title << "\n";
+  }
 
   // Print detailed message only in verbose mode
   if(state.verbose_mode == true){
@@ -140,7 +160,15 @@ void CheckPattern(const Configuration& state,
                  message);
 
     if(exists == true){
-      std::cout << "MATCH: [" << match.str(0) << "]\n";
+      ColorModifier blue(ColorCode::FG_BLUE, state.color_mode, true);
+      ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode, false);
+
+      if(state.color_mode == true){
+        std::cout << "[Matching Expression: " << blue << match.str(0) << regular << "]\n";
+      }
+      else{
+        std::cout << "[Matching Expression: " << match.str(0) << "]\n";
+      }
     }
 
     // TOGGLE PRINT STATEMENT
@@ -185,6 +213,8 @@ void CheckStatement(const Configuration& state,
   // PHYSICAL DATABASE DESIGN
 
   CheckFloat(state, statement, print_statement);
+
+  CheckValuesInDefinition(state, statement, print_statement);
 
   // QUERY
 

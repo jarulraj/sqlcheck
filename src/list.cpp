@@ -25,14 +25,30 @@ std::string GetTableName(const std::string& sql_statement){
   return table_name;
 }
 
-bool IsCreateStatement(const std::string& sql_statement){
-  std::string table_template = "create table";
-  std::size_t found = sql_statement.find(table_template);
-  if (found == std::string::npos) {
-    return false;
+bool IsDDLStatement(const std::string& sql_statement){
+  std::string create_table_template = "create table";
+  std::size_t found = sql_statement.find(create_table_template);
+  if (found != std::string::npos) {
+    return true;
   }
 
-  return true;
+  std::string alter_table_template = "alter table";
+  found = sql_statement.find(alter_table_template);
+  if (found != std::string::npos) {
+    return true;
+  }
+
+  return false;
+}
+
+bool IsCreateStatement(const std::string& sql_statement){
+  std::string create_table_template = "create table";
+  std::size_t found = sql_statement.find(create_table_template);
+  if (found != std::string::npos) {
+    return true;
+  }
+
+  return false;
 }
 
 // LOGICAL DATABASE DESIGN
@@ -146,8 +162,8 @@ void CheckGenericPrimaryKey(const Configuration& state,
                             const std::string& sql_statement,
                             bool& print_statement){
 
-  auto create_statement = IsCreateStatement(sql_statement);
-  if(create_statement == false){
+  auto ddl_statement = IsDDLStatement(sql_statement);
+  if(ddl_statement == false){
     return;
   }
 
@@ -275,8 +291,8 @@ void CheckMetadataTribbles(const Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement){
 
-  auto create_statement = IsCreateStatement(sql_statement);
-  if(create_statement == false){
+  auto ddl_statement = IsDDLStatement(sql_statement);
+  if(ddl_statement == false){
     return;
   }
 
@@ -332,7 +348,7 @@ void CheckFloat(const Configuration& state,
 
   std::regex pattern("(float)|(real)|(double precision)|(0\\.000[0-9]*)");
   std::string title = "Imprecise Data Type";
-  PatternType pattern_type = PatternType::PATTERN_TYPE_LOGICAL_DATABASE_DESIGN;
+  PatternType pattern_type = PatternType::PATTERN_TYPE_PHYSICAL_DATABASE_DESIGN;
 
   auto message =
       "● Use precise data types:\n"
@@ -350,6 +366,50 @@ void CheckFloat(const Configuration& state,
                print_statement,
                pattern,
                LOG_LEVEL_ERROR,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+void CheckValuesInDefinition(const Configuration& state,
+                             const std::string& sql_statement,
+                             bool& print_statement){
+
+  auto ddl_statement = IsDDLStatement(sql_statement);
+  if(ddl_statement == false){
+    return;
+  }
+
+  std::regex pattern("(enum)|(in \\()");
+  std::string title = "Values In Definition";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_PHYSICAL_DATABASE_DESIGN;
+
+  auto message =
+      "● Don't specify values in column definition:\n"
+      "With enum, you declare the values as strings,\n"
+      "but internally the column is stored as the ordinal number of the string\n"
+      "in the enumerated list. The storage is therefore compact, but when you\n"
+      "sort a query by this column, the result is ordered by the ordinal value,\n"
+      "not alphabetically by the string value. You may not expect this behavior.\n"
+      "There's no syntax to add or remove a value from an ENUM or check constraint;\n"
+      "you can only redefine the column with a new set of values.\n"
+      "Moreover, if you make a value obsolete, you could upset historical data.\n"
+      "As a matter of policy, changing metadata — that is, changing the definition\n"
+      "of tables and columns—should be infrequent and with attention to testing and\n"
+      "quality assurance. There's a better solution to restrict values in a column:\n"
+      "create a lookup table with one row for each value you allow.\n"
+      "Then declare a foreign key constraint on the old table referencing\n"
+      "the new table.\n"
+      "Use metadata when validating against a fixed set of values.\n"
+      "Use data when validating against a fluid set of values.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_WARN,
                pattern_type,
                title,
                message,
