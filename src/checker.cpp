@@ -229,6 +229,12 @@ void CheckStatement(const Configuration& state,
 
   CheckSelectStar(state, statement, print_statement);
 
+  CheckNullUsage(state, statement, print_statement);
+
+  CheckNotNullUsage(state, statement, print_statement);
+
+  CheckConcatenation(state, statement, print_statement);
+
 }
 
 }  // namespace machine

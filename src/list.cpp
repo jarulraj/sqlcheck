@@ -575,6 +575,100 @@ void CheckSelectStar(const Configuration& state,
 
 }
 
+void CheckNullUsage(const Configuration& state,
+                    const std::string& sql_statement,
+                    bool& print_statement) {
+
+
+  std::regex pattern("(null)");
+  std::string title = "NULL Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Use NULL as a Unique Value:\n"
+      "NULL is not the same as zero. A number ten greater than an unknown is still an unknown.\n"
+      "NULL is not the same as a string of zero length.\n"
+      "Combining any string with NULL in standard SQL returns NULL.\n"
+      "NULL is not the same as false. Boolean expressions with AND, OR, and NOT also produce\n"
+      "results that some people find confusing.\n"
+      "Representing a missing value is the exact purpose of NULL.\n"
+      "When you declare a column as NOT NULL, it should be because it would make no sense\n"
+      "for the row to exist without a value in that column.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+void CheckNotNullUsage(const Configuration& state,
+                       const std::string& sql_statement,
+                       bool& print_statement) {
+
+  auto create_statement = IsCreateStatement(sql_statement);
+  if(create_statement == false){
+    return;
+  }
+
+  std::regex pattern("(not null)");
+  std::string title = "NOT NULL Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Use NOT NULL only if the column cannot have a missing value:\n"
+      "When you declare a column as NOT NULL, it should be because it would make no sense\n"
+      "for the row to exist without a value in that column.\n"
+      "Representing a missing value is the exact purpose of NULL.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_WARN,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+void CheckConcatenation(const Configuration& state,
+                        const std::string& sql_statement,
+                        bool& print_statement) {
+
+
+  std::regex pattern("\\|\\|");
+  std::string title = "String Concatenation";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Use COALESCE for string concatenation of nullable columns:\n"
+      "You may need to force a column or expression to be non-null for the sake of\n"
+      "simplifying the query logic, but you don't want that value to be stored."
+      "Use COALESCE function to construct the concatenated expression so that a\n"
+      "null-valued column doesn't make the whole expression become null.\n"
+      "EX: SELECT first_name || COALESCE(' ' || middle_initial || ' ', ' ') || last_name\n"
+      "AS full_name FROM Accounts;\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+
 
 }  // namespace machine
 

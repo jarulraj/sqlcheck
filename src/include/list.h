@@ -64,5 +64,17 @@ void CheckSelectStar(const Configuration& state,
                      const std::string& sql_statement,
                      bool& print_statement);
 
+void CheckNullUsage(const Configuration& state,
+                    const std::string& sql_statement,
+                    bool& print_statement);
+
+void CheckNotNullUsage(const Configuration& state,
+                       const std::string& sql_statement,
+                       bool& print_statement);
+
+void CheckConcatenation(const Configuration& state,
+                        const std::string& sql_statement,
+                        bool& print_statement);
+
 
 }  // namespace machine

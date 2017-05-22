@@ -358,6 +358,10 @@ TEST(BasicTest, PhysicalDesignTests) {
 
       "CREATE INDEX TelephoneBook ON Accounts(last_name, first_name);\n"
 
+      "SELECT * FROM Bugs WHERE assigned_to IS NULL OR assigned_to <> 1;\n"
+
+      "SELECT first_name || ' ' || last_name AS full_name FROM Accounts;\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());
