@@ -108,6 +108,21 @@ void CheckHaving(const Configuration& state,
                  const std::string& sql_statement,
                  bool& print_statement);
 
+void CheckNesting(const Configuration& state,
+                  const std::string& sql_statement,
+                  bool& print_statement);
+
+void CheckOr(const Configuration& state,
+             const std::string& sql_statement,
+             bool& print_statement);
+
+void CheckUnion(const Configuration& state,
+                const std::string& sql_statement,
+                bool& print_statement);
+
+void CheckDistinctJoin(const Configuration& state,
+                       const std::string& sql_statement,
+                       bool& print_statement);
 
 // APPLICATION
 

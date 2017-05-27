@@ -934,6 +934,133 @@ void CheckHaving(const Configuration& state,
 
 }
 
+void CheckNesting(const Configuration& state,
+                  const std::string& sql_statement,
+                  bool& print_statement){
+
+  std::regex pattern("(select)");
+  std::string title = "Nested sub queries";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+  std::size_t min_count = 2;
+
+  auto message =
+      "● Un-nest sub queries:\n"
+      " Rewriting nested queries as joins often leads to more efficient\n"
+      "execution and more effective optimization. In general, sub-query unnesting\n"
+      "is always done for correlated sub-queries with, at most, one table in\n"
+      "the FROM clause, which are used in ANY, ALL, and EXISTS predicates.\n"
+      "A uncorrelated sub-query, or a sub-query with more than one table in\n"
+      "the FROM clause, is flattened if it can be decided, based on the query\n"
+      "semantics, that the sub-query returns at most one row.\n"
+      "EX: SELECT * FROM SH.products p WHERE p.prod_id = (SELECT s.prod_id FROM SH.sales\n"
+      "s WHERE s.cust_id = 100996 AND s.quantity_sold = 1 );\n can be rewritten as:\n"
+      "SELECT p.* FROM SH.products p, sales s WHERE p.prod_id = s.prod_id AND\n"
+      "s.cust_id = 100996 AND s.quantity_sold = 1;\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true,
+               min_count);
+
+
+}
+
+void CheckOr(const Configuration& state,
+                 const std::string& sql_statement,
+                 bool& print_statement){
+
+  std::regex pattern("(or)");
+  std::string title = "OR Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Consider using an IN predicate when querying an indexed column:\n"
+      "The IN-list predicate can be exploited for indexed retrieval and also,\n"
+      "the optimizer can sort the IN-list to match the sort sequence of the index,\n"
+      "leading to more efficient retrieval. Note that the IN-list must contain only\n"
+      "constants, or values that are constant during one execution of the query block,\n"
+      "such as outer references.\n"
+      "EX: SELECT s.* FROM SH.sales s WHERE s.prod_id = 14 OR s.prod_id = 17;\n"
+      "can be rewritten as:\n"
+      "SELECT s.* FROM SH.sales s WHERE s.prod_id IN (14, 17);\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+void CheckUnion(const Configuration& state,
+                const std::string& sql_statement,
+                bool& print_statement){
+
+  std::regex pattern("(union)");
+  std::string title = "UNION Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Consider using UNION ALL if you do not care about duplicates:\n"
+      "Unlike UNION which removes duplicates, UNION ALL allows duplicate tuples.\n"
+      "If you do not care about duplicate tuples, then using UNION ALL would be\n"
+      "a faster option.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+void CheckDistinctJoin(const Configuration& state,
+                       const std::string& sql_statement,
+                       bool& print_statement){
+
+  std::regex pattern("(distinct.*join)");
+  std::string title = "DISTINCT & JOIN Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Consider using a sub-query with EXISTS instead of DISTINCT:\n"
+      "The DISTINCT keyword removes duplicates after sorting the tuples\n."
+      "Instead, consider using a sub query with the EXISTS keyword, you can avoid\n"
+      "having to return an entire table.\n"
+      "EX: SELECT DISTINCT c.country_id, c.country_name FROM SH.countries c,\n"
+      "SH.customers e WHERE e.country_id = c.country_id;\n"
+      "can be rewritten to:\n"
+      "SELECT c.country_id, c.country_name FROM SH.countries c WHERE  EXISTS\n"
+      "(SELECT 'X' FROM  SH.customers e WHERE e.country_id = c.country_id);\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+
+
 // APPLICATION
 
 void CheckReadablePasswords(const Configuration& state,

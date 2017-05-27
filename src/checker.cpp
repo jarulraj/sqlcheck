@@ -251,6 +251,14 @@ void CheckStatement(const Configuration& state,
 
   CheckHaving(state, statement, print_statement);
 
+  CheckNesting(state, statement, print_statement);
+
+  CheckOr(state, statement, print_statement);
+
+  CheckUnion(state, statement, print_statement);
+
+  CheckDistinctJoin(state, statement, print_statement);
+
   // APPLICATION
 
   CheckReadablePasswords(state, statement, print_statement);

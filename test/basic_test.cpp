@@ -437,6 +437,16 @@ TEST(BasicTest, QueryTests) {
       "SELECT s.cust_id,count(s.cust_id) FROM  SH.sales s GROUP BY s.cust_id\n"
       "HAVING s.cust_id != '1660' AND s.cust_id != '2';\n"
 
+      "SELECT * FROM SH.products p WHERE p.prod_id = (SELECT s.prod_id FROM SH.sales s"
+      "WHERE s.cust_id = 100996 AND s.quantity_sold = 1 );\n"
+
+      "SELECT s.* FROM SH.sales s WHERE s.prod_id = 14 OR s.prod_id = 17;\n"
+
+      "SELECT cust_id FROM SH.sales UNION SELECT cust_id FROM customers;\n"
+
+      "SELECT DISTINCT c.country_id, c.country_name FROM SH.countries c JOIN SH.customers e"
+      "WHERE e.country_id = c.country_id;\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());
