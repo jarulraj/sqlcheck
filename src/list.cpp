@@ -766,29 +766,6 @@ void CheckPatternMatching(const Configuration& state,
 
 }
 
-std::string spaghetti_message =
-    "● Split up a complex spaghetti query into several simpler queries:\n"
-          "SQL is a very expressive language—you can accomplish a lot in a single query or statement.\n"
-          "But that doesn't mean it's mandatory or even a good idea to approach every task with the\n"
-          "assumption it has to be done in one line of code.\n"
-          "One common unintended consequence of producing all your results in one query is\n"
-          "a Cartesian product. This happens when two of the tables in the query have no condition\n"
-          "restricting their relationship. Without such a restriction, the join of two tables pairs\n"
-          "each row in the first table to every row in the other table. Each such pairing becomes a\n"
-          "row of the result set, and you end up with many more rows than you expect.\n"
-          "It's important to consider that these queries are simply hard to write, hard to modify,\n"
-          "and hard to debug. You should expect to get regular requests for incremental enhancements\n"
-          "to your database applications. Managers want more complex reports and more fields in a\n"
-          "user interface. If you design intricate, monolithic SQL queries, it's more costly and\n"
-          "time-consuming to make enhancements to them. Your time is worth something, both to you\n"
-          "and to your project.\n"
-          "Split up a complex spaghetti query into several simpler queries.\n"
-          "When you split up a complex SQL query, the result may be many similar queries,\n"
-          "perhaps varying slightly depending on data values. Writing these queries is a chore,\n"
-          "so it's a good application of SQL code generation."
-          "Although SQL makes it seem possible to solve a complex problem in a single line of code,\n"
-          "don't be tempted to build a house of cards.\n";
-
 void CheckSpaghettiQuery(const Configuration& state,
                          const std::string& sql_statement,
                          bool& print_statement){
@@ -808,7 +785,28 @@ void CheckSpaghettiQuery(const Configuration& state,
     pattern = false_pattern;
   }
 
-  auto message = spaghetti_message;
+  auto message =
+      "● Split up a complex spaghetti query into several simpler queries:\n"
+      "SQL is a very expressive language—you can accomplish a lot in a single query or statement.\n"
+      "But that doesn't mean it's mandatory or even a good idea to approach every task with the\n"
+      "assumption it has to be done in one line of code.\n"
+      "One common unintended consequence of producing all your results in one query is\n"
+      "a Cartesian product. This happens when two of the tables in the query have no condition\n"
+      "restricting their relationship. Without such a restriction, the join of two tables pairs\n"
+      "each row in the first table to every row in the other table. Each such pairing becomes a\n"
+      "row of the result set, and you end up with many more rows than you expect.\n"
+      "It's important to consider that these queries are simply hard to write, hard to modify,\n"
+      "and hard to debug. You should expect to get regular requests for incremental enhancements\n"
+      "to your database applications. Managers want more complex reports and more fields in a\n"
+      "user interface. If you design intricate, monolithic SQL queries, it's more costly and\n"
+      "time-consuming to make enhancements to them. Your time is worth something, both to you\n"
+      "and to your project.\n"
+      "Split up a complex spaghetti query into several simpler queries.\n"
+      "When you split up a complex SQL query, the result may be many similar queries,\n"
+      "perhaps varying slightly depending on data values. Writing these queries is a chore,\n"
+      "so it's a good application of SQL code generation."
+      "Although SQL makes it seem possible to solve a complex problem in a single line of code,\n"
+      "don't be tempted to build a house of cards.\n";
 
   CheckPattern(state,
                sql_statement,
@@ -827,11 +825,14 @@ void CheckJoinCount(const Configuration& state,
                     bool& print_statement){
 
   std::regex pattern("(join)");
-  std::string title = "Spaghetti Query Alert";
+  std::string title = "Reduce Number of JOINs";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
   std::size_t min_count = 5;
 
-  auto message = spaghetti_message;
+  auto message =
+      "● Reduce Number of JOINs:\n"
+      "Too many JOINs is a symptom of complex spaghetti queries. Consider splitting\n"
+      "up the complex query into many simpler queries, and reduce the number of JOINs\n";
 
   CheckPattern(state,
                sql_statement,
@@ -851,11 +852,17 @@ void CheckDistinctCount(const Configuration& state,
                         bool& print_statement){
 
   std::regex pattern("(distinct)");
-  std::string title = "Spaghetti Query Alert";
+  std::string title = "Eliminate Unnecessary DISTINCT Conditions";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
   std::size_t min_count = 5;
 
-  auto message = spaghetti_message;
+  auto message =
+      "● Eliminate Unnecessary DISTINCT Conditions:\n"
+      "Too many DISTINCT conditions is a symptom of complex spaghetti queries.\n"
+      "Consider splitting up the complex query into many simpler queries,\n"
+      "and reduce the number of DISTINCT conditions\n"
+      "It is possible that the DISTINCT condition has no effect if a primary key\n"
+      "column is part of the result set of columns\n";
 
   CheckPattern(state,
                sql_statement,
@@ -885,6 +892,35 @@ void CheckImplicitColumns(const Configuration& state,
       "This can break application refactoring and can harm performance.\n"
       "Always spell out all the columns you need, instead of relying on\n"
       "wild-cards or implicit column lists.\n";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               LOG_LEVEL_INFO,
+               pattern_type,
+               title,
+               message,
+               true);
+
+}
+
+void CheckHaving(const Configuration& state,
+                 const std::string& sql_statement,
+                 bool& print_statement){
+
+  std::regex pattern("(having)");
+  std::string title = "HAVING Clause Usage";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Consider removing the HAVING clause:\n"
+      "Rewriting the query's HAVING clause into a predicate will enable the\n"
+      "use of indexes during query processing.\n"
+      "EX: SELECT s.cust_id,count(s.cust_id) FROM SH.sales s GROUP BY s.cust_id\n"
+      "HAVING s.cust_id != '1660' AND s.cust_id != '2'; can be rewritten as:\n"
+      "SELECT s.cust_id,count(cust_id) FROM SH.sales s WHERE s.cust_id != '1660'\n"
+      "AND s.cust_id !='2' GROUP BY s.cust_id;\n";
 
   CheckPattern(state,
                sql_statement,

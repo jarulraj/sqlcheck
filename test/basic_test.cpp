@@ -434,6 +434,9 @@ TEST(BasicTest, QueryTests) {
       "SELECT * FROM Accounts"
       "WHERE account_name = 'bill' AND password = 'opensesame';\n"
 
+      "SELECT s.cust_id,count(s.cust_id) FROM  SH.sales s GROUP BY s.cust_id\n"
+      "HAVING s.cust_id != '1660' AND s.cust_id != '2';\n"
+
   );
 
   default_conf.test_stream.reset(stream.release());
