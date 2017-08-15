@@ -72,42 +72,98 @@ Right now SQLCheck can detect the following anti-patterns:
 # Usage
 
 ```
-$ ./bin/sqlcheck -f sample.sql -r 2 -v 
+$ ./bin/sqlcheck -h
+
+Command line options : sqlcheck <options>
+   -f --file_name          :  file name
+   -r --risk_level         :  set of anti-patterns to check
+                           :  1 (all anti-patterns, default) 
+                           :  2 (only medium and high risk anti-patterns) 
+                           :  3 (only high risk anti-patterns) 
+   -c --color_mode         :  color mode 
+   -v --verbose_mode       :  verbose mode 
+
+$ ./bin/sqlcheck -f sample.sql -v 
+
+```
+-------------------------------------------------
+> RISK LEVEL    :: ALL ANTI-PATTERNS
+> SQL FILE NAME :: latches/top_mutexes.sql
+-------------------------------------------------
+==================== Results ===================
 
 -------------------------------------------------
-SQL Statement: select * from foo;
-[Matching Expression: select *]
+SQL Statement: with top_mutexes as ( select--+ leading(t1 s1 v1 v2 t2 s2) use_hash(s1)
+use_nl(v1) use_hash(s2) materialize t1.hsecs ,s1.* ,s2.sleeps as end_sleeps
+,s2.wait_time as end_wait_time ,s2.sleeps-s1.sleeps as delta_sleeps ,t2.hsecs -
+t1.hsecs as delta_hsecs --,s2.* from v$timer t1 ,v$mutex_sleep s1 ,(select/*+
+no_merge */ sum(level) a from dual connect by level<=1e6) v1 ,v$timer t2
+,v$mutex_sleep s2 where s1.mutex_type=s2.mutex_type and s1.location=s2.location
+) select * from top_mutexes order by delta_sleeps desc;
 
-● Inefficiency in moving data to the consumer:  
+[latches/top_mutexes.sql]: (HIGH RISK) SELECT *   
+● Inefficiency in moving data to the consumer:   
 When you SELECT *, you're often retrieving more columns from the database than
 your application really needs to function. This causes more data to move from
 the database server to the client, slowing access and increasing load on your
 machines, as well as taking more time to travel across the network. This is
 especially true when someone adds new columns to underlying tables that didn't
-exist and weren't needed when the original consumers coded their data access.
+exist and weren't needed when the original consumers coded their data access.   
 
-● Indexing issues:  
-Consider a scenario where you want to tune a query to a high level of performance.
-If you were to use *, and it returned more columns than you actually needed,
-the server would often have to perform more expensive methods to retrieve your
-data than it otherwise might. For example, you wouldn't be able to create an index
-which simply covered the columns in your SELECT list, and even if you did
-(including all columns [shudder]), the next guy who came around and added a column
-to the underlying table would cause the optimizer to ignore your optimized covering
-index, and you'd likely find that the performance of your query would drop
-substantially for no readily apparent reason.
 
-● Binding Problems:  
-When you SELECT *, it's possible to retrieve two columns of the same name from two
-different tables. This can often crash your data consumer. Imagine a query that joins
-two tables, both of which contain a column called "ID". How would a consumer know
-which was which? SELECT * can also confuse views (at least in some versions SQL Server)
-when underlying table structures change -- the view is not rebuilt, and the data which
-comes back can be nonsense. And the worst part of it is that you can take care to name
-your columns whatever you want, but the next guy who comes along might have no way of
-knowing that he has to worry about adding a column which will collide with your
-already-developed names.
--------------------------------------------------
+● Indexing issues:   
+Consider a scenario where you want to tune a query to a high level of
+performance. If you were to use *, and it returned more columns than you
+actually needed, the server would often have to perform more expensive methods
+to retrieve your data than it otherwise might. For example, you wouldn't be able
+to create an index which simply covered the columns in your SELECT list, and
+even if you did (including all columns [shudder]), the next guy who came around
+and added a column to the underlying table would cause the optimizer to ignore
+your optimized covering index, and you'd likely find that the performance of
+your query would drop substantially for no readily apparent reason.   
+
+● Binding Problems:   
+When you SELECT *, it's possible to retrieve two columns of the same name from
+two different tables. This can often crash your data consumer. Imagine a query
+that joins two tables, both of which contain a column called "ID". How would a
+consumer know which was which? SELECT * can also confuse views (at least in some
+versions SQL Server) when underlying table structures change -- the view is not
+rebuilt, and the data which comes back can be nonsense. And the worst part of it
+is that you can take care to name your columns whatever you want, but the next
+guy who comes along might have no way of knowing that he has to worry about
+adding a column which will collide with your already-developed names.   
+[Matching Expression: select *]
+
+[latches/top_mutexes.sql]: (LOW RISK) Spaghetti Query Alert   
+● Split up a complex spaghetti query into several simpler queries:   
+SQL is a very expressive language—you can accomplish a lot in a single query
+or statement. But that doesn't mean it's mandatory or even a good idea to
+approach every task with the assumption it has to be done in one line of code.
+One common unintended consequence of producing all your results in one query is
+a Cartesian product. This happens when two of the tables in the query have no
+condition restricting their relationship. Without such a restriction, the join
+of two tables pairs each row in the first table to every row in the other table.
+Each such pairing becomes a row of the result set, and you end up with many more
+rows than you expect. It's important to consider that these queries are simply
+hard to write, hard to modify, and hard to debug. You should expect to get
+regular requests for incremental enhancements to your database applications.
+Managers want more complex reports and more fields in a user interface. If you
+design intricate, monolithic SQL queries, it's more costly and time-consuming to
+make enhancements to them. Your time is worth something, both to you and to your
+project. Split up a complex spaghetti query into several simpler queries. When
+you split up a complex SQL query, the result may be many similar queries,
+perhaps varying slightly depending on data values. Writing these queries is a
+chore, so it's a good application of SQL code generation. Although SQL makes it
+seem possible to solve a complex problem in a single line of code, don't be
+tempted to build a house of cards.   
+[Matching Expression: ]   
+
+==================== Summary ===================   
+All Anti-Patterns  :: 2   
+>  High Risk   :: 1   
+>  Medium Risk :: 0   
+>  Low Risk    :: 1   
+
 ```
 
 ## References
