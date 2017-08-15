@@ -1,3 +1,6 @@
+<img src="https://www.cs.cmu.edu/~jarulraj/images/sqlcheck.jpg" alt="SQLCheck Logo"></img>
+
+-----------------
 
 [![GitHub license](https://img.shields.io/badge/license-apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Build Status](https://travis-ci.org/jarulraj/sqlcheck.svg?branch=master)](https://travis-ci.org/jarulraj/sqlcheck)
