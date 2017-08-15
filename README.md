@@ -25,7 +25,7 @@ make
 
 ## What it can do
 
-Right now SQLCheck can find the following anti-patterns:
+Right now SQLCheck can detect the following anti-patterns:
 
 ### Logical Database Design
 
@@ -71,11 +71,13 @@ Right now SQLCheck can find the following anti-patterns:
 
 # Usage
 
--------------------------------------------------
+```
+$ ./bin/sqlcheck -f sample.sql
+```
 
-**$ ./bin/sqlcheck -f sample.sql**
+## Output
 
-(1) SQL Statement: **select * from foo;**  
+SQL Statement: **select * from foo;**   
 [Matching Expression: select *]
 
 ● **Inefficiency in moving data to the consumer:**  
@@ -107,8 +109,6 @@ comes back can be nonsense. And the worst part of it is that you can take care t
 your columns whatever you want, but the next guy who comes along might have no way of
 knowing that he has to worry about adding a column which will collide with your
 already-developed names.
-
--------------------------------------------------
 
 ## References
 
