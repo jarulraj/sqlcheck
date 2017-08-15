@@ -81,6 +81,11 @@ void Check(Configuration& state) {
     std::cout << ">  Low Risk    :: " << state.checker_stats[RISK_LEVEL_LOW] << "\n";
   }
 
+  // Skip destroying std::cin
+  if (state.file_name.empty()) {
+    input.release();
+  }
+
 }
 
 // Wrap the text
