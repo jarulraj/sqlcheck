@@ -5,11 +5,11 @@
 
 ## What Is SQLCheck?
 
-SQLCheck is a tool for detecting SQL anti-patterns. The primary goal of SQLCheck is to automate the detection of common SQL anti-patterns that often end up slowing down  SQL queries.
+SQLCheck automates the detection of common anti-patterns in SQL queries. Such anti-patterns often increase the time taken to run the queries on a database management system. Addressing these anti-patterns will, therefore, help improve the runtime performance of the queries. This tool targets all SQL dialects.   
 
 ## Installation
 
-SQLCheck requires the following tools:
+SQLCheck has the following software dependencies:
 
 - **g++ 4.9+** 
 - **cmake** (`apt-get install cmake`) 
@@ -31,10 +31,12 @@ Right now SQLCheck can find:
 
 # Usage
 
-**$ ./bin/sqlcheck sample.sql**
-
 -------------------------------------------------
-**SQL Statement:** select * from foo;  
+
+**$ ./bin/sqlcheck -f sample.sql**
+
+(1) SQL Statement: **select * from foo;**  
+[Matching Expression: select *]
 
 ● **Inefficiency in moving data to the consumer:**  
 When you SELECT *, you're often retrieving more columns from the database than
@@ -66,13 +68,11 @@ your columns whatever you want, but the next guy who comes along might have no w
 knowing that he has to worry about adding a column which will collide with your
 already-developed names.
 
-[Matching Expression: select *]
-
 -------------------------------------------------
 
 ## References
 
-(1) SQL Anti-patterns: Avoiding the Pitfalls of Database Programming, Bill Karwin
+(1) SQL Anti-patterns: Avoiding the Pitfalls of Database Programming, Bill Karwin  
 (2) [Common SQL Anti-patterns](https://stackoverflow.com/questions/346659/what-are-the-most-common-sql-anti-patterns), StackOverflow
 
 ## Contributions
@@ -84,5 +84,4 @@ Contributions to SQLCheck are always welcome. You can contribute in different wa
 
 ## License
 
-Copyright (c) 2017 [CMU Database Group](http://db.cs.cmu.edu/)  
 Licensed under the [Apache License](LICENSE).
