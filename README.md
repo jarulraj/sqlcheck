@@ -9,7 +9,7 @@ SQLCheck automates the detection of common anti-patterns in SQL queries. Such an
 
 ## Installation
 
-SQLCheck requires the following tools:
+SQLCheck has the following software dependencies:
 
 - **g++ 4.9+** 
 - **cmake** (`apt-get install cmake`) 
