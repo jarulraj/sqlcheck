@@ -13,7 +13,7 @@ void Usage() {
       "                           :  1 (all anti-patterns, default) \n"
       "                           :  2 (only medium and high risk anti-patterns) \n"
       "                           :  3 (only high risk anti-patterns) \n"
-      "   -c --no_color_mode      :  no color mode \n"
+      "   -c --color_mode         :  color mode \n"
       "   -v --verbose_mode       :  verbose mode \n";
   exit(EXIT_SUCCESS);
 }
@@ -109,7 +109,7 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
   state.file_name = ""; // standard input
   state.testing_mode = false;
   state.verbose_mode = false;
-  state.color_mode = true;
+  state.color_mode = false;
 
   // Parse args
   while (1) {
@@ -121,7 +121,7 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
 
     switch (c) {
       case 'c':
-        state.color_mode = false;
+        state.color_mode = true;
         break;
       case 'f':
         state.file_name = std::string(optarg);
