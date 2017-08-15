@@ -54,7 +54,7 @@ bool IsCreateStatement(const std::string& sql_statement){
 // LOGICAL DATABASE DESIGN
 
 
-void CheckMultiValuedAttribute(const Configuration& state,
+void CheckMultiValuedAttribute(Configuration& state,
                                const std::string& sql_statement,
                                bool& print_statement){
 
@@ -78,7 +78,7 @@ void CheckMultiValuedAttribute(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_ERROR,
+               RISK_LEVEL_HIGH,
                pattern_type,
                title,
                message,
@@ -86,7 +86,7 @@ void CheckMultiValuedAttribute(const Configuration& state,
 
 }
 
-void CheckRecursiveDependency(const Configuration& state,
+void CheckRecursiveDependency(Configuration& state,
                               const std::string& sql_statement,
                               bool& print_statement){
 
@@ -115,7 +115,7 @@ void CheckRecursiveDependency(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_ERROR,
+               RISK_LEVEL_HIGH,
                pattern_type,
                title,
                message,
@@ -123,7 +123,7 @@ void CheckRecursiveDependency(const Configuration& state,
 
 }
 
-void CheckPrimaryKeyExists(const Configuration& state,
+void CheckPrimaryKeyExists(Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement){
 
@@ -150,7 +150,7 @@ void CheckPrimaryKeyExists(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_WARN,
+               RISK_LEVEL_MEDIUM,
                pattern_type,
                title,
                message,
@@ -158,7 +158,7 @@ void CheckPrimaryKeyExists(const Configuration& state,
 
 }
 
-void CheckGenericPrimaryKey(const Configuration& state,
+void CheckGenericPrimaryKey(Configuration& state,
                             const std::string& sql_statement,
                             bool& print_statement){
 
@@ -184,7 +184,7 @@ void CheckGenericPrimaryKey(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_ERROR,
+               RISK_LEVEL_HIGH,
                pattern_type,
                title,
                message,
@@ -192,7 +192,7 @@ void CheckGenericPrimaryKey(const Configuration& state,
 
 }
 
-void CheckForeignKeyExists(const Configuration& state,
+void CheckForeignKeyExists(Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement){
 
@@ -223,7 +223,7 @@ void CheckForeignKeyExists(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_WARN,
+               RISK_LEVEL_MEDIUM,
                pattern_type,
                title,
                message,
@@ -231,7 +231,7 @@ void CheckForeignKeyExists(const Configuration& state,
 
 }
 
-void CheckVariableAttribute(const Configuration& state,
+void CheckVariableAttribute(Configuration& state,
                             const std::string& sql_statement,
                             bool& print_statement){
 
@@ -279,7 +279,7 @@ void CheckVariableAttribute(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_WARN,
+               RISK_LEVEL_MEDIUM,
                pattern_type,
                title,
                message,
@@ -287,7 +287,7 @@ void CheckVariableAttribute(const Configuration& state,
 
 }
 
-void CheckMetadataTribbles(const Configuration& state,
+void CheckMetadataTribbles(Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement){
 
@@ -332,7 +332,7 @@ void CheckMetadataTribbles(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_ERROR,
+               RISK_LEVEL_HIGH,
                pattern_type,
                title,
                message,
@@ -342,7 +342,7 @@ void CheckMetadataTribbles(const Configuration& state,
 
 // PHYSICAL DATABASE DESIGN
 
-void CheckFloat(const Configuration& state,
+void CheckFloat(Configuration& state,
                 const std::string& sql_statement,
                 bool& print_statement){
 
@@ -365,7 +365,7 @@ void CheckFloat(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_ERROR,
+               RISK_LEVEL_HIGH,
                pattern_type,
                title,
                message,
@@ -373,7 +373,7 @@ void CheckFloat(const Configuration& state,
 
 }
 
-void CheckValuesInDefinition(const Configuration& state,
+void CheckValuesInDefinition(Configuration& state,
                              const std::string& sql_statement,
                              bool& print_statement){
 
@@ -409,7 +409,7 @@ void CheckValuesInDefinition(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_WARN,
+               RISK_LEVEL_MEDIUM,
                pattern_type,
                title,
                message,
@@ -417,7 +417,7 @@ void CheckValuesInDefinition(const Configuration& state,
 
 }
 
-void CheckExternalFiles(const Configuration& state,
+void CheckExternalFiles(Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement){
 
@@ -440,7 +440,7 @@ void CheckExternalFiles(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_WARN,
+               RISK_LEVEL_MEDIUM,
                pattern_type,
                title,
                message,
@@ -448,7 +448,7 @@ void CheckExternalFiles(const Configuration& state,
 
 }
 
-void CheckIndexCount(const Configuration& state,
+void CheckIndexCount(Configuration& state,
                      const std::string& sql_statement,
                      bool& print_statement){
 
@@ -477,7 +477,7 @@ void CheckIndexCount(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_WARN,
+               RISK_LEVEL_MEDIUM,
                pattern_type,
                title,
                message,
@@ -486,7 +486,7 @@ void CheckIndexCount(const Configuration& state,
 
 }
 
-void CheckIndexAttributeOrder(const Configuration& state,
+void CheckIndexAttributeOrder(Configuration& state,
                               const std::string& sql_statement,
                               bool& print_statement){
 
@@ -509,7 +509,7 @@ void CheckIndexAttributeOrder(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -520,7 +520,7 @@ void CheckIndexAttributeOrder(const Configuration& state,
 
 // QUERY
 
-void CheckSelectStar(const Configuration& state,
+void CheckSelectStar(Configuration& state,
                      const std::string& sql_statement,
                      bool& print_statement){
 
@@ -567,7 +567,7 @@ void CheckSelectStar(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_ERROR,
+               RISK_LEVEL_HIGH,
                pattern_type,
                title,
                message,
@@ -575,7 +575,7 @@ void CheckSelectStar(const Configuration& state,
 
 }
 
-void CheckNullUsage(const Configuration& state,
+void CheckNullUsage(Configuration& state,
                     const std::string& sql_statement,
                     bool& print_statement) {
 
@@ -598,7 +598,7 @@ void CheckNullUsage(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -606,7 +606,7 @@ void CheckNullUsage(const Configuration& state,
 
 }
 
-void CheckNotNullUsage(const Configuration& state,
+void CheckNotNullUsage(Configuration& state,
                        const std::string& sql_statement,
                        bool& print_statement) {
 
@@ -629,7 +629,7 @@ void CheckNotNullUsage(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_WARN,
+               RISK_LEVEL_MEDIUM,
                pattern_type,
                title,
                message,
@@ -637,7 +637,7 @@ void CheckNotNullUsage(const Configuration& state,
 
 }
 
-void CheckConcatenation(const Configuration& state,
+void CheckConcatenation(Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement) {
 
@@ -659,7 +659,7 @@ void CheckConcatenation(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -667,7 +667,7 @@ void CheckConcatenation(const Configuration& state,
 
 }
 
-void CheckGroupByUsage(const Configuration& state,
+void CheckGroupByUsage(Configuration& state,
                        const std::string& sql_statement,
                        bool& print_statement){
 
@@ -692,7 +692,7 @@ void CheckGroupByUsage(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -701,7 +701,7 @@ void CheckGroupByUsage(const Configuration& state,
 
 }
 
-void CheckOrderByRand(const Configuration& state,
+void CheckOrderByRand(Configuration& state,
                       const std::string& sql_statement,
                       bool& print_statement){
 
@@ -728,7 +728,7 @@ void CheckOrderByRand(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_WARN,
+               RISK_LEVEL_MEDIUM,
                pattern_type,
                title,
                message,
@@ -736,7 +736,7 @@ void CheckOrderByRand(const Configuration& state,
 
 }
 
-void CheckPatternMatching(const Configuration& state,
+void CheckPatternMatching(Configuration& state,
                           const std::string& sql_statement,
                           bool& print_statement){
 
@@ -758,7 +758,7 @@ void CheckPatternMatching(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_WARN,
+               RISK_LEVEL_MEDIUM,
                pattern_type,
                title,
                message,
@@ -766,7 +766,7 @@ void CheckPatternMatching(const Configuration& state,
 
 }
 
-void CheckSpaghettiQuery(const Configuration& state,
+void CheckSpaghettiQuery(Configuration& state,
                          const std::string& sql_statement,
                          bool& print_statement){
 
@@ -812,7 +812,7 @@ void CheckSpaghettiQuery(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -820,7 +820,7 @@ void CheckSpaghettiQuery(const Configuration& state,
 
 }
 
-void CheckJoinCount(const Configuration& state,
+void CheckJoinCount(Configuration& state,
                     const std::string& sql_statement,
                     bool& print_statement){
 
@@ -838,7 +838,7 @@ void CheckJoinCount(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -847,7 +847,7 @@ void CheckJoinCount(const Configuration& state,
 
 }
 
-void CheckDistinctCount(const Configuration& state,
+void CheckDistinctCount(Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement){
 
@@ -868,7 +868,7 @@ void CheckDistinctCount(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -877,7 +877,7 @@ void CheckDistinctCount(const Configuration& state,
 
 }
 
-void CheckImplicitColumns(const Configuration& state,
+void CheckImplicitColumns(Configuration& state,
                           const std::string& sql_statement,
                           bool& print_statement){
 
@@ -897,7 +897,7 @@ void CheckImplicitColumns(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -905,7 +905,7 @@ void CheckImplicitColumns(const Configuration& state,
 
 }
 
-void CheckHaving(const Configuration& state,
+void CheckHaving(Configuration& state,
                  const std::string& sql_statement,
                  bool& print_statement){
 
@@ -926,7 +926,7 @@ void CheckHaving(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -934,7 +934,7 @@ void CheckHaving(const Configuration& state,
 
 }
 
-void CheckNesting(const Configuration& state,
+void CheckNesting(Configuration& state,
                   const std::string& sql_statement,
                   bool& print_statement){
 
@@ -961,7 +961,7 @@ void CheckNesting(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -971,7 +971,7 @@ void CheckNesting(const Configuration& state,
 
 }
 
-void CheckOr(const Configuration& state,
+void CheckOr(Configuration& state,
                  const std::string& sql_statement,
                  bool& print_statement){
 
@@ -994,7 +994,7 @@ void CheckOr(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -1002,7 +1002,7 @@ void CheckOr(const Configuration& state,
 
 }
 
-void CheckUnion(const Configuration& state,
+void CheckUnion(Configuration& state,
                 const std::string& sql_statement,
                 bool& print_statement){
 
@@ -1020,7 +1020,7 @@ void CheckUnion(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -1028,7 +1028,7 @@ void CheckUnion(const Configuration& state,
 
 }
 
-void CheckDistinctJoin(const Configuration& state,
+void CheckDistinctJoin(Configuration& state,
                        const std::string& sql_statement,
                        bool& print_statement){
 
@@ -1051,7 +1051,7 @@ void CheckDistinctJoin(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,
@@ -1063,7 +1063,7 @@ void CheckDistinctJoin(const Configuration& state,
 
 // APPLICATION
 
-void CheckReadablePasswords(const Configuration& state,
+void CheckReadablePasswords(Configuration& state,
                             const std::string& sql_statement,
                             bool& print_statement){
 
@@ -1091,7 +1091,7 @@ void CheckReadablePasswords(const Configuration& state,
                sql_statement,
                print_statement,
                pattern,
-               LOG_LEVEL_INFO,
+               RISK_LEVEL_LOW,
                pattern_type,
                title,
                message,

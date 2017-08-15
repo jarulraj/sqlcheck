@@ -8,9 +8,12 @@ void Usage() {
   std::cout <<
       "\n"
       "Command line options : sqlcheck <options>\n"
-      "   -c --color_mode         :  color mode \n"
       "   -f --file_name          :  file name\n"
-      "   -l --log_level          :  log level\n"
+      "   -r --risk_level         :  set of anti-patterns to check\n"
+      "                           :  1 (all anti-patterns, default) \n"
+      "                           :  2 (only medium and high risk anti-patterns) \n"
+      "                           :  3 (only high risk anti-patterns) \n"
+      "   -c --no_color_mode      :  no color mode \n"
       "   -v --verbose_mode       :  verbose mode \n";
   exit(EXIT_SUCCESS);
 }
@@ -18,33 +21,49 @@ void Usage() {
 static struct option opts[] = {
     {"color_mode", optional_argument, NULL, 'c'},
     {"file_name", optional_argument, NULL, 'f'},
-    {"log_level", optional_argument, NULL, 'l'},
+    {"risk_level", optional_argument, NULL, 'r'},
     {"verbose_mode", optional_argument, NULL, 'v'},
     {NULL, 0, NULL, 0}
 };
 
-std::string LogLevelToString(const LogLevel& log_level){
+std::string RiskLevelToString(const RiskLevel& log_level){
 
   switch (log_level) {
-    case LOG_LEVEL_ERROR:
-      return "ERROR";
-    case LOG_LEVEL_WARN:
-      return "WARN";
-    case LOG_LEVEL_INFO:
-      return "INFO";
-    case LOG_LEVEL_DEBUG:
-      return "DEBUG";
-    case LOG_LEVEL_TRACE:
-      return "TRACE";
-    case LOG_LEVEL_ALL:
-      return "ALL";
+    case RISK_LEVEL_HIGH:
+      return "HIGH RISK";
+    case RISK_LEVEL_MEDIUM:
+      return "MEDIUM RISK";
+    case RISK_LEVEL_LOW:
+      return "LOW RISK";
+    case RISK_LEVEL_ALL:
+      return "ALL ANTI-PATTERNS";
 
-    case LOG_LEVEL_INVALID:
+    case RISK_LEVEL_INVALID:
     default:
       return "INVALID";
   }
 
 }
+
+std::string RiskLevelToDetailedString(const RiskLevel& log_level){
+
+  switch (log_level) {
+    case RISK_LEVEL_HIGH:
+      return "ONLY HIGH RISK ANTI-PATTERNS";
+    case RISK_LEVEL_MEDIUM:
+      return "ONLY MEDIUM AND HIGH RISK ANTI-PATTERNS";
+    case RISK_LEVEL_LOW:
+      return "ALL ANTI-PATTERNS";
+    case RISK_LEVEL_ALL:
+      return "ALL ANTI-PATTERNS";
+
+    case RISK_LEVEL_INVALID:
+    default:
+      return "INVALID";
+  }
+
+}
+
 
 std::string PatternTypeToString(const PatternType& pattern_type){
 
@@ -65,20 +84,20 @@ std::string PatternTypeToString(const PatternType& pattern_type){
 
 }
 
-static void ValidateLogLevel(const Configuration &state) {
-  if (state.log_level < LOG_LEVEL_ALL || state.log_level > LOG_LEVEL_INVALID) {
-    printf("Invalid log_level :: %d\n", state.log_level);
+static void ValidateRiskLevel(const Configuration &state) {
+  if (state.risk_level < RISK_LEVEL_ALL || state.risk_level > RISK_LEVEL_HIGH) {
+    printf("INVALID RISK LEVEL :: %d\n", state.risk_level);
     exit(EXIT_FAILURE);
   }
   else {
-    printf("--> %s : %s\n", "LOG LEVEL",
-           LogLevelToString(state.log_level).c_str());
+    printf("> %s :: %s\n", "RISK LEVEL   ",
+           RiskLevelToDetailedString(state.risk_level).c_str());
   }
 }
 
 static void ValidateFileName(const Configuration &state) {
   if (state.file_name.empty() == false) {
-    printf("--> %s : %s\n", "INPUT FILE NAME",
+    printf("> %s :: %s\n", "SQL FILE NAME",
            state.file_name.c_str());
   }
 }
@@ -86,7 +105,7 @@ static void ValidateFileName(const Configuration &state) {
 void ParseArguments(int argc, char *argv[], Configuration &state) {
 
   // Default Values
-  state.log_level = LOG_LEVEL_ALL;
+  state.risk_level = RISK_LEVEL_ALL;
   state.file_name = ""; // standard input
   state.testing_mode = false;
   state.verbose_mode = false;
@@ -95,7 +114,7 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
   // Parse args
   while (1) {
     int idx = 0;
-    int c = getopt_long(argc, argv, "l:f:cvh",
+    int c = getopt_long(argc, argv, "f:cr:vh",
                         opts, &idx);
 
     if (c == -1) break;
@@ -107,8 +126,8 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
       case 'f':
         state.file_name = optarg;
         break;
-      case 'l':
-        state.log_level = (LogLevel)atoi(optarg);
+      case 'r':
+        state.risk_level = (RiskLevel)atoi(optarg);
         break;
       case 'v':
         state.verbose_mode = true;
@@ -125,10 +144,10 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
   }
 
   // Run validators
-  printf("--> %s \n", "SQLCHECK 0.1");
-
-  ValidateLogLevel(state);
+  std::cout << "-------------------------------------------------\n";
+  ValidateRiskLevel(state);
   ValidateFileName(state);
+  std::cout << "-------------------------------------------------\n";
 
 }
 

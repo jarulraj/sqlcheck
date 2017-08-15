@@ -15,15 +15,13 @@ namespace sqlcheck {
 
 #define UNUSED_ATTRIBUTE __attribute__((unused))
 
-enum LogLevel {
-  LOG_LEVEL_INVALID = 10,
+enum RiskLevel {
+  RISK_LEVEL_INVALID = 10,
 
-  LOG_LEVEL_ERROR = 5,
-  LOG_LEVEL_WARN = 4,
-  LOG_LEVEL_INFO = 3,
-  LOG_LEVEL_DEBUG = 2,
-  LOG_LEVEL_TRACE = 1,
-  LOG_LEVEL_ALL = 0
+  RISK_LEVEL_HIGH = 3,
+  RISK_LEVEL_MEDIUM = 2,
+  RISK_LEVEL_LOW = 1,
+  RISK_LEVEL_ALL = 0
 
 };
 
@@ -37,6 +35,18 @@ enum PatternType {
 
 };
 
+// Checker stats
+struct CheckerStats {
+
+  unsigned int error_level_counter = 0;
+  unsigned int warn_level_counter = 0;
+  unsigned int info_level_counter = 0;
+  unsigned int debug_level_counter = 0;
+  unsigned int trace_level_counter = 0;
+  unsigned int all_level_counter = 0;
+
+};
+
 class Configuration {
  public:
 
@@ -45,7 +55,7 @@ class Configuration {
    :
      color_mode(true),
      file_name(""),
-     log_level(LogLevel::LOG_LEVEL_ALL),
+     risk_level(RiskLevel::RISK_LEVEL_ALL),
      verbose_mode(false),
      testing_mode(false) {
   }
@@ -56,8 +66,8 @@ class Configuration {
   // filename
   std::string file_name;
 
-  // log level
-  LogLevel log_level;
+  // risk level
+  RiskLevel risk_level;
 
   // verbose mode
   bool verbose_mode;
@@ -68,9 +78,14 @@ class Configuration {
   // testing mode
   bool testing_mode;
 
+  /// checker stats
+  unsigned int checker_stats[6];
+
 };
 
-std::string LogLevelToString(const LogLevel& log_level);
+std::string RiskLevelToString(const RiskLevel& log_level);
+
+std::string RiskLevelToDetailedString(const RiskLevel& log_level);
 
 void Usage(FILE *out);
 

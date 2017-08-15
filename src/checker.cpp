@@ -32,7 +32,7 @@ void Check(Configuration& state) {
     input.reset(&std::cin);
   }
   else {
-    std::cout << "Checking " << state.file_name << "...\n";
+    //std::cout << "Checking " << state.file_name << "...\n";
     input.reset(new std::ifstream(state.file_name.c_str()));
   }
 
@@ -40,6 +40,8 @@ void Check(Configuration& state) {
   size_t fragment_size = 4096;
   char buffer[fragment_size];
   char delimiter = ';';
+
+  std::cout << "==================== Results ===================\n";
 
   // Go over the input stream
   while(!input->eof()){
@@ -67,12 +69,24 @@ void Check(Configuration& state) {
 
   }
 
+  // Print summary
+  if(state.checker_stats[RISK_LEVEL_ALL] == 0){
+    std::cout << "No issues found.\n";
+  }
+  else {
+    std::cout << "\n==================== Summary ===================\n";
+    std::cout << "All Anti-Patterns  :: " << state.checker_stats[RISK_LEVEL_ALL] << "\n";
+    std::cout << ">  High Risk   :: " << state.checker_stats[RISK_LEVEL_HIGH] << "\n";
+    std::cout << ">  Medium Risk :: " << state.checker_stats[RISK_LEVEL_MEDIUM] << "\n";
+    std::cout << ">  Low Risk    :: " << state.checker_stats[RISK_LEVEL_LOW] << "\n";
+  }
+
 }
 
-void PrintMessage(const Configuration& state,
+void PrintMessage(Configuration& state,
                   const std::string sql_statement,
                   const bool print_statement,
-                  const LogLevel pattern_level,
+                  const RiskLevel pattern_issue_level,
                   const std::string title,
                   const std::string message){
 
@@ -98,7 +112,7 @@ void PrintMessage(const Configuration& state,
       std::cout << "[" << state.file_name << "]: ";
     }
 
-    std::cout << "(" << green << LogLevelToString(pattern_level) << regular << ") ";
+    std::cout << "(" << green << RiskLevelToString(pattern_issue_level) << regular << ") ";
     std::cout << blue << title << regular << "\n";
   }
   else {
@@ -106,7 +120,7 @@ void PrintMessage(const Configuration& state,
       std::cout << "[" << state.file_name << "]: ";
     }
 
-    std::cout << "(" << LogLevelToString(pattern_level) << ") ";
+    std::cout << "(" << RiskLevelToString(pattern_issue_level) << ") ";
     std::cout << title << "\n";
   }
 
@@ -115,13 +129,17 @@ void PrintMessage(const Configuration& state,
     std::cout << message << "\n";
   }
 
+  // Update checker stats
+  state.checker_stats[pattern_issue_level]++;
+  state.checker_stats[RISK_LEVEL_ALL]++;
+
 }
 
-void CheckPattern(const Configuration& state,
+void CheckPattern(Configuration& state,
                   const std::string& sql_statement,
                   bool& print_statement,
                   const std::regex& anti_pattern,
-                  const LogLevel pattern_level,
+                  const RiskLevel pattern_level,
                   UNUSED_ATTRIBUTE const PatternType pattern_type,
                   const std::string title,
                   const std::string message,
@@ -132,7 +150,7 @@ void CheckPattern(const Configuration& state,
   //std::cout << "CHECKER LEVEL: " << state.log_level << "\n";
 
   // Check log level
-  if(pattern_level < state.log_level){
+  if(pattern_level < state.risk_level){
     return;
   }
 
@@ -181,7 +199,7 @@ void CheckPattern(const Configuration& state,
 
 }
 
-void CheckStatement(const Configuration& state,
+void CheckStatement(Configuration& state,
                     const std::string& sql_statement){
 
   // TRANSFORM TO LOWER CASE

@@ -8,125 +8,125 @@ namespace sqlcheck {
 
 // LOGICAL DATABASE DESIGN
 
-void CheckMultiValuedAttribute(const Configuration& state,
+void CheckMultiValuedAttribute(Configuration& state,
                                const std::string& sql_statement,
                                bool& print_statement);
 
-void CheckRecursiveDependency(const Configuration& state,
+void CheckRecursiveDependency(Configuration& state,
                               const std::string& sql_statement,
                               bool& print_statement);
 
-void CheckPrimaryKeyExists(const Configuration& state,
+void CheckPrimaryKeyExists(Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement);
 
-void CheckGenericPrimaryKey(const Configuration& state,
+void CheckGenericPrimaryKey(Configuration& state,
                             const std::string& sql_statement,
                             bool& print_statement);
 
-void CheckForeignKeyExists(const Configuration& state,
+void CheckForeignKeyExists(Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement);
 
-void CheckVariableAttribute(const Configuration& state,
+void CheckVariableAttribute(Configuration& state,
                             const std::string& sql_statement,
                             bool& print_statement);
 
-void CheckMetadataTribbles(const Configuration& state,
+void CheckMetadataTribbles(Configuration& state,
                            const std::string& sql_statement,
                            bool& print_statement);
 
 // PHYSICAL DATABASE DESIGN
 
-void CheckFloat(const Configuration& state,
+void CheckFloat(Configuration& state,
                 const std::string& sql_statement,
                 bool& print_statement);
 
-void CheckValuesInDefinition(const Configuration& state,
+void CheckValuesInDefinition(Configuration& state,
                              const std::string& sql_statement,
                              bool& print_statement);
 
-void CheckExternalFiles(const Configuration& state,
+void CheckExternalFiles(Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement);
 
-void CheckIndexCount(const Configuration& state,
+void CheckIndexCount(Configuration& state,
                      const std::string& sql_statement,
                      bool& print_statement);
 
-void CheckIndexAttributeOrder(const Configuration& state,
+void CheckIndexAttributeOrder(Configuration& state,
                               const std::string& sql_statement,
                               bool& print_statement);
 
 // QUERY
 
-void CheckSelectStar(const Configuration& state,
+void CheckSelectStar(Configuration& state,
                      const std::string& sql_statement,
                      bool& print_statement);
 
-void CheckNullUsage(const Configuration& state,
+void CheckNullUsage(Configuration& state,
                     const std::string& sql_statement,
                     bool& print_statement);
 
-void CheckNotNullUsage(const Configuration& state,
+void CheckNotNullUsage(Configuration& state,
                        const std::string& sql_statement,
                        bool& print_statement);
 
-void CheckConcatenation(const Configuration& state,
+void CheckConcatenation(Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement);
 
-void CheckGroupByUsage(const Configuration& state,
+void CheckGroupByUsage(Configuration& state,
                        const std::string& sql_statement,
                        bool& print_statement);
 
-void CheckOrderByRand(const Configuration& state,
+void CheckOrderByRand(Configuration& state,
                       const std::string& sql_statement,
                       bool& print_statement);
 
-void CheckPatternMatching(const Configuration& state,
+void CheckPatternMatching(Configuration& state,
                           const std::string& sql_statement,
                           bool& print_statement);
 
-void CheckSpaghettiQuery(const Configuration& state,
+void CheckSpaghettiQuery(Configuration& state,
                          const std::string& sql_statement,
                          bool& print_statement);
 
-void CheckJoinCount(const Configuration& state,
+void CheckJoinCount(Configuration& state,
                          const std::string& sql_statement,
                          bool& print_statement);
 
-void CheckDistinctCount(const Configuration& state,
+void CheckDistinctCount(Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement);
 
-void CheckImplicitColumns(const Configuration& state,
+void CheckImplicitColumns(Configuration& state,
                           const std::string& sql_statement,
                           bool& print_statement);
 
-void CheckHaving(const Configuration& state,
+void CheckHaving(Configuration& state,
                  const std::string& sql_statement,
                  bool& print_statement);
 
-void CheckNesting(const Configuration& state,
+void CheckNesting(Configuration& state,
                   const std::string& sql_statement,
                   bool& print_statement);
 
-void CheckOr(const Configuration& state,
+void CheckOr(Configuration& state,
              const std::string& sql_statement,
              bool& print_statement);
 
-void CheckUnion(const Configuration& state,
+void CheckUnion(Configuration& state,
                 const std::string& sql_statement,
                 bool& print_statement);
 
-void CheckDistinctJoin(const Configuration& state,
+void CheckDistinctJoin(Configuration& state,
                        const std::string& sql_statement,
                        bool& print_statement);
 
 // APPLICATION
 
-void CheckReadablePasswords(const Configuration& state,
+void CheckReadablePasswords(Configuration& state,
                             const std::string& sql_statement,
                             bool& print_statement);
 

@@ -12,15 +12,15 @@ namespace sqlcheck {
 void Check(Configuration& state);
 
 // Check a SQL statement
-void CheckStatement(const Configuration& state,
+void CheckStatement(Configuration& state,
                     const std::string& sql_statement);
 
 // Check a pattern
-void CheckPattern(const Configuration& state,
+void CheckPattern(Configuration& state,
                   const std::string& sql_statement,
                   bool& print_statement,
                   const std::regex& anti_pattern,
-                  const LogLevel pattern_level,
+                  const RiskLevel pattern_level,
                   const PatternType pattern_type,
                   const std::string title,
                   const std::string message,
