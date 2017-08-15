@@ -85,7 +85,6 @@ Command line options : sqlcheck <options>
 
 $ ./bin/sqlcheck -f sample.sql -v 
 
-```
 -------------------------------------------------
 > RISK LEVEL    :: ALL ANTI-PATTERNS
 > SQL FILE NAME :: latches/top_mutexes.sql
@@ -156,7 +155,6 @@ perhaps varying slightly depending on data values. Writing these queries is a
 chore, so it's a good application of SQL code generation. Although SQL makes it
 seem possible to solve a complex problem in a single line of code, don't be
 tempted to build a house of cards.   
-[Matching Expression: ]   
 
 ==================== Summary ===================   
 All Anti-Patterns  :: 2   
