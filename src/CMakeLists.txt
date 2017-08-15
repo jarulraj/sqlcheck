@@ -19,3 +19,6 @@ ${GTEST_BOTH_LIBRARIES}
 ${GLOG_LIBRARIES} 
 ${CMAKE_THREAD_LIBS_INIT}
 )
+
+# Add installation target
+install (TARGETS sqlcheck sqlcheck_library DESTINATION bin)

@@ -12,15 +12,16 @@ SQLCheck automates the detection of common anti-patterns in SQL queries. Such an
 SQLCheck has the following software dependencies:
 
 - **g++ 4.9+** 
-- **cmake** (`apt-get install cmake`) 
+- **cmake** ([Cmake installation guide](https://cmake.org/install/)) 
 
-Run the following commands to install SQLCheck:
+Run the following commands to build and install SQLCheck:
 
 ```
 ./bootstrap
 cd build
 cmake -DCMAKE_BUILD_TYPE=RELEASE ..
 make
+make install
 ```
 
 ## What it can do
@@ -72,7 +73,7 @@ Right now SQLCheck can detect the following anti-patterns:
 # Usage
 
 ```
-$ ./bin/sqlcheck -h
+$ sqlcheck -h
 
 Command line options : sqlcheck <options>
    -f --file_name          :  file name
@@ -83,7 +84,7 @@ Command line options : sqlcheck <options>
    -c --color_mode         :  color mode 
    -v --verbose_mode       :  verbose mode 
 
-$ ./bin/sqlcheck -f sample.sql -v 
+$ sqlcheck -f sample.sql -v 
 
 -------------------------------------------------
 > RISK LEVEL    :: ALL ANTI-PATTERNS
