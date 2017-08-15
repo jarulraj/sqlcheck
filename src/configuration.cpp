@@ -69,13 +69,13 @@ std::string PatternTypeToString(const PatternType& pattern_type){
 
   switch (pattern_type) {
     case PATTERN_TYPE_PHYSICAL_DATABASE_DESIGN:
-      return "PHYSICAL_DATABASE_DESIGN";
+      return "PHYSICAL_DATABASE_DESIGN ANTI-PATTERN";
     case PATTERN_TYPE_LOGICAL_DATABASE_DESIGN:
-      return "LOGICAL_DATABASE_DESIGN";
+      return "LOGICAL_DATABASE_DESIGN ANTI-PATTERN";
     case PATTERN_TYPE_QUERY:
-      return "QUERY";
+      return "QUERY ANTI-PATTERN";
     case PATTERN_TYPE_APPLICATION:
-      return "APPLICATION";
+      return "APPLICATION ANTI-PATTERN";
 
     case PATTERN_TYPE_INVALID:
     default:

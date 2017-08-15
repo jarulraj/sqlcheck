@@ -88,11 +88,11 @@ Command line options : sqlcheck <options>
    -c --color_mode         :  color mode 
    -v --verbose_mode       :  verbose mode 
 
-$ sqlcheck -f sample.sql -v 
+$ sqlcheck -f examples/top_mutexes.sql -v 
 
 -------------------------------------------------
 > RISK LEVEL    :: ALL ANTI-PATTERNS
-> SQL FILE NAME :: latches/top_mutexes.sql
+> SQL FILE NAME :: examples/top_mutexes.sql
 -------------------------------------------------
 ==================== Results ===================
 
@@ -105,7 +105,7 @@ no_merge */ sum(level) a from dual connect by level<=1e6) v1 ,v$timer t2
 ,v$mutex_sleep s2 where s1.mutex_type=s2.mutex_type and s1.location=s2.location
 ) select * from top_mutexes order by delta_sleeps desc;
 
-[latches/top_mutexes.sql]: (HIGH RISK) SELECT *   
+[examples/top_mutexes.sql]: (HIGH RISK) (QUERY ANTI-PATTERN) SELECT *   
 ● Inefficiency in moving data to the consumer:   
 When you SELECT *, you're often retrieving more columns from the database than
 your application really needs to function. This causes more data to move from
@@ -138,7 +138,7 @@ guy who comes along might have no way of knowing that he has to worry about
 adding a column which will collide with your already-developed names.   
 [Matching Expression: select *]
 
-[latches/top_mutexes.sql]: (LOW RISK) Spaghetti Query Alert   
+[examples/top_mutexes.sql]: (LOW RISK) (QUERY ANTI-PATTERN) Spaghetti Query Alert   
 ● Split up a complex spaghetti query into several simpler queries:   
 SQL is a very expressive language—you can accomplish a lot in a single query
 or statement. But that doesn't mean it's mandatory or even a good idea to
