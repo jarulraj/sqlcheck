@@ -10,6 +10,7 @@
 #include <cctype>
 #include <functional>
 #include <regex>
+#include <map>
 
 #include "checker.h"
 
