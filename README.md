@@ -13,6 +13,28 @@ SQLCheck automates the detection of common anti-patterns in SQL queries. Such an
 
 ## Installation
 
+### Release Binaries
+
+Download the appropriate binaries from the latest release and install them.
+
+For instance, on a Debian-based Linux (ex: Ubuntu):
+
+```
+wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.deb
+sudo dpkg -i SQLCheck-1.0.5-1.x86_64.deb
+```
+
+Or directly run the binary:
+
+```
+wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.zip
+unzip SQLCheck-1.0.5-1.x86_64.zip
+cd SQLCheck-1.0.5-1.x86_64/bin/
+./sqlcheck
+```
+
+### Source Files
+
 SQLCheck has the following software dependencies:
 
 - **g++ 4.9+** 
@@ -27,6 +49,8 @@ git clone --recursive https://github.com/jarulraj/sqlcheck.git
 Next, run the following commands to build and install SQLCheck:
 
 ```
+wget https://github.com/jarulraj/sqlcheck/files/1226113/SQLCheck-1.0.5-1.x86_64.zip
+
 ./bootstrap
 cd build
 cmake -DCMAKE_BUILD_TYPE=RELEASE ..
