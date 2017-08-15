@@ -12,6 +12,7 @@ TEST(BasicTest, SelectStarTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose_mode = true;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(

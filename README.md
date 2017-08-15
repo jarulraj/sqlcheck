@@ -24,48 +24,55 @@ make
 ```
 
 ## What it can do
-Right now Gixy can find:
+
+Right now SQLCheck can find:
+
   * [[ssrf] Server Side Request Forgery](https://github.com/yandex/gixy/blob/master/docs/en/plugins/ssrf.md)
-  * [[http_splitting] HTTP Splitting](https://github.com/yandex/gixy/blob/master/docs/en/plugins/httpsplitting.md)
-  * [[origins] Problems with referrer/origin validation](https://github.com/yandex/gixy/blob/master/docs/en/plugins/origins.md)
-  * [[add_header_redefinition] Redefining of response headers by  "add_header" directive](https://github.com/yandex/gixy/blob/master/docs/en/plugins/addheaderredefinition.md)
-  * [[host_spoofing] Request's Host header forgery](https://github.com/yandex/gixy/blob/master/docs/en/plugins/hostspoofing.md)
-  * [[valid_referers] none in valid_referers](https://github.com/yandex/gixy/blob/master/docs/en/plugins/validreferers.md)
-  * [[add_header_multiline] Multiline response headers](https://github.com/yandex/gixy/blob/master/docs/en/plugins/addheadermultiline.md)
-
-You can find things that Gixy is learning to detect at [Issues labeled with "new plugin"](https://github.com/yandex/gixy/issues?q=is%3Aissue+is%3Aopen+label%3A%22new+plugin%22)
-
 
 # Usage
-By default Gixy will try to analyze Nginx configuration placed in `/etc/nginx/nginx.conf`.
 
-But you can always specify needed path:
+
 ```
-$ gixy /etc/nginx/nginx.conf
+$ ./bin/sqlcheck sample.sql
 
-==================== Results ===================
+-------------------------------------------------
+**SQL Statement:** select * from foo;
+(ERROR) SELECT *
+● **Inefficiency in moving data to the consumer:**
+When you SELECT *, you're often retrieving more columns from the database than
+your application really needs to function. This causes more data to move from
+the database server to the client, slowing access and increasing load on your
+machines, as well as taking more time to travel across the network. This is
+especially true when someone adds new columns to underlying tables that didn't
+exist and weren't needed when the original consumers coded their data access.
 
-Problem: [http_splitting] Possible HTTP-Splitting vulnerability.
-Description: Using variables that can contain "\n" may lead to http injection.
-Additional info: https://github.com/yandex/gixy/blob/master/docs/ru/plugins/httpsplitting.md
-Reason: At least variable "$action" can contain "\n"
-Pseudo config:
-include /etc/nginx/sites/default.conf;
+● **Indexing issues:**
+Consider a scenario where you want to tune a query to a high level of performance.
+If you were to use *, and it returned more columns than you actually needed,
+the server would often have to perform more expensive methods to retrieve your
+data than it otherwise might. For example, you wouldn't be able to create an index
+which simply covered the columns in your SELECT list, and even if you did
+(including all columns [shudder]), the next guy who came around and added a column
+to the underlying table would cause the optimizer to ignore your optimized covering
+index, and you'd likely find that the performance of your query would drop
+substantially for no readily apparent reason.
 
-	server {
+● **Binding Problems:**
+When you SELECT *, it's possible to retrieve two columns of the same name from two
+different tables. This can often crash your data consumer. Imagine a query that joins
+two tables, both of which contain a column called "ID". How would a consumer know
+which was which? SELECT * can also confuse views (at least in some versions SQL Server)
+when underlying table structures change -- the view is not rebuilt, and the data which
+comes back can be nonsense. And the worst part of it is that you can take care to name
+your columns whatever you want, but the next guy who comes along might have no way of
+knowing that he has to worry about adding a column which will collide with your
+already-developed names.
 
-		location ~ /v1/((?<action>[^.]*)\.json)?$ {
-			add_header X-Action $action;
-		}
-	}
+[Matching Expression: select *]
+
+-------------------------------------------------
 
 
-==================== Summary ===================
-Total issues:
-    Unspecified: 0
-    Low: 0
-    Medium: 0
-    High: 1
 ```
 
 
