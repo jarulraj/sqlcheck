@@ -75,6 +75,10 @@ already-developed names.
 
 ```
 
+## References
+
+(1) SQL Anti-patterns: Avoiding the Pitfalls of Database Programming, Bill Karwin
+(2) [Common SQL Anti-patterns](https://stackoverflow.com/questions/346659/what-are-the-most-common-sql-anti-patterns), StackOverflow
 
 ## Contributions
 
