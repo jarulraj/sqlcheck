@@ -49,8 +49,6 @@ git clone --recursive https://github.com/jarulraj/sqlcheck.git
 Next, run the following commands to build and install SQLCheck:
 
 ```
-wget https://github.com/jarulraj/sqlcheck/files/1226113/SQLCheck-1.0.5-1.x86_64.zip
-
 ./bootstrap
 cd build
 cmake -DCMAKE_BUILD_TYPE=RELEASE ..
