@@ -496,7 +496,7 @@ void CheckIndexAttributeOrder(const Configuration& state,
   PatternType pattern_type = PatternType::PATTERN_TYPE_PHYSICAL_DATABASE_DESIGN;
 
   auto message =
-      "● Don't create too many indexes:\n"
+      "● Align the index attribute order with queries:\n"
       "If you create a compound index for the columns, make sure that the query\n"
       "attributes are in the same order as the index attributes, so that the DBMS\n"
       "can use the index while processing the query.\n"
