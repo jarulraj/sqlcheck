@@ -84,9 +84,11 @@ class Configuration {
 
 };
 
-std::string RiskLevelToString(const RiskLevel& log_level);
+std::string RiskLevelToString(const RiskLevel& risk_level);
 
-std::string RiskLevelToDetailedString(const RiskLevel& log_level);
+std::string RiskLevelToDetailedString(const RiskLevel& risk_level);
+
+std::string PatternTypeToString(const PatternType& pattern_type);
 
 void Usage(FILE *out);
 

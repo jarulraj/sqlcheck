@@ -138,7 +138,8 @@ std::string WrapText(const std::string& text){
 void PrintMessage(Configuration& state,
                   const std::string sql_statement,
                   const bool print_statement,
-                  const RiskLevel pattern_issue_level,
+                  const RiskLevel pattern_risk_level,
+                  const PatternType pattern_type,
                   const std::string title,
                   const std::string message){
 
@@ -164,7 +165,7 @@ void PrintMessage(Configuration& state,
       std::cout << "[" << state.file_name << "]: ";
     }
 
-    std::cout << "(" << green << RiskLevelToString(pattern_issue_level) << regular << ") ";
+    std::cout << "(" << green << RiskLevelToString(pattern_risk_level) << regular << ") ";
     std::cout << blue << title << regular << "\n";
   }
   else {
@@ -172,7 +173,8 @@ void PrintMessage(Configuration& state,
       std::cout << "[" << state.file_name << "]: ";
     }
 
-    std::cout << "(" << RiskLevelToString(pattern_issue_level) << ") ";
+    std::cout << "(" << RiskLevelToString(pattern_risk_level) << ") ";
+    std::cout << "(" << PatternTypeToString(pattern_type) << ") ";
     std::cout << title << "\n";
   }
 
@@ -182,7 +184,7 @@ void PrintMessage(Configuration& state,
   }
 
   // Update checker stats
-  state.checker_stats[pattern_issue_level]++;
+  state.checker_stats[pattern_risk_level]++;
   state.checker_stats[RISK_LEVEL_ALL]++;
 
 }
@@ -191,18 +193,18 @@ void CheckPattern(Configuration& state,
                   const std::string& sql_statement,
                   bool& print_statement,
                   const std::regex& anti_pattern,
-                  const RiskLevel pattern_level,
-                  UNUSED_ATTRIBUTE const PatternType pattern_type,
+                  const RiskLevel pattern_risk_level,
+                  const PatternType pattern_type,
                   const std::string title,
                   const std::string message,
                   const bool exists,
                   const size_t min_count){
 
-  //std::cout << "PATTERN LEVEL: " << pattern_level << "\n";
+  //std::cout << "PATTERN LEVEL: " << pattern_risk_level << "\n";
   //std::cout << "CHECKER LEVEL: " << state.log_level << "\n";
 
   // Check log level
-  if(pattern_level < state.risk_level){
+  if(pattern_risk_level < state.risk_level){
     return;
   }
 
@@ -230,7 +232,8 @@ void CheckPattern(Configuration& state,
     PrintMessage(state,
                  sql_statement,
                  print_statement,
-                 pattern_level,
+                 pattern_risk_level,
+                 pattern_type,
                  title,
                  message);
 

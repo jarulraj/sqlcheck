@@ -26,9 +26,9 @@ static struct option opts[] = {
     {NULL, 0, NULL, 0}
 };
 
-std::string RiskLevelToString(const RiskLevel& log_level){
+std::string RiskLevelToString(const RiskLevel& risk_level){
 
-  switch (log_level) {
+  switch (risk_level) {
     case RISK_LEVEL_HIGH:
       return "HIGH RISK";
     case RISK_LEVEL_MEDIUM:
@@ -45,9 +45,9 @@ std::string RiskLevelToString(const RiskLevel& log_level){
 
 }
 
-std::string RiskLevelToDetailedString(const RiskLevel& log_level){
+std::string RiskLevelToDetailedString(const RiskLevel& risk_level){
 
-  switch (log_level) {
+  switch (risk_level) {
     case RISK_LEVEL_HIGH:
       return "ONLY HIGH RISK ANTI-PATTERNS";
     case RISK_LEVEL_MEDIUM:
