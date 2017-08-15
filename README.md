@@ -5,7 +5,7 @@
 
 ## What Is SQLCheck?
 
-SQLCheck is a tool for detecting SQL anti-patterns. The primary goal of SQLCheck is to automate the detection of common SQL anti-patterns that often end up slowing down  SQL queries.
+SQLCheck automates the detection of common anti-patterns in SQL queries. Such anti-patterns often increase the time taken to run the queries on a database management system. Addressing these anti-patterns will, therefore, help improve the runtime performance of the queries. This tool targets all SQL dialects.   
 
 ## Installation
 
