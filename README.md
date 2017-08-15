@@ -84,5 +84,4 @@ Contributions to SQLCheck are always welcome. You can contribute in different wa
 
 ## License
 
-Copyright (c) 2017 [CMU Database Group](http://db.cs.cmu.edu/)  
 Licensed under the [Apache License](LICENSE).
