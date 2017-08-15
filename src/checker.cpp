@@ -83,6 +83,43 @@ void Check(Configuration& state) {
 
 }
 
+// Wrap the text
+std::string WrapText(const std::string& text){
+
+  size_t line_length = 80;
+
+  std::istringstream words(text);
+  std::ostringstream wrapped;
+  std::string word;
+  bool newline = false;
+
+  if (words >> word) {
+    wrapped << word;
+
+    size_t space_left = line_length - word.length();
+    while (words >> word) {
+      if (space_left < word.length() + 1 || newline) {
+        wrapped << '\n' << word;
+        space_left = line_length - word.length();
+      }
+      else {
+        wrapped << ' ' << word;
+        space_left -= word.length() + 1;
+      }
+
+      if(word.back() == ':'){
+        newline = true;
+      }
+      else{
+        newline = false;
+      }
+    }
+
+  }
+
+  return wrapped.str();
+}
+
 void PrintMessage(Configuration& state,
                   const std::string sql_statement,
                   const bool print_statement,
@@ -100,10 +137,10 @@ void PrintMessage(Configuration& state,
     ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode, false);
 
     if(state.color_mode == true){
-      std::cout << "SQL Statement: " << red << sql_statement << regular << "\n";
+      std::cout << "SQL Statement: " << red << WrapText(sql_statement) << regular << "\n";
     }
     else {
-      std::cout << "SQL Statement: " << sql_statement << "\n";
+      std::cout << "SQL Statement: " << WrapText(sql_statement) << "\n";
     }
   }
 
@@ -126,7 +163,7 @@ void PrintMessage(Configuration& state,
 
   // Print detailed message only in verbose mode
   if(state.verbose_mode == true){
-    std::cout << message << "\n";
+    std::cout << WrapText(message) << "\n";
   }
 
   // Update checker stats
