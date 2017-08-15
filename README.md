@@ -16,9 +16,16 @@ SQLCheck automates the detection of common anti-patterns in SQL queries. Such an
 SQLCheck has the following software dependencies:
 
 - **g++ 4.9+** 
-- **cmake** ([Cmake installation guide](https://cmake.org/install/)) 
+- **cmake** ([Cmake installation guide](https://cmake.org/install/))
 
-Run the following commands to build and install SQLCheck:
+First, clone the repository (with **--recursive** option).
+
+```
+git clone --recursive https://github.com/jarulraj/sqlcheck.git
+
+```
+
+Next, run the following commands to build and install SQLCheck:
 
 ```
 ./bootstrap
