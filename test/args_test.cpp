@@ -10,7 +10,7 @@ namespace sqlcheck {
 
 TEST(ArgsTest, ValidateArgs) {
 
-  char *argv[] = {"sqlcheck", "-l 3", "-f foo.txt", NULL};
+  char *argv[] = {"sqlcheck", "-r 3", "-c", "-v", "-f foo.txt", NULL};
   int argc = sizeof(argv) / sizeof(char*) - 1;
 
   Configuration state;
