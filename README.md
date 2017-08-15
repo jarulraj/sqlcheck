@@ -22,7 +22,6 @@ First, clone the repository (with **--recursive** option).
 
 ```
 git clone --recursive https://github.com/jarulraj/sqlcheck.git
-
 ```
 
 Next, run the following commands to build and install SQLCheck:
