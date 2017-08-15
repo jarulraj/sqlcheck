@@ -31,14 +31,12 @@ Right now SQLCheck can find:
 
 # Usage
 
-
-```
-$ ./bin/sqlcheck sample.sql
+**$ ./bin/sqlcheck sample.sql**
 
 -------------------------------------------------
-**SQL Statement:** select * from foo;
-(ERROR) SELECT *
-● **Inefficiency in moving data to the consumer:**
+**SQL Statement:** select * from foo;  
+
+● **Inefficiency in moving data to the consumer:**  
 When you SELECT *, you're often retrieving more columns from the database than
 your application really needs to function. This causes more data to move from
 the database server to the client, slowing access and increasing load on your
@@ -46,7 +44,7 @@ machines, as well as taking more time to travel across the network. This is
 especially true when someone adds new columns to underlying tables that didn't
 exist and weren't needed when the original consumers coded their data access.
 
-● **Indexing issues:**
+● **Indexing issues:**  
 Consider a scenario where you want to tune a query to a high level of performance.
 If you were to use *, and it returned more columns than you actually needed,
 the server would often have to perform more expensive methods to retrieve your
@@ -57,7 +55,7 @@ to the underlying table would cause the optimizer to ignore your optimized cover
 index, and you'd likely find that the performance of your query would drop
 substantially for no readily apparent reason.
 
-● **Binding Problems:**
+● **Binding Problems:**  
 When you SELECT *, it's possible to retrieve two columns of the same name from two
 different tables. This can often crash your data consumer. Imagine a query that joins
 two tables, both of which contain a column called "ID". How would a consumer know
@@ -71,10 +69,6 @@ already-developed names.
 [Matching Expression: select *]
 
 -------------------------------------------------
-
-
-```
-
 
 ## Contributions
 
