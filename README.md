@@ -34,7 +34,7 @@ Right now SQLCheck can find:
 **$ ./bin/sqlcheck sample.sql**
 
 -------------------------------------------------
-**SQL Statement:** select * from foo;  
+SQL Statement: **select * from foo;**  
 
 ● **Inefficiency in moving data to the consumer:**  
 When you SELECT *, you're often retrieving more columns from the database than
@@ -72,7 +72,7 @@ already-developed names.
 
 ## References
 
-(1) SQL Anti-patterns: Avoiding the Pitfalls of Database Programming, Bill Karwin
+(1) SQL Anti-patterns: Avoiding the Pitfalls of Database Programming, Bill Karwin  
 (2) [Common SQL Anti-patterns](https://stackoverflow.com/questions/346659/what-are-the-most-common-sql-anti-patterns), StackOverflow
 
 ## Contributions
