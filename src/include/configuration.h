@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 #include <memory>
+#include <map>
 
 namespace sqlcheck {
 
@@ -79,7 +80,7 @@ class Configuration {
   bool testing_mode;
 
   /// checker stats
-  unsigned int checker_stats[6];
+  std::map<int, int> checker_stats;
 
 };
 

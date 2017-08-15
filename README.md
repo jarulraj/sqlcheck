@@ -30,7 +30,7 @@ Right now SQLCheck can detect the following anti-patterns:
 ### Logical Database Design
 
   * [Multi-Valued Attribute](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1001.md)
-  * [Metadata Tribbles](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1002.md)
+  * [Recursive Dependency](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1002.md)
   * [Primary Key Does Not Exist](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1003.md)
   * [Generic Primary Key](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1004.md)
   * [Foreign Key Does Not Exist](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1005.md)
@@ -72,7 +72,7 @@ Right now SQLCheck can detect the following anti-patterns:
 # Usage
 
 ```
-$ ./bin/sqlcheck -f sample.sql
+$ ./bin/sqlcheck -f sample.sql -r 2 -v 
 
 -------------------------------------------------
 SQL Statement: select * from foo;

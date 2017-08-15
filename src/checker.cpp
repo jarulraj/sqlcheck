@@ -92,18 +92,33 @@ std::string WrapText(const std::string& text){
   std::ostringstream wrapped;
   std::string word;
   bool newline = false;
+  bool newpara = false;
 
   if (words >> word) {
+
     wrapped << word;
 
     size_t space_left = line_length - word.length();
     while (words >> word) {
+      if(word == "●"){
+        wrapped << "\n\n";
+        newpara = true;
+      }
+      else{
+        newpara = false;
+      }
+
       if (space_left < word.length() + 1 || newline) {
         wrapped << '\n' << word;
         space_left = line_length - word.length();
       }
       else {
-        wrapped << ' ' << word;
+        if(newpara == false){
+          wrapped << ' ' << word;
+        }
+        else{
+          wrapped << word;
+        }
         space_left -= word.length() + 1;
       }
 
@@ -211,6 +226,7 @@ void CheckPattern(Configuration& state,
   }
 
   if(found == exists && count > min_count){
+
     PrintMessage(state,
                  sql_statement,
                  print_statement,
@@ -221,13 +237,13 @@ void CheckPattern(Configuration& state,
     if(exists == true){
       ColorModifier blue(ColorCode::FG_BLUE, state.color_mode, true);
       ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode, false);
-
       if(state.color_mode == true){
-        std::cout << "[Matching Expression: " << blue << match.str(0) << regular << "]\n";
+        std::cout << "[Matching Expression: " << blue << match.str(0) << regular << "]";
       }
       else{
-        std::cout << "[Matching Expression: " << match.str(0) << "]\n";
+        std::cout << "[Matching Expression: " << match.str(0) << "]";
       }
+      std::cout << "\n\n";
     }
 
     // TOGGLE PRINT STATEMENT

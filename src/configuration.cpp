@@ -124,7 +124,7 @@ void ParseArguments(int argc, char *argv[], Configuration &state) {
         state.color_mode = false;
         break;
       case 'f':
-        state.file_name = optarg;
+        state.file_name = std::string(optarg);
         break;
       case 'r':
         state.risk_level = (RiskLevel)atoi(optarg);
