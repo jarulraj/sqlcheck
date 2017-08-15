@@ -27,7 +27,7 @@ make
 
 Right now SQLCheck can detect the following anti-patterns:
 
-### Logical Database Design
+### Logical Database Design Anti-Patterns
 
   * [Multi-Valued Attribute](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1001.md)
   * [Recursive Dependency](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1002.md)
@@ -37,7 +37,7 @@ Right now SQLCheck can detect the following anti-patterns:
   * [Entity-Attribute-Value Pattern](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1006.md)
   * [Metadata Tribbles](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1007.md)
 
-### Physical Database Design
+### Physical Database Design Anti-Patterns
 
   * [Imprecise Data Type](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2001.md)
   * [Values In Definition](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2002.md)
@@ -45,7 +45,7 @@ Right now SQLCheck can detect the following anti-patterns:
   * [Too Many Indexes](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2004.md)
   * [Index Attribute Order](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2005.md)
 
-### Query
+### Query Anti-Patterns
 
   * [SELECT *](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3001.md)
   * [NULL Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3002.md)
@@ -64,7 +64,7 @@ Right now SQLCheck can detect the following anti-patterns:
   * [UNION Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3015.md)
   * [DISTINCT & JOIN Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3016.md)
 
-### Application
+### Application Development Anti-Patterns
 
   * [Readable Passwords](https://github.com/jarulraj/sqlcheck/blob/master/docs/application/4001.md)
 
