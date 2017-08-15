@@ -740,7 +740,7 @@ void CheckPatternMatching(Configuration& state,
                           const std::string& sql_statement,
                           bool& print_statement){
 
-  std::regex pattern("(like)|(regexp)|(similar to)");
+  std::regex pattern("(\blike\b)|(\bregexp\b)|(\bsimilar to\b)");
   std::string title = "Pattern Matching Usage";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
 
@@ -824,7 +824,7 @@ void CheckJoinCount(Configuration& state,
                     const std::string& sql_statement,
                     bool& print_statement){
 
-  std::regex pattern("(join)");
+  std::regex pattern("(\bjoin\b)");
   std::string title = "Reduce Number of JOINs";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
   std::size_t min_count = 5;
@@ -851,7 +851,7 @@ void CheckDistinctCount(Configuration& state,
                         const std::string& sql_statement,
                         bool& print_statement){
 
-  std::regex pattern("(distinct)");
+  std::regex pattern("(\bdistinct\b)");
   std::string title = "Eliminate Unnecessary DISTINCT Conditions";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
   std::size_t min_count = 5;
@@ -909,7 +909,7 @@ void CheckHaving(Configuration& state,
                  const std::string& sql_statement,
                  bool& print_statement){
 
-  std::regex pattern("(having)");
+  std::regex pattern("(\bhaving\b)");
   std::string title = "HAVING Clause Usage";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
 
@@ -938,7 +938,7 @@ void CheckNesting(Configuration& state,
                   const std::string& sql_statement,
                   bool& print_statement){
 
-  std::regex pattern("(select)");
+  std::regex pattern("(\bselect\b)");
   std::string title = "Nested sub queries";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
   std::size_t min_count = 2;
@@ -975,7 +975,7 @@ void CheckOr(Configuration& state,
                  const std::string& sql_statement,
                  bool& print_statement){
 
-  std::regex pattern("(or)");
+  std::regex pattern("(\bor\b)");
   std::string title = "OR Usage";
   PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
 
