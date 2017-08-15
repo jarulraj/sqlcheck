@@ -71,6 +71,22 @@ if(UNIX OR APPLE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -Werror -lpthread")
 endif()
 
+# ---[ Packaging
+
+SET(VERSION "1.0.5")
+SET(CPACK_PACKAGE_NAME "SQLCheck")
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Automatically identify anti-patterns in SQL queries.")
+SET(CPACK_PACKAGE_DESCRIPTION "SQLCheck automates the detection of common anti-patterns in SQL queries. 
+Such anti-patterns often increase the time taken to run the queries on a database management system. 
+Addressing these anti-patterns will, therefore, help improve the runtime performance of the queries. 
+This tool targets all SQL dialects.")
+SET(CPACK_PACKAGE_VERSION ${VERSION})
+SET(CPACK_PACKAGE_RELEASE 1)
+SET(CPACK_GENERATOR "ZIP;TGZ;RPM;DEB")
+SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Joy Arulraj") #required
+SET(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_PACKAGE_RELEASE}.${CMAKE_SYSTEM_PROCESSOR}")
+INCLUDE(CPack)
+
 # ---[ Subdirectories
 add_subdirectory(src)
 add_subdirectory(test)
