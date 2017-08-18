@@ -13,24 +13,44 @@ SQLCheck automates the detection of common anti-patterns in SQL queries. Such an
 
 ## Installation
 
-### Release Binaries
+### Ubuntu/Mint (DEBIAN)
 
-Download the appropriate binaries from the latest release and install them.
-
-For instance, on a Debian-based Linux (ex: Ubuntu):
-
+1. Download the **debian package** from the latest release.
 ```
 wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.deb
-sudo dpkg -i SQLCheck-1.0.5-1.x86_64.deb
 ```
 
-Or directly run the binary:
-
+2. Install it by running the following command.
 ```
-wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.zip
-unzip SQLCheck-1.0.5-1.x86_64.zip
-cd SQLCheck-1.0.5-1.x86_64/bin/
-./sqlcheck
+dpkg -i SQLCheck-1.0.5-1.x86_64.deb
+```
+
+### Fedora/CentOS (RPM)
+
+1. Download the **rpm package** from the latest release.
+```
+wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.rpm
+```
+
+2. Install it by running the following command.
+```
+yum --nogpgcheck localinstall SQLCheck-1.0.5-1.x86_64.rpm 
+```
+
+### MacOS (DMG)
+
+1. Download the **dmg package** from the latest release.
+```
+wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.dmg
+```
+
+2. Click the dmg to mount the package. This will mount it in the `Volumes` directory.
+
+3. Open the `Terminal` app. [This page](http://blog.teamtreehouse.com/introduction-to-the-mac-os-x-command-line) contains more details on finding the app.
+
+4. Copy over the SQLCheck binary file to desired local directory.
+```
+cp /Volumes/SQLCheck-1.0.5-x86_64/bin/sqlcheck /usr/local/bin/
 ```
 
 ### Source Files
