@@ -41,7 +41,7 @@ yum --nogpgcheck localinstall SQLCheck-1.0.5-1.x86_64.rpm
 
 1. Download the **dmg package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.dmg
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.0.5/SQLCheck-1.0.5-x86_64.dmg
 ```
 
 2. Click the dmg to mount the package. This will mount it in the `Volumes` directory.
