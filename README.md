@@ -7,6 +7,10 @@
 [![Build Status](https://travis-ci.org/jarulraj/sqlcheck.svg?branch=master)](https://travis-ci.org/jarulraj/sqlcheck)
 [![Coverage Status](https://coveralls.io/repos/github/jarulraj/sqlcheck/badge.svg?branch=master)](https://coveralls.io/github/jarulraj/sqlcheck?branch=master)
 
+[![Ubuntu](https://img.shields.io/badge/supports-ubuntu-brightgreen.svg)](https://github.com/jarulraj/sqlcheck/)
+[![CentOS](https://img.shields.io/badge/supports-centos-yellow.svg)](https://github.com/jarulraj/sqlcheck/)
+[![MacOS](https://img.shields.io/badge/supports-macos-ff69b4.svg)](https://github.com/jarulraj/sqlcheck/)
+
 ## What Is SQLCheck?
 
 SQLCheck automates the detection of common anti-patterns in SQL queries. Such anti-patterns often increase the time taken to run the queries on a database management system. Addressing these anti-patterns will, therefore, help improve the runtime performance of the queries. This tool targets all SQL dialects.   
