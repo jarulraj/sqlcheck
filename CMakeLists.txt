@@ -100,7 +100,7 @@ elseif(APPLE)
     # OSX Bundle generator setup
     SET(CPACK_GENERATOR "DragNDrop")
     SET(CPACK_BUNDLE_NAME "sqlcheck")
-elseif(LINUX)
+elseif(UNIX)
     SET(CPACK_GENERATOR "TGZ;RPM;DEB")
 endif()
 SET(CPACK_STRIP_FILES TRUE)
