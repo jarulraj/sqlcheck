@@ -53,7 +53,19 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.0.5/SQLCheck-1.0.
 cp /Volumes/SQLCheck-1.0.5-x86_64/bin/sqlcheck /usr/local/bin/
 ```
 
-### Source Files
+### ZIP
+
+1. Download the **zip package** from the latest release.
+```
+wget https://github.com/jarulraj/sqlcheck/files/1226113/SQLCheck-1.0.5-1.x86_64.zip
+```
+
+2. Unzip it and find the SQLCheck binary (`bin/sqlcheck`).
+```
+unzip SQLCheck-1.0.5-1.x86_64.zip
+```
+
+### Source Code Compilation
 
 SQLCheck has the following software dependencies:
 
