@@ -13,6 +13,48 @@ SQLCheck automates the detection of common anti-patterns in SQL queries. Such an
 
 ## Installation
 
+### Ubuntu/Mint (DEBIAN)
+
+1. Download the **debian package** from the latest release.
+```
+wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.deb
+```
+
+2. Install it by running the following command.
+```
+dpkg -i SQLCheck-1.0.5-1.x86_64.deb
+```
+
+### Fedora/CentOS (RPM)
+
+1. Download the **rpm package** from the latest release.
+```
+wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.rpm
+```
+
+2. Install it by running the following command.
+```
+yum --nogpgcheck localinstall SQLCheck-1.0.5-1.x86_64.rpm 
+```
+
+### MacOS (DMG)
+
+1. Download the **dmg package** from the latest release.
+```
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.0.5/SQLCheck-1.0.5-x86_64.dmg
+```
+
+2. Click the dmg to mount the package. This will mount it in the `Volumes` directory.
+
+3. Open the `Terminal` app. [This page](http://blog.teamtreehouse.com/introduction-to-the-mac-os-x-command-line) contains more details on finding the app.
+
+4. Copy over the SQLCheck binary file to desired local directory.
+```
+cp /Volumes/SQLCheck-1.0.5-x86_64/bin/sqlcheck /usr/local/bin/
+```
+
+### Source Files
+
 SQLCheck has the following software dependencies:
 
 - **g++ 4.9+** 
@@ -111,8 +153,10 @@ no_merge */ sum(level) a from dual connect by level<=1e6) v1 ,v$timer t2
 ,v$mutex_sleep s2 where s1.mutex_type=s2.mutex_type and s1.location=s2.location
 ) select * from top_mutexes order by delta_sleeps desc;
 
-[examples/top_mutexes.sql]: (HIGH RISK) (QUERY ANTI-PATTERN) SELECT *   
-● Inefficiency in moving data to the consumer:   
+[examples/top_mutexes.sql]: (HIGH RISK) (QUERY ANTI-PATTERN) SELECT *
+
+● Inefficiency in moving data to the consumer:
+
 When you SELECT *, you're often retrieving more columns from the database than
 your application really needs to function. This causes more data to move from
 the database server to the client, slowing access and increasing load on your
@@ -121,7 +165,8 @@ especially true when someone adds new columns to underlying tables that didn't
 exist and weren't needed when the original consumers coded their data access.   
 
 
-● Indexing issues:   
+● Indexing issues:
+
 Consider a scenario where you want to tune a query to a high level of
 performance. If you were to use *, and it returned more columns than you
 actually needed, the server would often have to perform more expensive methods
@@ -130,22 +175,13 @@ to create an index which simply covered the columns in your SELECT list, and
 even if you did (including all columns [shudder]), the next guy who came around
 and added a column to the underlying table would cause the optimizer to ignore
 your optimized covering index, and you'd likely find that the performance of
-your query would drop substantially for no readily apparent reason.   
-
-● Binding Problems:   
-When you SELECT *, it's possible to retrieve two columns of the same name from
-two different tables. This can often crash your data consumer. Imagine a query
-that joins two tables, both of which contain a column called "ID". How would a
-consumer know which was which? SELECT * can also confuse views (at least in some
-versions SQL Server) when underlying table structures change -- the view is not
-rebuilt, and the data which comes back can be nonsense. And the worst part of it
-is that you can take care to name your columns whatever you want, but the next
-guy who comes along might have no way of knowing that he has to worry about
-adding a column which will collide with your already-developed names.   
+your query would drop substantially for no readily apparent reason.    
 [Matching Expression: select *]
 
 [examples/top_mutexes.sql]: (LOW RISK) (QUERY ANTI-PATTERN) Spaghetti Query Alert   
-● Split up a complex spaghetti query into several simpler queries:   
+
+● Split up a complex spaghetti query into several simpler queries:
+
 SQL is a very expressive language—you can accomplish a lot in a single query
 or statement. But that doesn't mean it's mandatory or even a good idea to
 approach every task with the assumption it has to be done in one line of code.
@@ -154,7 +190,9 @@ a Cartesian product. This happens when two of the tables in the query have no
 condition restricting their relationship. Without such a restriction, the join
 of two tables pairs each row in the first table to every row in the other table.
 Each such pairing becomes a row of the result set, and you end up with many more
-rows than you expect. It's important to consider that these queries are simply
+rows than you expect. 
+
+It's important to consider that these queries are simply
 hard to write, hard to modify, and hard to debug. You should expect to get
 regular requests for incremental enhancements to your database applications.
 Managers want more complex reports and more fields in a user interface. If you
