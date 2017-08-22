@@ -21,7 +21,7 @@ SQLCheck automates the detection of common anti-patterns in SQL queries. Such an
 
 1. Download the **debian package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.deb
+wget https://github.com/jarulraj/sqlcheck/raw/master/releases/SQLCheck-1.0.5-1.x86_64.deb
 ```
 
 2. Install it by running the following command.
@@ -33,7 +33,7 @@ dpkg -i SQLCheck-1.0.5-1.x86_64.deb
 
 1. Download the **rpm package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/blob/master/releases/SQLCheck-1.0.5-1.x86_64.rpm
+wget https://github.com/jarulraj/sqlcheck/raw/master/releases/SQLCheck-1.0.5-1.x86_64.rpm
 ```
 
 2. Install it by running the following command.
