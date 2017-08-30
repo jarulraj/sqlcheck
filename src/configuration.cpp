@@ -35,6 +35,8 @@ std::string RiskLevelToString(const RiskLevel& risk_level){
       return "MEDIUM RISK";
     case RISK_LEVEL_LOW:
       return "LOW RISK";
+    case RISK_LEVEL_NONE:
+      return "HINTS";
     case RISK_LEVEL_ALL:
       return "ALL ANTI-PATTERNS";
 
@@ -53,7 +55,9 @@ std::string RiskLevelToDetailedString(const RiskLevel& risk_level){
     case RISK_LEVEL_MEDIUM:
       return "ONLY MEDIUM AND HIGH RISK ANTI-PATTERNS";
     case RISK_LEVEL_LOW:
-      return "ALL ANTI-PATTERNS";
+      return "ONLY ANTI-PATTERNS";
+    case RISK_LEVEL_NONE:
+      return "ALL ANTI-PATTERNS AND HINTS";
     case RISK_LEVEL_ALL:
       return "ALL ANTI-PATTERNS";
 

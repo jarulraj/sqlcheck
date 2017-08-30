@@ -75,10 +75,11 @@ void Check(Configuration& state) {
   }
   else {
     std::cout << "\n==================== Summary ===================\n";
-    std::cout << "All Anti-Patterns  :: " << state.checker_stats[RISK_LEVEL_ALL] << "\n";
+    std::cout << "All Anti-Patterns and Hints  :: " << state.checker_stats[RISK_LEVEL_ALL] << "\n";
     std::cout << ">  High Risk   :: " << state.checker_stats[RISK_LEVEL_HIGH] << "\n";
     std::cout << ">  Medium Risk :: " << state.checker_stats[RISK_LEVEL_MEDIUM] << "\n";
     std::cout << ">  Low Risk    :: " << state.checker_stats[RISK_LEVEL_LOW] << "\n";
+    std::cout << ">  Hints       :: " << state.checker_stats[RISK_LEVEL_NONE] << "\n";
   }
 
   // Skip destroying std::cin
