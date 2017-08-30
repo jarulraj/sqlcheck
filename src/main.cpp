@@ -14,10 +14,23 @@ Configuration state;
 
 int main(int argc, char **argv) {
 
-  sqlcheck::ParseArguments(
-      argc, argv, sqlcheck::state);
+  try {
 
-  sqlcheck::Check(sqlcheck::state);
+    // Parse the input arguments from the user
+    // This customizes the checker configuration
+    sqlcheck::ParseArguments(
+        argc, argv, sqlcheck::state);
 
-  return 0;
+    // Invoke the checker
+    sqlcheck::Check(sqlcheck::state);
+
+  }
+  // Catching at the top level ensures that
+  // destructors are always called
+  catch (std::exception& exc) {
+    std::cerr << exc.what() << std::endl;
+    exit(EXIT_FAILURE);
+  }
+
+  return (EXIT_SUCCESS);
 }
