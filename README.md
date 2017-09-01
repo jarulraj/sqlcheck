@@ -57,6 +57,13 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.0.5/SQLCheck-1.0.
 cp /Volumes/SQLCheck-1.0.5-x86_64/bin/sqlcheck /usr/local/bin/
 ```
 
+Another alternative is to use **Homebrew**. Here's a tap:
+
+```
+brew tap gwerbin/tap
+brew cask install gwerbin/tap/sqlcheck
+```
+
 ### ZIP
 
 1. Download the **zip package** from the latest release.
