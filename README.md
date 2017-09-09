@@ -195,7 +195,7 @@ performance. If you were to use *, and it returned more columns than you
 actually needed, the server would often have to perform more expensive methods
 to retrieve your data than it otherwise might. For example, you wouldn't be able
 to create an index which simply covered the columns in your SELECT list, and
-even if you did (including all columns [shudder]), the next guy who came around
+even if you did (including all columns [shudder]), the next developer who came around
 and added a column to the underlying table would cause the optimizer to ignore
 your optimized covering index, and you'd likely find that the performance of
 your query would drop substantially for no readily apparent reason.    
