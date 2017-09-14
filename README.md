@@ -157,8 +157,10 @@ Command line options : sqlcheck <options>
                            :  2 (only medium and high risk anti-patterns) 
                            :  3 (only high risk anti-patterns) 
    -c --color_mode         :  color mode 
-   -v --verbose_mode       :  verbose mode 
+   -v --verbose_mode       :  verbose mode
+```   
 
+```sql
 $ sqlcheck -f examples/top_mutexes.sql -v 
 
 -------------------------------------------------
@@ -175,7 +177,9 @@ t1.hsecs as delta_hsecs --,s2.* from v$timer t1 ,v$mutex_sleep s1 ,(select/*+
 no_merge */ sum(level) a from dual connect by level<=1e6) v1 ,v$timer t2
 ,v$mutex_sleep s2 where s1.mutex_type=s2.mutex_type and s1.location=s2.location
 ) select * from top_mutexes order by delta_sleeps desc;
+```
 
+```
 [examples/top_mutexes.sql]: (HIGH RISK) (QUERY ANTI-PATTERN) SELECT *
 
 ● Inefficiency in moving data to the consumer:
