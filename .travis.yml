@@ -25,7 +25,7 @@ script:
     - cd build
     - cmake --version
     - cmake -DCMAKE_BUILD_TYPE=RELEASE ..
-    - make
+    - make VERBOSE=1
     - make check
     - g++-4.9 --version
     - gcov-4.9 --version
