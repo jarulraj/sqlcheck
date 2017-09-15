@@ -15,13 +15,22 @@ Configuration state;
 }  // namespace sqlcheck
 
 DEFINE_bool(c, false, "Display warnings in color mode");
+DEFINE_bool(color_mode, false, "Display warnings in color mode");
 DEFINE_bool(v, false, "Display verbose warnings");
+DEFINE_bool(verbose, false, "Display verbose warnings");
+DEFINE_bool(h, false, "Print help message");
 DEFINE_uint64(r, sqlcheck::RISK_LEVEL_ALL,
               "Set of anti-patterns to check \n"
               "1 (all anti-patterns, default) \n"
               "2 (only medium and high risk anti-patterns) \n"
               "3 (only high risk anti-patterns) \n");
+DEFINE_uint64(risk_level, sqlcheck::RISK_LEVEL_ALL,
+              "Set of anti-patterns to check \n"
+              "1 (all anti-patterns, default) \n"
+              "2 (only medium and high risk anti-patterns) \n"
+              "3 (only high risk anti-patterns) \n");
 DEFINE_string(f, "", "SQL file name"); // standard input
+DEFINE_string(file_name, "", "SQL file name"); // standard input
 
 void ConfigureChecker(sqlcheck::Configuration &state) {
 
@@ -33,10 +42,20 @@ void ConfigureChecker(sqlcheck::Configuration &state) {
   state.color_mode = false;
 
   // Configure checker
-  state.color_mode = FLAGS_c;
-  state.verbose = FLAGS_v;
-  state.file_name = FLAGS_f;
-  state.risk_level = (sqlcheck::RiskLevel) FLAGS_r;
+  state.color_mode = FLAGS_c || FLAGS_color_mode;
+  state.verbose = FLAGS_v || FLAGS_verbose;
+  if(FLAGS_f.empty() == false){
+    state.file_name = FLAGS_f;
+  }
+  if(FLAGS_file_name.empty() == false){
+    state.file_name = FLAGS_file_name;
+  }
+  if(FLAGS_r != 0){
+    state.risk_level = (sqlcheck::RiskLevel) FLAGS_r;
+  }
+  if(FLAGS_risk_level != 0){
+    state.risk_level = (sqlcheck::RiskLevel) FLAGS_risk_level;
+  }
 
   // Run validators
   std::cout << "+-------------------------------------------------+\n"
@@ -49,6 +68,20 @@ void ConfigureChecker(sqlcheck::Configuration &state) {
 
 }
 
+void Usage() {
+  std::cout <<
+      "Command line options : sqlcheck <options>\n"
+      "   -f -file_name          :  SQL file name\n"
+      "   -r -risk_level         :  Set of anti-patterns to check\n"
+      "                           :  1 (all anti-patterns, default) \n"
+      "                           :  2 (only medium and high risk anti-patterns) \n"
+      "                           :  3 (only high risk anti-patterns) \n"
+      "   -c -color_mode         :  Display warnings in color mode \n"
+      "   -v -verbose            :  Display verbose warnings \n"
+      "   -h -help               :  Print help message \n";
+  exit(EXIT_SUCCESS);
+}
+
 int main(int argc, char **argv) {
 
   try {
@@ -58,6 +91,15 @@ int main(int argc, char **argv) {
     gflags::SetVersionString("1.2");
 
     gflags::ParseCommandLineFlags(&argc, &argv, true);
+
+    // Print help message
+    if(FLAGS_h == true){
+      FLAGS_h = false;
+      Usage();
+
+      gflags::ShutDownCommandLineFlags();
+      return (EXIT_SUCCESS);
+    }
 
     // Customize the checker configuration
     ConfigureChecker(sqlcheck::state);
