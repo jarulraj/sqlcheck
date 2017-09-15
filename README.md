@@ -17,6 +17,62 @@ SQLCheck automates the detection of common anti-patterns in SQL queries. Such an
 
 This tool targets **all major SQL dialects**.   
 
+## Interactive Demo
+
+Here's a short demonstration of how to use `sqlcheck` on a SQL file named `top_mutexes.sql`. It highlights the verbose (`-v`) and color (`-c`) modes of the tool, which are disabled by default.
+
+<p align="center">
+  <a href="https://asciinema.org/a/whbtVyw4GP8Zf4ab3GN0CF3KP" target="_blank">
+    <img src="https://asciinema.org/a/whbtVyw4GP8Zf4ab3GN0CF3KP.png" width="654"/>
+  </a>
+</p>
+
+
+## What it can do
+
+Right now SQLCheck can detect the following anti-patterns:
+
+### Logical Database Design Anti-Patterns
+
+  * [Multi-Valued Attribute](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1001.md)
+  * [Recursive Dependency](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1002.md)
+  * [Primary Key Does Not Exist](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1003.md)
+  * [Generic Primary Key](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1004.md)
+  * [Foreign Key Does Not Exist](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1005.md)
+  * [Entity-Attribute-Value Pattern](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1006.md)
+  * [Metadata Tribbles](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1007.md)
+
+### Physical Database Design Anti-Patterns
+
+  * [Imprecise Data Type](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2001.md)
+  * [Values In Definition](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2002.md)
+  * [Files Are Not SQL Data Types](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2003.md)
+  * [Too Many Indexes](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2004.md)
+  * [Index Attribute Order](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2005.md)
+
+### Query Anti-Patterns
+
+  * [SELECT *](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3001.md)
+  * [NULL Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3002.md)
+  * [NOT NULL Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3003.md)
+  * [String Concatenation](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3004.md)
+  * [GROUP BY Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3005.md)
+  * [ORDER BY RAND Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3006.md)
+  * [Pattern Matching Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3007.md)
+  * [Spaghetti Query Alert](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3008.md)
+  * [Reduce Number of JOINs](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3009.md)
+  * [Eliminate Unnecessary DISTINCT Conditions](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3010.md)
+  * [Implicit Column Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3011.md)
+  * [HAVING Clause Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3012.md)
+  * [Nested sub queries](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3013.md)
+  * [OR Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3014.md)
+  * [UNION Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3015.md)
+  * [DISTINCT & JOIN Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3016.md)
+
+### Application Development Anti-Patterns
+
+  * [Readable Passwords](https://github.com/jarulraj/sqlcheck/blob/master/docs/application/4001.md)
+
 ## Installation
 
 ### Ubuntu/Mint (DEBIAN)
@@ -101,53 +157,7 @@ make
 make install
 ```
 
-## What it can do
-
-Right now SQLCheck can detect the following anti-patterns:
-
-### Logical Database Design Anti-Patterns
-
-  * [Multi-Valued Attribute](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1001.md)
-  * [Recursive Dependency](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1002.md)
-  * [Primary Key Does Not Exist](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1003.md)
-  * [Generic Primary Key](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1004.md)
-  * [Foreign Key Does Not Exist](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1005.md)
-  * [Entity-Attribute-Value Pattern](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1006.md)
-  * [Metadata Tribbles](https://github.com/jarulraj/sqlcheck/blob/master/docs/logical/1007.md)
-
-### Physical Database Design Anti-Patterns
-
-  * [Imprecise Data Type](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2001.md)
-  * [Values In Definition](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2002.md)
-  * [Files Are Not SQL Data Types](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2003.md)
-  * [Too Many Indexes](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2004.md)
-  * [Index Attribute Order](https://github.com/jarulraj/sqlcheck/blob/master/docs/physical/2005.md)
-
-### Query Anti-Patterns
-
-  * [SELECT *](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3001.md)
-  * [NULL Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3002.md)
-  * [NOT NULL Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3003.md)
-  * [String Concatenation](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3004.md)
-  * [GROUP BY Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3005.md)
-  * [ORDER BY RAND Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3006.md)
-  * [Pattern Matching Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3007.md)
-  * [Spaghetti Query Alert](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3008.md)
-  * [Reduce Number of JOINs](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3009.md)
-  * [Eliminate Unnecessary DISTINCT Conditions](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3010.md)
-  * [Implicit Column Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3011.md)
-  * [HAVING Clause Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3012.md)
-  * [Nested sub queries](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3013.md)
-  * [OR Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3014.md)
-  * [UNION Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3015.md)
-  * [DISTINCT & JOIN Usage](https://github.com/jarulraj/sqlcheck/blob/master/docs/query/3016.md)
-
-### Application Development Anti-Patterns
-
-  * [Readable Passwords](https://github.com/jarulraj/sqlcheck/blob/master/docs/application/4001.md)
-
-
-# Usage
+## Usage
 
 ```
 $ sqlcheck -h
