@@ -109,7 +109,6 @@ Such anti-patterns often increase the time taken to run the queries on a databas
 Addressing these anti-patterns will, therefore, help improve the runtime performance of the queries. 
 This tool targets all SQL dialects.")
 SET(CPACK_PACKAGE_VERSION ${VERSION})
-SET(CPACK_PACKAGE_RELEASE 1)
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Joy Arulraj") #required
 
 set(CPACK_PACKAGE_EXECUTABLES "sqlcheck")
