@@ -81,7 +81,7 @@ Right now SQLCheck can detect the following anti-patterns:
 
 1. Download the **debian package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/raw/master/releases/sqlcheck.x86_64.deb
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.deb
 ```
 
 2. Install it by running the following command.
@@ -93,7 +93,7 @@ dpkg -i sqlcheck.x86_64.deb
 
 1. Download the **rpm package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/raw/master/releases/sqlcheck.x86_64.rpm
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.rpm
 ```
 
 2. Install it by running the following command.
@@ -105,7 +105,7 @@ yum --nogpgcheck localinstall sqlcheck.x86_64.rpm
 
 1. Download the **dmg package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/releases/download/v1.0.5/sqlcheck-x86_64.dmg
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.dmg
 ```
 
 2. Click the dmg to mount the package. This will mount it in the `Volumes` directory.
@@ -128,12 +128,12 @@ brew cask install gwerbin/tap/sqlcheck
 
 1. Download the **zip package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/files/1226113/SQLCheck.x86_64.zip
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.zip
 ```
 
 2. Unzip it and find the SQLCheck binary (`bin/sqlcheck`).
 ```
-unzip SQLCheck.x86_64.zip
+unzip sqlcheck.x86_64.zip
 ```
 
 ### Source Code Compilation
