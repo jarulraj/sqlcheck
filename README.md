@@ -80,31 +80,31 @@ Right now SQLCheck can detect the following anti-patterns:
 ### Ubuntu/Mint (DEBIAN)
 
 1. Download the **debian package** from the latest release.
-```
+```shell
 wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.deb
 ```
 
 2. Install it by running the following command.
-```
+```shell
 dpkg -i sqlcheck.x86_64.deb
 ```
 
 ### Fedora/CentOS (RPM)
 
 1. Download the **rpm package** from the latest release.
-```
+```shell
 wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.rpm
 ```
 
 2. Install it by running the following command.
-```
+```shell
 yum --nogpgcheck localinstall sqlcheck.x86_64.rpm 
 ```
 
 ### MacOS (DMG)
 
 1. Download the **dmg package** from the latest release.
-```
+```shell
 wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.dmg
 ```
 
@@ -113,13 +113,13 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 3. Open the `Terminal` app. [This page](http://blog.teamtreehouse.com/introduction-to-the-mac-os-x-command-line) contains more details on finding the app.
 
 4. Copy over the SQLCheck binary file to desired local directory.
-```
+```shell
 cp /Volumes/sqlcheck-x86_64/bin/sqlcheck /usr/local/bin/
 ```
 
 Another alternative is to use **Homebrew**. Here's a tap:
 
-```
+```shell
 brew tap gwerbin/tap
 brew cask install gwerbin/tap/sqlcheck
 ```
@@ -127,12 +127,12 @@ brew cask install gwerbin/tap/sqlcheck
 ### ZIP
 
 1. Download the **zip package** from the latest release.
-```
+```shell
 wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.zip
 ```
 
 2. Unzip it and find the SQLCheck binary (`bin/sqlcheck`).
-```
+```shell
 unzip sqlcheck.x86_64.zip
 ```
 
@@ -145,13 +145,13 @@ SQLCheck has the following software dependencies:
 
 First, clone the repository (with **--recursive** option).
 
-```
+```shell
 git clone --recursive https://github.com/jarulraj/sqlcheck.git
 ```
 
 Next, run the following commands to build and install SQLCheck:
 
-```
+```shell
 ./bootstrap
 cd build
 cmake -DCMAKE_BUILD_TYPE=RELEASE ..
