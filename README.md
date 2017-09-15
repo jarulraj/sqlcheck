@@ -1,4 +1,4 @@
-<img src="https://www.cs.cmu.edu/~jarulraj/images/sqlcheck.jpg" alt="SQLCheck Logo"></img>
+<img src="https://www.cs.cmu.edu/~jarulraj/images/sqlcheck-new.jpg" alt="SQLCheck Logo"></img>
 
 -----------------
 
