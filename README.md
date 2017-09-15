@@ -22,8 +22,8 @@ This tool targets **all major SQL dialects**.
 Here's a short demonstration of how to use `sqlcheck` on a SQL file named `top_mutexes.sql`. It highlights the verbose (`-v`) and color (`-c`) modes of the tool, which are disabled by default.
 
 <p align="center">
-  <a href="https://asciinema.org/a/whbtVyw4GP8Zf4ab3GN0CF3KP" target="_blank">
-    <img src="https://asciinema.org/a/whbtVyw4GP8Zf4ab3GN0CF3KP.png" width="654"/>
+  <a href="https://asciinema.org/a/JW8gCkBrd65kz0j0RIjylIn42" target="_blank">
+    <img src="https://asciinema.org/a/JW8gCkBrd65kz0j0RIjylIn42.png" width="654"/>
   </a>
 </p>
 
