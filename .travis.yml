@@ -24,7 +24,7 @@ script:
     - ./bootstrap
     - cd build
     - cmake --version
-    - cmake -DCMAKE_BUILD_TYPE=Coverage ..
+    - cmake -DCMAKE_BUILD_TYPE=COVERAGE ..
     - make VERBOSE=1
     - make check
     - g++-4.9 --version
