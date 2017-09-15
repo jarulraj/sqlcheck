@@ -12,8 +12,12 @@ if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     set(CMAKE_CXX_FLAGS         "-Wall -Wno-unknown-pragmas -Wno-sign-compare -Woverloaded-virtual -Wno-write-strings")
     set(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g3")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
+
+IF(CMAKE_BUILD_TYPE MATCHES COVERAGE)
+    message("Coverage mode")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+ENDIF(CMAKE_BUILD_TYPE MATCHES COVERAGE)
 
 # ---[ CTest
 include(CTest)
@@ -85,10 +89,20 @@ if(UNIX OR APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wextra -Werror -Wno-writable-strings")
 endif()
 
+# -- [Info
+
+# Choose the type of build.  Example: SET(CMAKE_BUILD_TYPE Debug) 
+MESSAGE( STATUS "CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE} )
+# the compiler used for C++ files 
+MESSAGE( STATUS "CMAKE_CXX_COMPILER: " ${CMAKE_CXX_COMPILER} )
+# the compiler flags for compiling C++ sources 
+MESSAGE( STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS} )
+
+
 # --[ Packaging
 
 SET(VERSION "1.2")
-SET(CPACK_PACKAGE_NAME "SQLCheck")
+SET(CPACK_PACKAGE_NAME "sqlcheck")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Automatically identify anti-patterns in SQL queries.")
 SET(CPACK_PACKAGE_DESCRIPTION "SQLCheck automates the detection of common anti-patterns in SQL queries. 
 Such anti-patterns often increase the time taken to run the queries on a database management system. 
