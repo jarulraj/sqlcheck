@@ -54,6 +54,7 @@ int main(int argc, char **argv) {
   try {
 
     // Parse the input arguments from the user
+    gflags::SetUsageMessage("");
     gflags::SetVersionString("1.2");
 
     gflags::ParseCommandLineFlags(&argc, &argv, true);

@@ -71,6 +71,10 @@ set(GFLAGS_ROOT external/gflags CACHE STRING "Google Flags")
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/${GFLAGS_ROOT})
 
+include_directories(
+    ${PROJECT_BUILD_DIR}/${GFLAGS_ROOT}/include
+)
+
 # --[ Threads
 
 find_package(Threads REQUIRED)
