@@ -13,11 +13,11 @@
 
 ## What Is SQLCheck?
 
-`sqlcheck` automates the detection of common anti-patterns in SQL queries. Such anti-patterns often increase the time taken to run the queries on a database management system. Addressing these anti-patterns will, therefore, help improve the runtime performance of the queries. 
+`sqlcheck` automatically detects common SQL anti-patterns. Such anti-patterns often slow down queries. Addressing them will, therefore, help accelerate queries. 
 
 `sqlcheck` targets **all major SQL dialects**.
 
-For development updates on `sqlcheck` and general news on <a href="https://www.cs.cmu.edu/~jarulraj/pages/research.html">next generation self-driving database systems</a>, consider following me at <a class="twitter-follow-button" href="https://twitter.com/joy_arulraj">@joy_arulraj</a>.
+For development updates on `sqlcheck` and general news on <a href="https://www.cs.cmu.edu/~jarulraj/pages/research.html">next generation  database systems</a>, follow me at <a class="twitter-follow-button" href="https://twitter.com/joy_arulraj">@joy_arulraj</a>.
 
 ## Interactive Demo
 
