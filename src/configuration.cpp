@@ -68,6 +68,15 @@ std::string PatternTypeToString(const PatternType& pattern_type){
 
 }
 
+std::string GetBooleanString(const bool& status){
+  if(status == true){
+    return "ENABLED";
+  }
+  else {
+    return "DISABLED";
+  }
+}
+
 void ValidateRiskLevel(const Configuration &state) {
   if (state.risk_level < RISK_LEVEL_ALL || state.risk_level > RISK_LEVEL_HIGH) {
     printf("INVALID RISK LEVEL :: %d\n", state.risk_level);
@@ -86,5 +95,20 @@ void ValidateFileName(const Configuration &state) {
   }
 }
 
+
+void ValidateColorMode(const Configuration &state) {
+    printf("> %s :: %s\n", "COLOR MODE   ",
+           GetBooleanString(state.color_mode).c_str());
+}
+
+void ValidateVerbose(const Configuration &state) {
+    printf("> %s :: %s\n", "VERBOSE MODE ",
+         GetBooleanString(state.verbose).c_str());
+}
+
+void ValidateDelimiter(const Configuration &state) {
+    printf("> %s :: %s\n", "DELIMITER    ",
+         state.delimiter.c_str());
+}
 
 }  // namespace sqlcheck

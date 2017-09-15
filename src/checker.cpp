@@ -39,7 +39,6 @@ void Check(Configuration& state) {
   std::stringstream sql_statement;
   size_t fragment_size = 4096;
   char buffer[fragment_size];
-  char delimiter = ';';
 
   std::cout << "==================== Results ===================\n";
 
@@ -56,7 +55,7 @@ void Check(Configuration& state) {
     }
 
     // Check for delimiter in line
-    std::size_t location = statement_fragment.find(delimiter);
+    std::size_t location = statement_fragment.find(state.delimiter);
     if (location != std::string::npos) {
 
       // Check the statement

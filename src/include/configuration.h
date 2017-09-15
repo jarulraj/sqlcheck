@@ -54,6 +54,7 @@ class Configuration {
    :
      color_mode(true),
      file_name(""),
+     delimiter(";"),
      risk_level(RiskLevel::RISK_LEVEL_ALL),
      verbose(false),
      testing_mode(false) {
@@ -64,6 +65,9 @@ class Configuration {
 
   // filename
   std::string file_name;
+
+  // query delimiter
+  std::string delimiter;
 
   // risk level
   RiskLevel risk_level;
@@ -91,5 +95,12 @@ std::string PatternTypeToString(const PatternType& pattern_type);
 void ValidateRiskLevel(const Configuration &state);
 
 void ValidateFileName(const Configuration &state);
+
+void ValidateColorMode(const Configuration &state);
+
+void ValidateVerbose(const Configuration &state);
+
+void ValidateDelimiter(const Configuration &state);
+
 
 }  // namespace sqlcheck

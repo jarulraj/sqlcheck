@@ -18,6 +18,8 @@ DEFINE_bool(c, false, "Display warnings in color mode");
 DEFINE_bool(color_mode, false, "Display warnings in color mode");
 DEFINE_bool(v, false, "Display verbose warnings");
 DEFINE_bool(verbose, false, "Display verbose warnings");
+DEFINE_string(d, "", "Query delimiter string (default -- ;)");
+DEFINE_string(delimiter, "", "Query delimiter string (default -- ;)");
 DEFINE_bool(h, false, "Print help message");
 DEFINE_uint64(r, sqlcheck::RISK_LEVEL_ALL,
               "Set of anti-patterns to check \n"
@@ -37,6 +39,7 @@ void ConfigureChecker(sqlcheck::Configuration &state) {
   // Default Values
   state.risk_level = sqlcheck::RISK_LEVEL_ALL;
   state.file_name = "";
+  state.delimiter = ";";
   state.testing_mode = false;
   state.verbose = false;
   state.color_mode = false;
@@ -49,6 +52,12 @@ void ConfigureChecker(sqlcheck::Configuration &state) {
   }
   if(FLAGS_file_name.empty() == false){
     state.file_name = FLAGS_file_name;
+  }
+  if(FLAGS_d.empty() == false){
+    state.delimiter = FLAGS_f;
+  }
+  if(FLAGS_delimiter.empty() == false){
+    state.delimiter = FLAGS_delimiter;
   }
   if(FLAGS_r != 0){
     state.risk_level = (sqlcheck::RiskLevel) FLAGS_r;
@@ -64,6 +73,10 @@ void ConfigureChecker(sqlcheck::Configuration &state) {
 
   ValidateRiskLevel(state);
   ValidateFileName(state);
+  ValidateColorMode(state);
+  ValidateVerbose(state);
+  ValidateDelimiter(state);
+
   std::cout << "-------------------------------------------------\n";
 
 }
@@ -73,11 +86,12 @@ void Usage() {
       "Command line options : sqlcheck <options>\n"
       "   -f -file_name          :  SQL file name\n"
       "   -r -risk_level         :  Set of anti-patterns to check\n"
-      "                           :  1 (all anti-patterns, default) \n"
-      "                           :  2 (only medium and high risk anti-patterns) \n"
-      "                           :  3 (only high risk anti-patterns) \n"
+      "                          :  1 (all anti-patterns, default) \n"
+      "                          :  2 (only medium and high risk anti-patterns) \n"
+      "                          :  3 (only high risk anti-patterns) \n"
       "   -c -color_mode         :  Display warnings in color mode \n"
       "   -v -verbose            :  Display verbose warnings \n"
+      "   -d -delimiter          :  Query delimiter string (; by default) \n"
       "   -h -help               :  Print help message \n";
   exit(EXIT_SUCCESS);
 }
