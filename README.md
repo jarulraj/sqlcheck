@@ -81,31 +81,31 @@ Right now SQLCheck can detect the following anti-patterns:
 
 1. Download the **debian package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/raw/master/releases/SQLCheck-1.0.5-1.x86_64.deb
+wget https://github.com/jarulraj/sqlcheck/raw/master/releases/sqlcheck.x86_64.deb
 ```
 
 2. Install it by running the following command.
 ```
-dpkg -i SQLCheck-1.0.5-1.x86_64.deb
+dpkg -i sqlcheck.x86_64.deb
 ```
 
 ### Fedora/CentOS (RPM)
 
 1. Download the **rpm package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/raw/master/releases/SQLCheck-1.0.5-1.x86_64.rpm
+wget https://github.com/jarulraj/sqlcheck/raw/master/releases/sqlcheck.x86_64.rpm
 ```
 
 2. Install it by running the following command.
 ```
-yum --nogpgcheck localinstall SQLCheck-1.0.5-1.x86_64.rpm 
+yum --nogpgcheck localinstall sqlcheck.x86_64.rpm 
 ```
 
 ### MacOS (DMG)
 
 1. Download the **dmg package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/releases/download/v1.0.5/SQLCheck-1.0.5-x86_64.dmg
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.0.5/sqlcheck-x86_64.dmg
 ```
 
 2. Click the dmg to mount the package. This will mount it in the `Volumes` directory.
@@ -114,7 +114,7 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.0.5/SQLCheck-1.0.
 
 4. Copy over the SQLCheck binary file to desired local directory.
 ```
-cp /Volumes/SQLCheck-1.0.5-x86_64/bin/sqlcheck /usr/local/bin/
+cp /Volumes/sqlcheck-x86_64/bin/sqlcheck /usr/local/bin/
 ```
 
 Another alternative is to use **Homebrew**. Here's a tap:
@@ -128,12 +128,12 @@ brew cask install gwerbin/tap/sqlcheck
 
 1. Download the **zip package** from the latest release.
 ```
-wget https://github.com/jarulraj/sqlcheck/files/1226113/SQLCheck-1.0.5-1.x86_64.zip
+wget https://github.com/jarulraj/sqlcheck/files/1226113/SQLCheck.x86_64.zip
 ```
 
 2. Unzip it and find the SQLCheck binary (`bin/sqlcheck`).
 ```
-unzip SQLCheck-1.0.5-1.x86_64.zip
+unzip SQLCheck.x86_64.zip
 ```
 
 ### Source Code Compilation
