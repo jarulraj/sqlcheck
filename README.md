@@ -9,6 +9,7 @@
 
 [![Ubuntu](https://img.shields.io/badge/supports-ubuntu-brightgreen.svg)](https://github.com/jarulraj/sqlcheck/)
 [![CentOS](https://img.shields.io/badge/supports-centos-yellow.svg)](https://github.com/jarulraj/sqlcheck/)
+[![Windows](https://img.shields.io/badge/supports-windows-00ffff.svg)](https://github.com/jarulraj/sqlcheck/)
 [![MacOS](https://img.shields.io/badge/supports-macos-ff69b4.svg)](https://github.com/jarulraj/sqlcheck/)
 
 ## What Is SQLCheck?
@@ -123,6 +124,15 @@ Another alternative is to use **Homebrew**. Here's a tap:
 brew tap gwerbin/tap
 brew cask install gwerbin/tap/sqlcheck
 ```
+
+## Windows
+
+1. Download the **exe file** from the latest release.
+```shell
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck.exe
+```
+
+2. Open a terminal (like `cmd.exe`) and run the executable.
 
 ### ZIP
 
