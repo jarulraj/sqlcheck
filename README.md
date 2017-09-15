@@ -86,7 +86,7 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 
 2. Install it by running the following command.
 ```shell
-dpkg -i sqlcheck.x86_64.deb
+dpkg -i sqlcheck-x86_64.deb
 ```
 
 ### Fedora/CentOS (RPM)
@@ -98,7 +98,7 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 
 2. Install it by running the following command.
 ```shell
-yum --nogpgcheck localinstall sqlcheck.x86_64.rpm 
+yum --nogpgcheck localinstall sqlcheck-x86_64.rpm 
 ```
 
 ### MacOS (DMG)
@@ -133,7 +133,7 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 
 2. Unzip it and find the SQLCheck binary (`bin/sqlcheck`).
 ```shell
-unzip sqlcheck.x86_64.zip
+unzip sqlcheck-x86_64.zip
 ```
 
 ### Source Code Compilation
