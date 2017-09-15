@@ -18,6 +18,7 @@ target_link_libraries(sqlcheck sqlcheck_library
 ${GTEST_BOTH_LIBRARIES} 
 ${GLOG_LIBRARIES} 
 ${CMAKE_THREAD_LIBS_INIT}
+gflags
 )
 
 # Add installation target

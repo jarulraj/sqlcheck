@@ -2,5 +2,5 @@
 	path = external/googletest
     url = https://github.com/google/googletest.git
 [submodule "external/gflags"]
-    path = external/gflags
-    url = https://github.com/gflags/gflags.git
+	path = external/gflags
+	url = https://github.com/gflags/gflags.git

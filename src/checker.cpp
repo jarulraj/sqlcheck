@@ -185,7 +185,7 @@ void PrintMessage(Configuration& state,
   }
 
   // Print detailed message only in verbose mode
-  if(state.verbose_mode == true){
+  if(state.verbose == true){
     std::cout << WrapText(message) << "\n";
   }
 

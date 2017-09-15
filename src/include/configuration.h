@@ -3,9 +3,6 @@
 #pragma once
 
 #include <cstdlib>
-#include <cstdio>
-#include <getopt.h>
-#include <sys/time.h>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -58,7 +55,7 @@ class Configuration {
      color_mode(true),
      file_name(""),
      risk_level(RiskLevel::RISK_LEVEL_ALL),
-     verbose_mode(false),
+     verbose(false),
      testing_mode(false) {
   }
 
@@ -72,7 +69,7 @@ class Configuration {
   RiskLevel risk_level;
 
   // verbose mode
-  bool verbose_mode;
+  bool verbose;
 
   // test stream
   std::unique_ptr<std::istringstream> test_stream;
@@ -91,8 +88,8 @@ std::string RiskLevelToDetailedString(const RiskLevel& risk_level);
 
 std::string PatternTypeToString(const PatternType& pattern_type);
 
-void Usage(FILE *out);
+void ValidateRiskLevel(const Configuration &state);
 
-void ParseArguments(int argc, char *argv[], Configuration &state);
+void ValidateFileName(const Configuration &state);
 
 }  // namespace sqlcheck

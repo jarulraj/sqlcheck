@@ -65,6 +65,12 @@ endforeach()
 
 add_library(googletest ${GOOGLETEST_SOURCES})
 
+# -- [ GFlags
+
+set(GFLAGS_ROOT external/gflags CACHE STRING "Google Flags")
+
+add_subdirectory(${PROJECT_SOURCE_DIR}/${GFLAGS_ROOT})
+
 # --[ Threads
 
 find_package(Threads REQUIRED)

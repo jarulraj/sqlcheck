@@ -1,4 +1,4 @@
-// BASIC TEST
+// TEST SUITE
 
 #include <sstream>
 
@@ -8,11 +8,11 @@
 
 namespace sqlcheck {
 
-TEST(BasicTest, SelectStarTest) {
+TEST(TestSuite, SelectStarTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
-  default_conf.verbose_mode = true;
+  default_conf.verbose = true;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -29,7 +29,7 @@ TEST(BasicTest, SelectStarTest) {
 
 }
 
-TEST(BasicTest, MultiValuedAttributeTest) {
+TEST(TestSuite, MultiValuedAttributeTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -51,7 +51,7 @@ TEST(BasicTest, MultiValuedAttributeTest) {
 
 }
 
-TEST(BasicTest, RecursiveDependencyTest) {
+TEST(TestSuite, RecursiveDependencyTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -72,7 +72,7 @@ TEST(BasicTest, RecursiveDependencyTest) {
 
 }
 
-TEST(BasicTest, PrimaryKeyExistsTest) {
+TEST(TestSuite, PrimaryKeyExistsTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -107,7 +107,7 @@ TEST(BasicTest, PrimaryKeyExistsTest) {
 
 }
 
-TEST(BasicTest, GenericPrimaryKeyTest) {
+TEST(TestSuite, GenericPrimaryKeyTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -138,7 +138,7 @@ TEST(BasicTest, GenericPrimaryKeyTest) {
 
 }
 
-TEST(BasicTest, ForeignKeyExistsTest) {
+TEST(TestSuite, ForeignKeyExistsTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -160,7 +160,7 @@ TEST(BasicTest, ForeignKeyExistsTest) {
 
 }
 
-TEST(BasicTest, VariableAttributeTest) {
+TEST(TestSuite, VariableAttributeTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -184,7 +184,7 @@ TEST(BasicTest, VariableAttributeTest) {
 
 }
 
-TEST(BasicTest, MultiColumnAttributeTest) {
+TEST(TestSuite, MultiColumnAttributeTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -208,7 +208,7 @@ TEST(BasicTest, MultiColumnAttributeTest) {
 
 }
 
-TEST(BasicTest, MetadataTribblesTest) {
+TEST(TestSuite, MetadataTribblesTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -238,7 +238,7 @@ TEST(BasicTest, MetadataTribblesTest) {
 
 }
 
-TEST(BasicTest, FloatTest) {
+TEST(TestSuite, FloatTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -277,7 +277,7 @@ void PrintMatches(const std::string& in, const std::string& re){
 
 }
 
-TEST(BasicTest, RegexTests) {
+TEST(TestSuite, RegexTests) {
 
   // greedy match, repeats [a-z] 4 times
   PrintMatches("abcdefghi", "a[a-z]{2,4}");
@@ -303,7 +303,7 @@ TEST(BasicTest, RegexTests) {
 
 }
 
-TEST(BasicTest, MetadataRegexTests) {
+TEST(TestSuite, MetadataRegexTests) {
 
   std::string regex = "[A-za-z\\-_@]+[0-9]+ ";
 
@@ -319,7 +319,7 @@ TEST(BasicTest, MetadataRegexTests) {
 
 }
 
-TEST(BasicTest, PhysicalDesignTests) {
+TEST(TestSuite, PhysicalDesignTests) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
@@ -367,7 +367,7 @@ TEST(BasicTest, PhysicalDesignTests) {
 
 }
 
-TEST(BasicTest, QueryTests) {
+TEST(TestSuite, QueryTests) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
