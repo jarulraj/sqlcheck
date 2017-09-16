@@ -78,7 +78,7 @@ Right now SQLCheck can detect the following anti-patterns:
 
 ## Installation
 
-### Ubuntu/Mint (DEBIAN)
+## UBUNTU/MINT (DEBIAN)
 
 1. Download the **debian package** from the latest release.
 ```shell
@@ -90,7 +90,7 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 dpkg -i sqlcheck-x86_64.deb
 ```
 
-### Fedora/CentOS (RPM)
+## FEDORA/CENTOS (RPM)
 
 1. Download the **rpm package** from the latest release.
 ```shell
@@ -102,7 +102,7 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 yum --nogpgcheck localinstall sqlcheck-x86_64.rpm 
 ```
 
-### MacOS (DMG)
+## MAC (DMG)
 
 1. Download the **dmg package** from the latest release.
 ```shell
@@ -118,14 +118,16 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 cp /Volumes/sqlcheck-x86_64/bin/sqlcheck /usr/local/bin/
 ```
 
-Another alternative is to use **Homebrew**. Here's a tap:
+### Homebrew
+
+Another alternative is to use **Homebrew**. Here's a tap written by [@gwerbin](https://github.com/gwerbin) :
 
 ```shell
 brew tap gwerbin/tap
 brew cask install gwerbin/tap/sqlcheck
 ```
 
-## Windows
+## WINDOWS (EXE)
 
 1. Download the **exe file** from the latest release.
 ```shell
@@ -134,7 +136,7 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck.exe
 
 2. Open a terminal (like `cmd.exe`) and run the executable.
 
-### ZIP
+## ZIP
 
 1. Download the **zip package** from the latest release.
 ```shell
@@ -146,7 +148,7 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 unzip sqlcheck-x86_64.zip
 ```
 
-### Source Code Compilation
+## SOURCE CODE
 
 SQLCheck has the following software dependencies:
 
