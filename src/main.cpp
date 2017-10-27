@@ -93,7 +93,6 @@ void Usage() {
       "   -v -verbose            :  Display verbose warnings \n"
       "   -d -delimiter          :  Query delimiter string (; by default) \n"
       "   -h -help               :  Print help message \n";
-  exit(EXIT_SUCCESS);
 }
 
 int main(int argc, char **argv) {
