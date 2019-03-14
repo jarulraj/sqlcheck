@@ -576,6 +576,28 @@ void CheckSelectStar(Configuration& state,
 
 }
 
+void CheckJoinWithoutEquality(Configuration& state,
+                              const std::string& sql_statement,
+                              bool& print_statement) {
+  std::regex pattern("join[\\s\\._]?[^=]+?(left|right|join|where|case)");
+  std::string title = "JOIN Without Equality Check";
+  PatternType pattern_type = PatternType::PATTERN_TYPE_QUERY;
+
+  auto message =
+      "● Use = with JOIN: "
+      "JOIN should always have an equality check to ensure proper scope of records. ";
+
+  CheckPattern(state,
+               sql_statement,
+               print_statement,
+               pattern,
+               RISK_LEVEL_HIGH,
+               pattern_type,
+               title,
+               message,
+               true);
+}
+
 void CheckNullUsage(Configuration& state,
                     const std::string& sql_statement,
                     bool& print_statement) {
