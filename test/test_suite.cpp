@@ -456,5 +456,23 @@ TEST(TestSuite, QueryTests) {
 
 }
 
+TEST(TestSuite, JoinEqualityTest) {
+    Configuration default_conf;
+    default_conf.testing_mode = true;
+    default_conf.verbose = true;
+
+    std::unique_ptr<std::istringstream> stream(new std::istringstream());
+    stream->str(
+            "SELECT baz.id\n"
+            "FROM foo\n"
+            "LEFT JOIN bar ON bar\n"
+            "JOIN baz ON baz = foo.baz;"
+    );
+
+    default_conf.test_stream.reset(stream.release());
+
+    Check(default_conf);
+
+}
 
 }  // End machine sqlcheck

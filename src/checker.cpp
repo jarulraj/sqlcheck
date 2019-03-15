@@ -309,6 +309,8 @@ void CheckStatement(Configuration& state,
 
   CheckSelectStar(state, statement, print_statement);
 
+  CheckJoinWithoutEquality(state, statement, print_statement);
+
   CheckNullUsage(state, statement, print_statement);
 
   CheckNotNullUsage(state, statement, print_statement);

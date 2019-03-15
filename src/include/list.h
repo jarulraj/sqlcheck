@@ -64,6 +64,10 @@ void CheckSelectStar(Configuration& state,
                      const std::string& sql_statement,
                      bool& print_statement);
 
+void CheckJoinWithoutEquality(Configuration& state,
+                              const std::string& sql_statement,
+                              bool& print_statement);
+
 void CheckNullUsage(Configuration& state,
                     const std::string& sql_statement,
                     bool& print_statement);
