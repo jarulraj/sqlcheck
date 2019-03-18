@@ -12,7 +12,7 @@
 #include <regex>
 #include <map>
 
-#include "checker.h"
+#include "include/checker.h"
 
 #include "include/configuration.h"
 #include "include/list.h"
@@ -20,8 +20,9 @@
 
 namespace sqlcheck {
 
-void Check(Configuration& state) {
+bool Check(Configuration& state) {
 
+  bool has_issues = false;
   std::unique_ptr<std::istream> input;
 
   // Set up stream
@@ -79,12 +80,15 @@ void Check(Configuration& state) {
     std::cout << ">  Medium Risk :: " << state.checker_stats[RISK_LEVEL_MEDIUM] << "\n";
     std::cout << ">  Low Risk    :: " << state.checker_stats[RISK_LEVEL_LOW] << "\n";
     std::cout << ">  Hints       :: " << state.checker_stats[RISK_LEVEL_NONE] << "\n";
+    has_issues = true;
   }
 
   // Skip destroying std::cin
   if (state.file_name.empty()) {
     input.release();
   }
+
+  return has_issues;
 
 }
 

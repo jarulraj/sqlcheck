@@ -97,6 +97,8 @@ void Usage() {
 
 int main(int argc, char **argv) {
 
+  bool has_issues = false;
+
   try {
 
     // Parse the input arguments from the user
@@ -118,7 +120,7 @@ int main(int argc, char **argv) {
     ConfigureChecker(sqlcheck::state);
 
     // Invoke the checker
-    sqlcheck::Check(sqlcheck::state);
+    has_issues = sqlcheck::Check(sqlcheck::state);
 
   }
   // Catching at the top level ensures that
@@ -130,5 +132,6 @@ int main(int argc, char **argv) {
   }
 
   gflags::ShutDownCommandLineFlags();
-  return (EXIT_SUCCESS);
+
+  (has_issues) ? exit(EXIT_FAILURE) : exit(EXIT_SUCCESS);
 }

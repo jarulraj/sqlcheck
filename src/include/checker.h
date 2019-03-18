@@ -9,7 +9,7 @@
 namespace sqlcheck {
 
 // Check a set of SQL statements
-void Check(Configuration& state);
+bool Check(Configuration& state);
 
 // Check a SQL statement
 void CheckStatement(Configuration& state,
