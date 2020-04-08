@@ -20,17 +20,6 @@
 
 For development updates on `sqlcheck` and general news on <a href="https://www.cs.cmu.edu/~jarulraj/pages/research.html">next generation  database systems</a>, follow me at <a class="twitter-follow-button" href="https://twitter.com/joy_arulraj">@joy_arulraj</a>.
 
-## Interactive Demo
-
-Here's a short demonstration of how to use `sqlcheck` on a SQL file named `top_mutexes.sql`. It highlights the verbose (`-v`) and color (`-c`) modes of the tool, which are disabled by default.
-
-<p align="center">
-  <a href="https://asciinema.org/a/JW8gCkBrd65kz0j0RIjylIn42" target="_blank">
-    <img src="https://asciinema.org/a/JW8gCkBrd65kz0j0RIjylIn42.png" width="654"/>
-  </a>
-</p>
-
-
 ## What it can do
 
 Right now SQLCheck can detect the following anti-patterns:
