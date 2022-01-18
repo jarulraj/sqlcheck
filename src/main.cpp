@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
 
     // Parse the input arguments from the user
     gflags::SetUsageMessage("");
-    gflags::SetVersionString("1.2");
+    gflags::SetVersionString("1.2.1");
 
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
