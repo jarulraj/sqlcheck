@@ -793,7 +793,7 @@ void CheckSpaghettiQuery(Configuration& state,
                          const std::string& sql_statement,
                          bool& print_statement){
 
-  std::regex true_pattern(".+");
+  std::regex true_pattern(".+?");
   std::regex false_pattern("pattern must not exist");
   std::regex pattern;
 

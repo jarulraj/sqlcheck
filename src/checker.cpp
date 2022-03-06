@@ -38,8 +38,6 @@ bool Check(Configuration& state) {
   }
 
   std::stringstream sql_statement;
-  size_t fragment_size = 4096;
-  char buffer[fragment_size];
 
   std::cout << "==================== Results ===================\n";
 
@@ -47,8 +45,8 @@ bool Check(Configuration& state) {
   while(!input->eof()){
 
     // Get a line from the input stream
-    input->getline(buffer, fragment_size);
-    std::string statement_fragment(buffer);
+    std::string statement_fragment;
+    std::getline(*input, statement_fragment);
 
     // Append fragment to statement
     if(statement_fragment.empty() == false){
