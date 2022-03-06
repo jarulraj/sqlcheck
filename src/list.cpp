@@ -383,7 +383,7 @@ void CheckValuesInDefinition(Configuration& state,
     return;
   }
 
-  std::regex pattern("(enum)|( in \\()");
+  std::regex pattern("( enum)|( in \\()");
   std::string title = "Values In Definition";
   PatternType pattern_type = PatternType::PATTERN_TYPE_PHYSICAL_DATABASE_DESIGN;
 

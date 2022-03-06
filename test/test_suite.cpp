@@ -386,6 +386,7 @@ TEST(TestSuite, EnumFalsePositive) {
   stream->str(
       "CREATE TABLE Bugsin ("
       "bug_id SERIAL PRIMARY KEY,"
+      "phonenum varchar(20),"
       "date_reported DATE NOT NULL"
       ");\n"
 
