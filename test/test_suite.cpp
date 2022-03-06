@@ -475,4 +475,19 @@ TEST(TestSuite, JoinEqualityTest) {
 
 }
 
+TEST(TestSuite, SingleColumnTable) {
+  Configuration default_conf;
+  default_conf.testing_mode = true;
+  default_conf.verbose = true;
+
+  std::unique_ptr<std::istringstream> stream(new std::istringstream());
+  stream->str(
+    "CREATE TABLE sometable(singlecolumn int);"
+  );
+
+  default_conf.test_stream.reset(stream.release());
+
+  Check(default_conf);
+}
+
 }  // End machine sqlcheck

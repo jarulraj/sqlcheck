@@ -20,7 +20,15 @@ std::string GetTableName(const std::string& sql_statement){
   auto rest = sql_statement.substr(found + table_template.size());
   // Strip space at beginning
   rest = std::regex_replace(rest, std::regex("^ +| +$|( ) +"), "$1");
-  auto table_name = rest.substr(0, rest.find(' '));
+  // check if space or ( comes first in remaining string
+  if (rest.find(' ') < rest.find('(')) {
+    // space comes first
+    rest = rest.substr(0, rest.find(' '));
+  } else {
+    // ( comes first
+    rest = rest.substr(0, rest.find('('));
+  }
+  auto table_name = rest;
 
   return table_name;
 }
