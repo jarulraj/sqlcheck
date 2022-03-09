@@ -12,7 +12,7 @@ TEST(TestSuite, SelectStarTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
-  default_conf.verbose = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -26,13 +26,14 @@ TEST(TestSuite, SelectStarTest) {
   default_conf.test_stream.reset(stream.release());
 
   Check(default_conf);
-
+  
 }
 
 TEST(TestSuite, MultiValuedAttributeTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -55,6 +56,7 @@ TEST(TestSuite, RecursiveDependencyTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -76,6 +78,7 @@ TEST(TestSuite, PrimaryKeyExistsTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -111,6 +114,7 @@ TEST(TestSuite, GenericPrimaryKeyTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -142,6 +146,7 @@ TEST(TestSuite, ForeignKeyExistsTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -164,6 +169,7 @@ TEST(TestSuite, VariableAttributeTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -188,6 +194,7 @@ TEST(TestSuite, MultiColumnAttributeTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -212,6 +219,7 @@ TEST(TestSuite, MetadataTribblesTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -242,6 +250,7 @@ TEST(TestSuite, FloatTest) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -323,6 +332,7 @@ TEST(TestSuite, PhysicalDesignTests) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -367,10 +377,37 @@ TEST(TestSuite, PhysicalDesignTests) {
 
 }
 
+TEST(TestSuite, EnumFalsePositive) {
+  Configuration default_conf;
+  default_conf.testing_mode = true;
+  default_conf.verbose = false;
+
+  std::unique_ptr<std::istringstream> stream(new std::istringstream());
+  stream->str(
+      "CREATE TABLE Bugsin ("
+      "bug_id SERIAL PRIMARY KEY,"
+      "phonenum varchar(20),"
+      "date_reported DATE NOT NULL"
+      ");\n"
+
+     "CREATE TABLE Screenshots ("
+      "bug_id   BIGINT UNSIGNED NOT NULL REFERENCES Bugsin (bug_id),"
+      "image_id          BIGINT UNSIGNED NOT NULL,"
+      "screenshot_path   VARCHAR(100),"
+      "caption           VARCHAR(100),"
+      "PRIMARY KEY       (bug_id, image_id),"
+      "FOREIGN KEY (bug_id) REFERENCES Bugsin(bug_id)"
+      ");\n"
+  );
+  default_conf.test_stream.reset(stream.release());
+  Check(default_conf);
+}
+
 TEST(TestSuite, QueryTests) {
 
   Configuration default_conf;
   default_conf.testing_mode = true;
+  default_conf.verbose = false;
 
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
@@ -459,7 +496,7 @@ TEST(TestSuite, QueryTests) {
 TEST(TestSuite, JoinEqualityTest) {
     Configuration default_conf;
     default_conf.testing_mode = true;
-    default_conf.verbose = true;
+    default_conf.verbose = false;
 
     std::unique_ptr<std::istringstream> stream(new std::istringstream());
     stream->str(
