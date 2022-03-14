@@ -84,6 +84,9 @@ class Configuration {
   /// checker stats
   std::map<int, int> checker_stats;
 
+  // line number
+  std::uint32_t line_number;
+
 };
 
 std::string RiskLevelToString(const RiskLevel& risk_level);
