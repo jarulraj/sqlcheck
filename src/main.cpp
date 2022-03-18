@@ -43,6 +43,7 @@ void ConfigureChecker(sqlcheck::Configuration &state) {
   state.testing_mode = false;
   state.verbose = false;
   state.color_mode = false;
+  state.line_number = 1;
 
   // Configure checker
   state.color_mode = FLAGS_c || FLAGS_color_mode;

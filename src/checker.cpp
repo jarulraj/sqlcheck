@@ -38,33 +38,27 @@ bool Check(Configuration& state) {
   }
 
   std::stringstream sql_statement;
+  state.line_number = 1;
 
   std::cout << "==================== Results ===================\n";
 
   // Go over the input stream
   while(!input->eof()){
 
-    // Get a line from the input stream
+    // Get a statement from the input stream
     std::string statement_fragment;
-    std::getline(*input, statement_fragment);
+    std::getline(*input, statement_fragment, state.delimiter[0]);
 
     // Append fragment to statement
     if(statement_fragment.empty() == false){
       sql_statement << statement_fragment << " ";
     }
 
-    // Check for delimiter in line
-    std::size_t location = statement_fragment.find(state.delimiter);
-    if (location != std::string::npos) {
+    // Check the statement
+    CheckStatement(state, sql_statement.str());
 
-      // Check the statement
-      CheckStatement(state, sql_statement.str());
-
-      // Reset statement
-      sql_statement.str(std::string());
-
-    }
-
+    // Reset statement
+    sql_statement.str(std::string());
   }
 
   // Print summary
@@ -160,10 +154,10 @@ void PrintMessage(Configuration& state,
     ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode, false);
 
     if(state.color_mode == true){
-      std::cout << "SQL Statement: " << red << WrapText(sql_statement) << regular << "\n";
+      std::cout << "SQL Statement at line " << state.line_number <<": " << red << WrapText(sql_statement) << state.delimiter << regular << "\n";
     }
     else {
-      std::cout << "SQL Statement: " << WrapText(sql_statement) << "\n";
+      std::cout << "SQL Statement at line " << state.line_number << ": " << WrapText(sql_statement) << state.delimiter << "\n";
     }
   }
 
@@ -219,47 +213,78 @@ void CheckPattern(Configuration& state,
   std::smatch match;
   std::size_t count = 0;
 
+  // create an vector for the match positions
+  std::vector<int> positions;
   try {
-    std::sregex_iterator next(sql_statement.begin(),
-                              sql_statement.end(),
-                              anti_pattern);
-    std::sregex_iterator end;
-    while (next != end) {
-      match = *next;
+    std::sregex_iterator sqlsearch = std::sregex_iterator(sql_statement.begin(), sql_statement.end(), anti_pattern);
+    std::sregex_iterator sqlend = std::sregex_iterator();
+    count = std::distance(sqlsearch, sqlend);
+    if (count > 0) {
       found = true;
-      count++;
-      next++;
+    }
+
+    if(found == exists && count > min_count){
+      for (std::sregex_iterator next = sqlsearch; next != sqlend; ++next)
+      {
+          match = *next;
+          // add match position to the vector
+          positions.push_back(match.position(0));
+      }
+
+      // update positions from character number to line number
+      int position_checker = 0;
+      int num_lines = state.line_number;
+      if (positions.size() > 0) {
+        for (int statement_char = 0; statement_char < sql_statement.length(); statement_char++) {
+          if (positions[position_checker] == statement_char) {
+            positions[position_checker] = num_lines;
+            position_checker++;
+          }
+          if (sql_statement[statement_char] == '\n') {
+            num_lines++;
+          }
+        }
+      }
+
+      std::stringstream linelocations;
+      // convert line numbers to output string
+      if (positions.size() > 1) {
+        linelocations << " at lines ";
+      } else {
+        linelocations << " at line ";
+      }
+      for (int i = 0; i < positions.size(); i++) {
+          linelocations << positions[i];
+          if (i < positions.size() - 1) {
+              linelocations << ", ";
+          }
+      }
+      PrintMessage(state,
+                  sql_statement,
+                  print_statement,
+                  pattern_risk_level,
+                  pattern_type,
+                  title,
+                  message);
+
+      if(exists == true){
+        ColorModifier blue(ColorCode::FG_BLUE, state.color_mode, true);
+        ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode, false);
+        if(state.color_mode == true){
+          std::cout << "[Matching Expression: " << blue << WrapText(match.str(0)) << regular << linelocations.str()  << "]";
+        }
+        else{
+          std::cout << "[Matching Expression: " << WrapText(match.str(0)) << linelocations.str() << "]";
+        }
+        std::cout << "\n\n";
+      }
+
+      // TOGGLE PRINT STATEMENT
+      print_statement = false;
     }
   } catch (std::regex_error& e) {
     // Syntax error in the regular expression
   }
-
-  if(found == exists && count > min_count){
-
-    PrintMessage(state,
-                 sql_statement,
-                 print_statement,
-                 pattern_risk_level,
-                 pattern_type,
-                 title,
-                 message);
-
-    if(exists == true){
-      ColorModifier blue(ColorCode::FG_BLUE, state.color_mode, true);
-      ColorModifier regular(ColorCode::FG_DEFAULT, state.color_mode, false);
-      if(state.color_mode == true){
-        std::cout << "[Matching Expression: " << blue << match.str(0) << regular << "]";
-      }
-      else{
-        std::cout << "[Matching Expression: " << match.str(0) << "]";
-      }
-      std::cout << "\n\n";
-    }
-
-    // TOGGLE PRINT STATEMENT
-    print_statement = false;
-  }
-
 }
 
 void CheckStatement(Configuration& state,
@@ -275,6 +300,12 @@ void CheckStatement(Configuration& state,
 
   // REMOVE SPACE
   statement = std::regex_replace(statement, std::regex("^ +| +$|( ) +"), "$1");
+
+  // CHECK FOR LEADING NEWLINE
+  if (statement[0] == '\n') {
+    statement = statement.erase(0,1);
+    state.line_number++;
+  }
 
   // RESET
   bool print_statement = true;
@@ -348,6 +379,16 @@ void CheckStatement(Configuration& state,
   CheckReadablePasswords(state, statement, print_statement);
 
 
+
+
+  // update state.line_number with number of line breaks in the statement that was just checked
+  for (int i = 0; i < statement.length(); i++)
+  {
+      if (statement[i] == '\n')
+      {
+          state.line_number++;
+      }
+  }
 }
 
 }  // namespace machine

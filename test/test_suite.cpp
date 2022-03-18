@@ -224,19 +224,19 @@ TEST(TestSuite, MetadataTribblesTest) {
   std::unique_ptr<std::istringstream> stream(new std::istringstream());
   stream->str(
 
-      "CREATE TABLE ProjectHistory ("
-      "bugs_fixed_2008  INT,"
-      "bugs_fixed_2009  INT,"
-      "bugs_fixed_2010  INT,"
-      "2010  INT"
-      ");\n"
+      "CREATE TABLE ProjectHistory (\n" // 1
+      "bugs_fixed_2008  INT,\n"         // 2
+      "bugs_fixed_2009  INT,\n"         // 3
+      "bugs_fixed_2010  INT,\n"         // 4
+      "2010  INT"                       // 5
+      ");\n"                            // 5
 
-      "CREATE TABLE Bugs_2008 ( . . . );\n"
+      "CREATE TABLE Bugs_2008 ( . . . );\n" // 6
 
-      "ALTER TABLE Customers ADD (revenue2002 NUMBER(9,2));\n"
+      "ALTER TABLE Customers ADD (revenue2002 NUMBER(9,2));\n" // 7
 
-      "CREATE TABLE Bugs_2009 (-- other columns"
-      "date_reported DATE CHECK (EXTRACT(YEAR FROM date_reported) = 2009));\n"
+      "CREATE TABLE Bugs_2009 (-- other columns" // 8
+      "date_reported DATE CHECK (EXTRACT(YEAR FROM date_reported) = 2009));\n" // 8
 
   );
 
