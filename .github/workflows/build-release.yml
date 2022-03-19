@@ -21,7 +21,7 @@ jobs:
           make
           
       - name: run tests
-        run: ./test/test_suite
+        run: ./build/test/test_suite
 
       - name: create release artifacts/packages
         run: |
