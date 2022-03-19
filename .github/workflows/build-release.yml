@@ -16,7 +16,7 @@ jobs:
       # on windows run setup mingw
       - name: setup windows image
         if: ${{ matrix.os == 'windows-latest' }}
-        uses: actions/setup-mingw@v2
+        uses: egor-tensin/setup-mingw@v2
 
       - name: run build
         run: |
