@@ -149,6 +149,15 @@ make
 make install
 ```
 
+
+### TESTS
+
+To run SQLCheck unit tests during development, run:
+
+```shell
+./build/test/test_suite
+```
+
 ## Usage
 
 ```
