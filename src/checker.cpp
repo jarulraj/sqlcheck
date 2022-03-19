@@ -214,7 +214,7 @@ void CheckPattern(Configuration& state,
   std::size_t count = 0;
 
   // create an vector for the match positions
-  std::vector<int> positions;
+  std::vector<size_t> positions;
   try {
     std::sregex_iterator sqlsearch = std::sregex_iterator(sql_statement.begin(), sql_statement.end(), anti_pattern);
     std::sregex_iterator sqlend = std::sregex_iterator();
