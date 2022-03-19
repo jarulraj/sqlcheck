@@ -17,14 +17,15 @@ jobs:
           git submodule update --init --recursive
           mkdir build
           cd build && cmake -DCMAKE_BUILD_TYPE=RELEASE ..
-          cd ..
           make
           
       - name: run tests
         run: ./test/test_suite
 
       - name: create release artifacts/packages
-        run: make package
+        run: |
+          cd build
+          make package
       
       - name: upload artifacts
         uses: actions/upload-artifact@v3
