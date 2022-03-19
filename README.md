@@ -1,6 +1,6 @@
 
 [![GitHub license](https://img.shields.io/badge/license-apache-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Version](https://img.shields.io/badge/version-1.2-red.svg)](https://github.com/jarulraj/sqlcheck/)
+[![Version](https://img.shields.io/badge/version-1.3-red.svg)](https://github.com/jarulraj/sqlcheck/)
 [![Build Status](https://travis-ci.org/jarulraj/sqlcheck.svg?branch=master)](https://travis-ci.org/jarulraj/sqlcheck)
 [![Coverage Status](https://coveralls.io/repos/github/jarulraj/sqlcheck/badge.svg?branch=master)](https://coveralls.io/github/jarulraj/sqlcheck?branch=master)
 
@@ -15,7 +15,7 @@
 
 `sqlcheck` targets **all major SQL dialects**.
 
-For development updates on `sqlcheck` and general news on <a href="https://www.cs.cmu.edu/~jarulraj/pages/research.html">next generation  database systems</a>, follow me at <a class="twitter-follow-button" href="https://twitter.com/joy_arulraj">@joy_arulraj</a>.
+For development updates on `sqlcheck` and general news on <a href="https://faculty.cc.gatech.edu/~jarulraj/">next generation  database systems</a>, follow me at <a class="twitter-follow-button" href="https://twitter.com/joy_arulraj">@joy_arulraj</a>.
 
 ## What it can do
 
@@ -64,11 +64,11 @@ Right now SQLCheck can detect the following anti-patterns:
 
 ## Installation
 
-## UBUNTU/MINT (DEBIAN)
+###UBUNTU/MINT (DEBIAN)
 
 1. Download the **debian package** from the latest release.
 ```shell
-wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.deb
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.3/sqlcheck-x86_64.deb
 ```
 
 2. Install it by running the following command.
@@ -76,11 +76,11 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 dpkg -i sqlcheck-x86_64.deb
 ```
 
-## FEDORA/CENTOS (RPM)
+### FEDORA/CENTOS (RPM)
 
 1. Download the **rpm package** from the latest release.
 ```shell
-wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.rpm
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.3/sqlcheck-x86_64.rpm
 ```
 
 2. Install it by running the following command.
@@ -88,11 +88,11 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 yum --nogpgcheck localinstall sqlcheck-x86_64.rpm 
 ```
 
-## MAC (DMG)
+### MAC (DMG)
 
 1. Download the **dmg package** from the latest release.
 ```shell
-wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.dmg
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.3/sqlcheck-x86_64.dmg
 ```
 
 2. Click the dmg to mount the package. This will mount it in the `Volumes` directory.
@@ -104,29 +104,21 @@ wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64
 cp /Volumes/sqlcheck-x86_64/bin/sqlcheck /usr/local/bin/
 ```
 
-### Homebrew
 
-Another alternative is to use **Homebrew**. Here's a tap written by [@gwerbin](https://github.com/gwerbin) :
-
-```shell
-brew tap gwerbin/tap
-brew cask install gwerbin/tap/sqlcheck
-```
-
-## WINDOWS (EXE)
+### WINDOWS (EXE)
 
 1. Download the **exe file** from the latest release.
 ```shell
-wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck.exe
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.3/sqlcheck.exe
 ```
 
 2. Open a terminal (like `cmd.exe`) and run the executable.
 
-## ZIP
+### ZIP
 
 1. Download the **zip package** from the latest release.
 ```shell
-wget https://github.com/jarulraj/sqlcheck/releases/download/v1.2/sqlcheck-x86_64.zip
+wget https://github.com/jarulraj/sqlcheck/releases/download/v1.3/sqlcheck-x86_64.zip
 ```
 
 2. Unzip it and find the SQLCheck binary (`bin/sqlcheck`).

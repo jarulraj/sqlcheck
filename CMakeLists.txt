@@ -101,7 +101,7 @@ MESSAGE( STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS} )
 
 # --[ Packaging
 
-SET(VERSION "1.2")
+SET(VERSION "1.3")
 SET(CPACK_PACKAGE_NAME "sqlcheck")
 SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Automatically identify anti-patterns in SQL queries.")
 SET(CPACK_PACKAGE_DESCRIPTION "SQLCheck automates the detection of common anti-patterns in SQL queries. 
