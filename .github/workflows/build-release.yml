@@ -13,6 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # on windows run setup mingw
+      - name: setup windows image
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: actions/setup-mingw@v2
+
       - name: run build
         run: |
           git submodule update --init --recursive
@@ -32,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: release-packages
-          path: sqlcheck-x86_64.*
+          path: ./build/sqlcheck-x86_64.*
