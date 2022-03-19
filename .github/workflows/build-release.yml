@@ -1,0 +1,32 @@
+name: build release artifacts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['windows-latest', 'ubuntu-latest', 'macos-latest']
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: run build
+        run: |
+          mkdir build
+          cd build && cmake -DCMAKE_BUILD_TYPE=RELEASE ..
+          cd ..
+          make
+          
+      - name: run tests
+        run: ./test/test_suite
+
+      - name: create release artifacts/packages
+        run: make package
+      
+      - name: upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-packages
+          path: sqlcheck-x86_64.*
