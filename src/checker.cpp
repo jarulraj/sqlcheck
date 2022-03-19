@@ -232,10 +232,10 @@ void CheckPattern(Configuration& state,
       }
 
       // update positions from character number to line number
-      int position_checker = 0;
-      int num_lines = state.line_number;
+      uint32_t position_checker = 0;
+      uint32_t num_lines = state.line_number;
       if (positions.size() > 0) {
-        for (int statement_char = 0; statement_char < sql_statement.length(); statement_char++) {
+        for (size_t statement_char = 0; statement_char < sql_statement.length(); statement_char++) {
           if (positions[position_checker] == statement_char) {
             positions[position_checker] = num_lines;
             position_checker++;
@@ -253,7 +253,7 @@ void CheckPattern(Configuration& state,
       } else {
         linelocations << " at line ";
       }
-      for (int i = 0; i < positions.size(); i++) {
+      for (size_t i = 0; i < positions.size(); i++) {
           linelocations << positions[i];
           if (i < positions.size() - 1) {
               linelocations << ", ";
@@ -382,7 +382,7 @@ void CheckStatement(Configuration& state,
 
 
   // update state.line_number with number of line breaks in the statement that was just checked
-  for (int i = 0; i < statement.length(); i++)
+  for (size_t i = 0; i < statement.length(); i++)
   {
       if (statement[i] == '\n')
       {
