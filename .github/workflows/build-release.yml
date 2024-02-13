@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-linux-macos:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -33,3 +33,34 @@ jobs:
         with:
           name: release-packages
           path: ./build/sqlcheck-x86_64.*
+
+  build-windows:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['windows-latest']
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          msbuild-architecture: x64
+
+      - name: run build
+        run: |
+          git submodule update --init --recursive
+          mkdir build
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=RELEASE ..
+          msbuild ALL_BUILD.vcxproj /t:Build /p:Configuration=Release              
+
+      - name: run tests
+        run: ./build/test/Release/test_suite.exe
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-packages
+          path: ./build/bin/Release/sqlcheck.*
