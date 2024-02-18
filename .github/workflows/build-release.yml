@@ -11,7 +11,7 @@ jobs:
         os: ['ubuntu-latest', 'macos-latest']
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: run build
         run: |
@@ -19,7 +19,7 @@ jobs:
           mkdir build
           cd build && cmake -DCMAKE_BUILD_TYPE=RELEASE ..
           make
-          
+
       - name: run tests
         run: ./build/test/test_suite
 
@@ -27,7 +27,7 @@ jobs:
         run: |
           cd build
           make package
-      
+
       - name: upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -41,7 +41,7 @@ jobs:
         os: ['windows-latest']
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.1
@@ -54,7 +54,7 @@ jobs:
           mkdir build
           cd build
           cmake -DCMAKE_BUILD_TYPE=RELEASE ..
-          msbuild ALL_BUILD.vcxproj /t:Build /p:Configuration=Release              
+          msbuild ALL_BUILD.vcxproj /t:Build /p:Configuration=Release
 
       - name: run tests
         run: ./build/test/Release/test_suite.exe
